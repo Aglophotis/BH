@@ -61,10 +61,10 @@ std::vector<std::string> colorreps =
 	{"YELLOW", "ÿc9"},		\
 	{"PURPLE", "ÿc;"},		\
 	{"DARK_GREEN", "ÿc:"},	\
-	{"CORAL", "\xFF" "c\x06"},		\
-	{"SAGE", "\xFF" "c\x07"},		\
-	{"TEAL", "\xFF" "c\x09"},		\
-	{"LIGHT_GRAY", "\xFF" "c\x0C"}
+	{"CORAL", "ÿ" "c\x06"},		\
+	{"SAGE", "ÿ" "c\x07"},		\
+	{"TEAL", "ÿ" "c\x09"},		\
+	{"LIGHT_GRAY", "ÿ" "c\x0C"}
 
 #define MAP_COLOR_WHITE     0x20
 
