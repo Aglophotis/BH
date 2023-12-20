@@ -46,9 +46,9 @@ void Keyhook::OnDraw() {
 	bool IsInRange = InRange(*p_D2CLIENT_MouseX, *p_D2CLIENT_MouseY);
 	if (name.length() > 0) {
 		if(IsInRange)
-			prefix = name + "\377c7 ";
+			prefix = name + "\255c7 ";
 		else
-			prefix = name + "\377c4 ";
+			prefix = name + "\255c4 ";
 	}
 
 	string text = prefix + keyCode.literalName;

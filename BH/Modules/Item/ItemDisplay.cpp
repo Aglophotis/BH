@@ -1255,35 +1255,35 @@ void SubstituteNameVariables(UnitItemInfo* uInfo,
 		}
 	}
 
-	int lengthLimit = 0;
-	if (bLimit)
-	{
-		// Calc the extra size from colors
-		std::regex color_reg(join(colorreps, "|"), std::regex_constants::ECMAScript);
-		auto       color_matches = std::sregex_iterator(name.begin(), name.end(), color_reg);
-		auto       color_end = std::sregex_iterator();
-		auto       match_count = std::distance(color_matches, color_end);
-		nColorCodesSize += 3 * match_count;
+	int lengthLimit = inShop ? MAX_ITEM_TEXT_SIZE : MAX_ITEM_NAME_SIZE;
+	//if (bLimit)
+	//{
+	//	// Calc the extra size from colors
+	//	std::regex color_reg(join(colorreps, "|"), std::regex_constants::ECMAScript);
+	//	auto       color_matches = std::sregex_iterator(name.begin(), name.end(), color_reg);
+	//	auto       color_end = std::sregex_iterator();
+	//	auto       match_count = std::distance(color_matches, color_end);
+	//	nColorCodesSize += 3 * match_count;
 
-		// Increase limit for shop items
-		lengthLimit = inShop ? MAX_ITEM_TEXT_SIZE : MAX_ITEM_NAME_SIZE;
+	//	// Increase limit for shop items
+	//	lengthLimit = inShop ? MAX_ITEM_TEXT_SIZE : MAX_ITEM_NAME_SIZE;
 
-		int nColorsToKeep = 0;
-		for (std::sregex_iterator k = color_matches; k != color_end; ++k)
-		{
-			std::smatch match = *k;
-			auto        pos = match.position();
-			if (pos - (nColorsToKeep) > lengthLimit) { break; }
-			nColorsToKeep += 3;
-		}
+	//	int nColorsToKeep = 0;
+	//	for (std::sregex_iterator k = color_matches; k != color_end; ++k)
+	//	{
+	//		std::smatch match = *k;
+	//		auto        pos = match.position();
+	//		if (pos - (nColorsToKeep) > lengthLimit) { break; }
+	//		nColorsToKeep += 3;
+	//	}
 
-		// Truncate if too long
-		if (name.size() - nColorCodesSize > lengthLimit)
-		{
-			int max_size = lengthLimit + nColorsToKeep;
-			name.resize(max_size);
-		}
-	}
+	//	// Truncate if too long
+	//	if (name.size() - nColorCodesSize > lengthLimit)
+	//	{
+	//		int max_size = lengthLimit + nColorsToKeep;
+	//		name.resize(max_size);
+	//	}
+	//}
 
 	// Limit all names/descriptions to a hard cap, regarless of color codes
 	lengthLimit = (uInfo->itemCode[0] == 't' || uInfo->itemCode[0] == 'i') &&
@@ -1491,7 +1491,7 @@ void BuildAction(string* str,
 	}
 	catch (std::exception e)
 	{
-		act->name = "\377c1FILTER REGEX ERROR";
+		act->name = "\255c1FILTER REGEX ERROR";
 	}
 
 	// new stuff:

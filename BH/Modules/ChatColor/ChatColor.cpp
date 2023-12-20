@@ -17,6 +17,7 @@ void Print(DWORD color, char* format, ...) {
 
 	wchar_t* wstr = new wchar_t[len];
 	MultiByteToWideChar(CODE_PAGE, 0, str, -1, wstr, len);
+	FixColor(wstr);
 	D2CLIENT_PrintGameString(wstr, color);
 	delete[] wstr;
 

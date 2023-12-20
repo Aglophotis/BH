@@ -6,7 +6,7 @@
 #define BH_VERSION "PD2 0.1"
 #define SETTINGS_TEXT "Settings"
 
-#define CODE_PAGE 1252 // windows-1252	ANSI Latin 1; Western European (Windows)
+#define CODE_PAGE 1251 // windows-1252	ANSI Latin 1; Western European (Windows)
 
 #define MAX_ITEM_NAME_SIZE 56
 #define MAX_ITEM_TEXT_SIZE 512 // Half of the maximum in-game limit

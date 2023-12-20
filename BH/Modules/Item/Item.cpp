@@ -878,7 +878,11 @@ void __fastcall Item::ItemNamePatch(wchar_t* name, UnitAny* item)
 	//string test3 = test_code;
 	//itemName += " {" + test3 + "}";
 
+
 	MultiByteToWideChar(CODE_PAGE, MB_PRECOMPOSED, itemName.c_str(), itemName.length(), name, itemName.length());
+
+	FixColor(name);
+
 	name[itemName.length()] = 0;  // null-terminate the string since MultiByteToWideChar doesn't
 	delete[] szName;
 }
@@ -957,7 +961,7 @@ void Item::ProcessItemPacketFilterRules(UnitItemInfo* uInfo, px9c* pPacket)
 				) {
 				PrintText(color, "%s%s Dropped",
 					uInfo->attrs->name.c_str(),
-					(*BH::MiscToggles2)["Verbose Notifications"].state ? " \377c5drop" : ""
+					(*BH::MiscToggles2)["Verbose Notifications"].state ? " \255c5drop" : ""
 				);
 			}
 			if ((*BH::MiscToggles2)["Item Close Notifications"].state &&
@@ -966,7 +970,7 @@ void Item::ProcessItemPacketFilterRules(UnitItemInfo* uInfo, px9c* pPacket)
 				) {
 				PrintText(color, "%s%s",
 					uInfo->attrs->name.c_str(),
-					(*BH::MiscToggles2)["Verbose Notifications"].state ? " \377c5close" : ""
+					(*BH::MiscToggles2)["Verbose Notifications"].state ? " \255c5close" : ""
 				);
 			}
 		}
@@ -1312,11 +1316,12 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 		if (desc != "") {
 			static wchar_t wDesc[MAX_ITEM_TEXT_SIZE];
 			auto chars_written = MultiByteToWideChar(CODE_PAGE, MB_PRECOMPOSED, desc.c_str(), -1, wDesc, MAX_ITEM_TEXT_SIZE);
-
+		
+			FixColor(wDesc);
 			int aLen = wcslen(wTxt);
 			swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,
 				L"%s%s\n",
-				(chars_written > 0) ? wDesc : L"\377c1Item Description is too long.",
+				(chars_written > 0) ? wDesc : L"\255c1Item Description is too long.",
 				GetColorCode(TextColor::White).c_str()
 			);
 		}
