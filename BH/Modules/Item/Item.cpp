@@ -878,12 +878,12 @@ void __fastcall Item::ItemNamePatch(wchar_t* name, UnitAny* item)
 	//string test3 = test_code;
 	//itemName += " {" + test3 + "}";
 
-
-	MultiByteToWideChar(CODE_PAGE, MB_PRECOMPOSED, itemName.c_str(), itemName.length(), name, itemName.length());
+	int len = MultiByteToWideChar(CODE_PAGE, 0, itemName.c_str(), -1, name, 0);
+	MultiByteToWideChar(CODE_PAGE, 0, itemName.c_str(), -1, name, len);
 
 	FixColor(name);
 
-	name[itemName.length()] = 0;  // null-terminate the string since MultiByteToWideChar doesn't
+	name[len] = '\0';  // null-terminate the string since MultiByteToWideChar doesn't
 	delete[] szName;
 }
 
