@@ -82,13 +82,13 @@ void BH::Initialize()
 		}
 	}
 
-	lootFilter = new Config("loot.filter");
+	lootFilter = new Config("loot." + GetLangCode() +".filter");
 	if (!lootFilter->Parse()) {
-		lootFilter->SetConfigName("default.filter");
+		lootFilter->SetConfigName("loot.filter");
 		if (!lootFilter->Parse()) {
 			string msg = "Could not find default loot filter.\nAttempted to load " +
-				path + "loot.filter (failed).\nAttempted to load " +
-				path + "default.filter (failed).\n\nDefaults loaded.";
+				path + "loot.LANG_CODE.filter (failed).\nAttempted to load " +
+				path + "loot.filter (failed).\n\nDefaults loaded.";
 			MessageBox(NULL, msg.c_str(), "Failed to load ProjectDiablo lootFilter", MB_OK);
 		}
 	}

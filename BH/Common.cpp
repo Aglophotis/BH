@@ -71,6 +71,50 @@ void Tokenize(const string& str,
 	}
 }
 
+int GetLangId() {
+	typedef uint32_t(__stdcall* GetLangId_t)(void);
+	HMODULE hModule = GetModuleHandle("D2Lang.dll");
+	GetLangId_t GetLangId = (GetLangId_t)GetProcAddress(hModule, MAKEINTRESOURCE(10009));
+
+	return GetLangId();
+}
+
+std::string GetLangCode() {
+	int lang_id = GetLangId();
+
+	switch (lang_id)
+	{
+	case 0:
+		return "eng";
+	case 1:
+		return "esp";
+	case 2:
+		return "deu";
+	case 3:
+		return "fra";
+	case 4:
+		return "por";
+	case 5:
+		return "ita";
+	case 6:
+		return "jpn";
+	case 7:
+		return "kor";
+	case 8:
+		return "sin";
+	case 9:
+		return "chi";
+	case 10:
+		return "pol";
+	case 11:
+		return "rus";
+	case 12:
+		return "def";
+	default:
+		return "eng";
+	}
+}
+
 wchar_t* AnsiToUnicode(const char* str)
 {
 	wchar_t* buf = NULL;
