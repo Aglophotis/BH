@@ -255,6 +255,28 @@ std::string Config::ReadString(std::string key, std::string& value) {
 	return value;
 }
 
+std::string Config::GetStringOrDefault(std::string key, std::string default) {
+	//Check if configuration value exists
+	if (contents.find(key) == contents.end())
+	{
+		return default;
+	}
+	else {
+		return contents[key].value;
+	}
+}
+
+std::string Config::GetStringOrKey(std::string key) {
+	//Check if configuration value exists
+	if (contents.find(key) == contents.end())
+	{
+		return key;
+	}
+	else {
+		return contents[key].value;
+	}
+}
+
 /* ReadToggle(std::string key, std::string toggle, bool state)
 *	Reads in a toggle from the key->pair
 *	Config Example:

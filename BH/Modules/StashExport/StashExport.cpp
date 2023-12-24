@@ -19,16 +19,16 @@ using namespace Drawing;
 void StashExport::OnLoad() {
 	LoadConfig();
 
-	settingsTab = new UITab("StashExport", BH::settingsUI);
+	settingsTab = new UITab(BH::menu->GetStringOrDefault("tab.stash", "StashExport"), BH::settingsUI);
 
 	unsigned int x = 8;
 	unsigned int y = 7;
 	int keyhook_x = 310;
 
-	new Checkhook(settingsTab, x, y, &Toggles["Include Equipment"].state, "Include Equipment");
-	new Checkhook(settingsTab, x, (y += 15), &Toggles["Include Fixed Stats"].state, "Include Fixed Stats");
-	new Checkhook(settingsTab, x, (y += 15), &Toggles["Condense Stats"].state, "Condense Stats");
-	new Checkhook(settingsTab, x, (y += 15), &Toggles["Export On Menu"].state, "Export On Menu");
+	new Checkhook(settingsTab, x, y, &Toggles["Include Equipment"].state, BH::menu->GetStringOrDefault("menu.stash.equip", "Include Equipment"));
+	new Checkhook(settingsTab, x, (y += 15), &Toggles["Include Fixed Stats"].state, BH::menu->GetStringOrDefault("menu.stash.fix_stat", "Include Fixed Stats"));
+	new Checkhook(settingsTab, x, (y += 15), &Toggles["Condense Stats"].state, BH::menu->GetStringOrDefault("menu.stash.cond_stat", "Condense Stats"));
+	new Checkhook(settingsTab, x, (y += 15), &Toggles["Export On Menu"].state, BH::menu->GetStringOrDefault("menu.stash.export", "Export On Menu"));
 
 	// the MustacheTemplates will not be reloaded
 	options.clear();

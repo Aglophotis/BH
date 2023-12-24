@@ -14,6 +14,7 @@ HINSTANCE BH::instance;
 ModuleManager* BH::moduleManager;
 Config* BH::config;
 Config* BH::lootFilter;
+Config* BH::menu;
 Drawing::UI* BH::settingsUI;
 Drawing::StatsDisplay* BH::statsDisplay;
 bool BH::initialized;
@@ -72,6 +73,7 @@ void BH::Initialize()
 {
 	moduleManager = new ModuleManager();
 	config = new Config("ProjectDiablo.cfg");
+
 	if (!config->Parse()) {
 		config->SetConfigName("ProjectDiablo_Default.cfg");
 		if (!config->Parse()) {
@@ -93,6 +95,11 @@ void BH::Initialize()
 		}
 	}
 
+	menu = new Config("menu." + GetLangCode() + ".cfg");
+	if (!menu->Parse()) {
+		menu->SetConfigName("menu.cfg");
+		menu->Parse();
+	}
 
 	// Do this asynchronously because D2GFX_GetHwnd() will be null if
 	// we inject on process start
@@ -105,7 +112,7 @@ void BH::Initialize()
 		SetWindowLong(D2GFX_GetHwnd(), GWL_WNDPROC, (LONG)GameWindowEvent);
 		});
 
-	settingsUI = new Drawing::UI(SETTINGS_TEXT, 400, 366);
+	settingsUI = new Drawing::UI(menu->GetStringOrDefault("ui.button", "Settings"), 400, 366);
 
 	Task::InitializeThreadPool(2);
 
@@ -169,8 +176,8 @@ bool BH::Shutdown() {
 bool BH::ReloadConfig() {
 	if (initialized) {
 		if (D2CLIENT_GetPlayerUnit()) {
-			PrintText(0, "Reloading config: %s", config->GetConfigName().c_str());
-			PrintText(0, "Reloading filter: %s", lootFilter->GetConfigName().c_str());
+			PrintText(0, &(menu->GetStringOrDefault("chat.config_reload", "Reloading config") + string(": %s"))[0], config->GetConfigName().c_str());
+			PrintText(0, &(menu->GetStringOrDefault("chat.filter_reload", "Reloading filter") + string(": %s"))[0], lootFilter->GetConfigName().c_str());
 		}
 		config->Parse();
 		lootFilter->Parse();

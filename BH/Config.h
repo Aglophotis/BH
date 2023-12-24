@@ -68,6 +68,8 @@ public:
 	//Functions to read values from the configuration
 	bool				ReadBoolean(std::string key, bool& value);
 	std::string			ReadString(std::string key, std::string& value);
+	std::string GetStringOrDefault(std::string key, std::string default);
+	std::string GetStringOrKey(std::string key);
 	int					ReadInt(std::string key, int& value);
 	unsigned int		ReadInt(std::string key, unsigned int& value, unsigned int defaultValue = 0);
 	unsigned int		ReadKey(std::string key, std::string toggle, unsigned int &value);

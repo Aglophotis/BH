@@ -3,7 +3,7 @@
 #include <set>
 #include <vector>
 
-#define BH_VERSION "PD2 0.1"
+#define BH_VERSION "Aglophotis 0.0.4(Based on PD BH)"
 #define SETTINGS_TEXT "Settings"
 
 #define CODE_PAGE 65001 // windows-1252	ANSI Latin 1; Western European (Windows)

@@ -14,9 +14,9 @@ void Party::OnLoad() {
 	BH::config->ReadToggle("Looting Enabled", "None", true, Toggles["LootEnabled"]);
 	c = 0;
 
-	PartyHook = new Drawing::Checkhook(Drawing::InGame, 100, 100, &Toggles["Enabled"].state, "Autoparty Enabled");
+	PartyHook = new Drawing::Checkhook(Drawing::InGame, 100, 100, &Toggles["Enabled"].state, BH::menu->GetStringOrDefault("menu.party.enabled", "Autoparty Enabled"));
 	PartyHook->SetActive(0);
-	LootHook = new Drawing::Checkhook(Drawing::InGame, 240, 100, &Toggles["LootEnabled"].state, "Autoloot Enabled");
+	LootHook = new Drawing::Checkhook(Drawing::InGame, 240, 100, &Toggles["LootEnabled"].state, BH::menu->GetStringOrDefault("menu.party.loot", "Autoloot Enabled"));
 	LootHook->SetActive(0);
 }
 

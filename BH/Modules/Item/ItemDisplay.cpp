@@ -1416,7 +1416,7 @@ namespace ItemDisplay
 
 		// Clear and add 0 to the list
 		item->ItemFilterNames.clear();
-		item->ItemFilterNames.push_back("0 - Show All Items");
+		item->ItemFilterNames.push_back(BH::menu->GetStringOrDefault("menu.item.filter_lvl_0", "0 - Show All Items"));
 
 		vector<pair<string, string>> filterDefinitions;
 		BH::lootFilter->ReadMapList("ItemDisplayFilterName", filterDefinitions);
@@ -1431,7 +1431,7 @@ namespace ItemDisplay
 
 		// If there is only 1 entry, it means no definitons were made, add standard
 		if (item->ItemFilterNames.size() == 1) {
-			item->ItemFilterNames.push_back("1 - Standard");
+			item->ItemFilterNames.push_back(BH::menu->GetStringOrDefault("menu.item.filter_lvl_1", "1 - Normal"));
 		}
 
 		item->ReplaceItemFilters(item->ItemFilterNames);

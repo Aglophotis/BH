@@ -242,8 +242,8 @@ bool UI::OnLeftClick(bool up, unsigned int mouseX, unsigned int mouseY) {
 			{
 				SetDragged(false, true);
 				if(!up) {
-					PrintText(7, "CTRL-click to open settings" );
-					PrintText(7, "Shift-drag to move" );
+					PrintText(7, &(BH::menu->GetStringOrDefault("ui.ctrl", "CTRL-click to open settings"))[0]);
+					PrintText(7, &(BH::menu->GetStringOrDefault("ui.shift", "Shift-drag to move"))[0]);
 				}
 			}
 			return true;
@@ -263,7 +263,7 @@ bool UI::OnLeftClick(bool up, unsigned int mouseX, unsigned int mouseY) {
 			SetDragged(false, true);
 			if( startX == mouseX && startY == mouseY && GetAsyncKeyState(VK_CONTROL) )
 			{
-				PrintText(135, "Right Click to Close" );
+				PrintText(135, &(BH::menu->GetStringOrDefault("ui.rc", "Right Click to Close"))[0]);
 			}
 		}
 		SetActive(true);

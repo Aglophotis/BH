@@ -1,5 +1,6 @@
 #include "../../../D2Ptrs.h"
 #include "../../../Common.h"
+#include "../../../BH.h"
 #include "Colorhook.h"
 #include "../../Basic/Boxhook/Boxhook.h"
 #include "../../Basic/Framehook/Framehook.h"
@@ -108,7 +109,9 @@ void Colorhook::OnDraw() {
 		//Draw the actual choose color box
 		Framehook::Draw(310, 180, 180, 220, 0, BTNormal);
 		//Draw title
-		Texthook::Draw(360, 186, false, 0, White, "Choose Color");
+		
+
+		Texthook::Draw(360, 186, false, 0, White, BH::menu->GetStringOrDefault("color.ch", "Choose Color"));
 		int col = 1, boxX1, boxX2, boxY1, boxY2;
 		int mX = (*p_D2CLIENT_MouseX);
 		int mY = (*p_D2CLIENT_MouseY);
@@ -133,8 +136,8 @@ void Colorhook::OnDraw() {
 		for (unsigned int x = 0; x < 12; x++)
 			D2GFX_DrawLine(457 + szLines[x][0], 380 + szLines[x][1], 457 + szLines[x + 1][0], 380 + szLines[x + 1][1], curColor, -1);
 		//Draw instructions
-		Texthook::Draw(320, 384, false, 0, White, "Left Click - Select");
-		Texthook::Draw(320, 368, false, 0, White, "Right Click - Close");
+		Texthook::Draw(320, 384, false, 0, White, BH::menu->GetStringOrDefault("color.lc", "Left Click - Select"));
+		Texthook::Draw(320, 368, false, 0, White, BH::menu->GetStringOrDefault("color.rc", "Right Click - Close"));
 	} else {
 		DWORD size = D2WIN_SetTextSize(0);
 		wchar_t* wText = AnsiToUnicode(GetText().c_str());
