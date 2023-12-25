@@ -362,31 +362,53 @@ void MapNotify::OnDraw() {
 				if (ItemAttributeMap.find(uInfo.itemCode) != ItemAttributeMap.end()) {
 					uInfo.attrs = ItemAttributeMap[uInfo.itemCode];
 					vector<Action> actions = map_action_cache.Get(&uInfo);
-					for (auto& action : actions) {
-						if (action.colorOnMap != UNDEFINED_COLOR ||
-							action.borderColor != UNDEFINED_COLOR ||
-							action.dotColor != UNDEFINED_COLOR ||
-							action.pxColor != UNDEFINED_COLOR ||
-							action.lineColor != UNDEFINED_COLOR) { // has map action
-							// Skip notification if ping level requirement not met
-							if (action.pingLevel > Item::GetPingLevel()) continue;
-							unit->dwFlags |= UNITFLAG_REVEALED;
-							if ((*BH::MiscToggles2)["Item Detail Notifications"].state
-								&& ((*BH::MiscToggles2)["Item Close Notifications"].state || (dwFlags & 0x00002000))
-								&& action.notifyColor != DEAD_COLOR) {
-								std::string itemName = GetItemName(unit);
-								size_t start_pos = 0;
-								while ((start_pos = itemName.find('\n', start_pos)) != std::string::npos) {
-									itemName.replace(start_pos, 1, " - ");
-									start_pos += 3;
-								}
-								PrintText(ItemColorFromQuality(unit->pItemData->dwQuality), "%s", itemName.c_str());
-								//PrintText(ItemColorFromQuality(unit->pItemData->dwQuality), "%s %x", itemName.c_str(), dwFlags);
-								break;
-							}
+					for (vector<Rule*>::iterator it = MapRuleList.begin(); it != MapRuleList.end(); it++) {
+						int filterLevel = Item::GetFilterLevel();
+						if (filterLevel != 0 && (*it)->action.pingLevel < filterLevel && (*it)->action.pingLevel != -1) continue;
 
+						if ((*it)->Evaluate(&uInfo)) {
+							if ((unit->dwFlags & UNITFLAG_REVEALED) == 0x0
+								&& (*BH::MiscToggles2)["Item Detailed Notifications"].state) {
+								if ((*BH::MiscToggles2)["Item Close Notifications"].state || (dwFlags & ITEM_NEW)) {
+									std::string itemName = GetItemName(unit);
+									size_t start_pos = 0;
+									while ((start_pos = itemName.find('\n', start_pos)) != std::string::npos) {
+										itemName.replace(start_pos, 1, " - ");
+										start_pos += 3;
+									}
+									PrintText(ItemColorFromQuality(unit->pItemData->dwQuality), "%s", itemName.c_str());
+								}
+							}
+							unit->dwFlags |= UNITFLAG_REVEALED;
+							break;
 						}
 					}
+
+					//for (auto& action : actions) {
+					//	if (action.colorOnMap != UNDEFINED_COLOR ||
+					//		action.borderColor != UNDEFINED_COLOR ||
+					//		action.dotColor != UNDEFINED_COLOR ||
+					//		action.pxColor != UNDEFINED_COLOR ||
+					//		action.lineColor != UNDEFINED_COLOR) { // has map action
+					//		// Skip notification if ping level requirement not met
+					//		//if (action.pingLevel > Item::GetPingLevel()) continue;
+					//		unit->dwFlags |= UNITFLAG_REVEALED;
+					//		if ((*BH::MiscToggles2)["Item Detail Notifications"].state
+					//			&& ((*BH::MiscToggles2)["Item Close Notifications"].state || (dwFlags & ITEM_NEW))
+					//			) {
+					//			std::string itemName = GetItemName(unit);
+					//			size_t start_pos = 0;
+					//			while ((start_pos = itemName.find('\n', start_pos)) != std::string::npos) {
+					//				itemName.replace(start_pos, 1, " - ");
+					//				start_pos += 3;
+					//			}
+					//			PrintText(ItemColorFromQuality(unit->pItemData->dwQuality), "%s", itemName.c_str());
+					//			//PrintText(ItemColorFromQuality(unit->pItemData->dwQuality), "%s %x", itemName.c_str(), dwFlags);
+					//			break;
+					//		}
+
+					//	}
+					//}
 				}
 			}
 			unit->dwFlags |= UNITFLAG_NO_EXPERIENCE;
@@ -533,6 +555,47 @@ void MapNotify::OnAutomapDraw() {
 			for (UnitAny* unit = room1->pUnitFirst; unit; unit = unit->pListNext) {
 				//POINT automapLoc;
 				DWORD xPos, yPos;
+
+				if (unit->dwType == UNIT_ITEM && (unit->dwFlags & UNITFLAG_REVEALED) == UNITFLAG_REVEALED) {
+					char* code = D2COMMON_GetItemText(unit->dwTxtFileNo)->szCode;
+					UnitItemInfo uInfo;
+					uInfo.item = unit;
+					uInfo.itemCode[0] = code[0];
+					uInfo.itemCode[1] = code[1] != ' ' ? code[1] : 0;
+					uInfo.itemCode[2] = code[2] != ' ' ? code[2] : 0;
+					uInfo.itemCode[3] = code[3] != ' ' ? code[3] : 0;
+					uInfo.itemCode[4] = 0;
+					if (ItemAttributeMap.find(uInfo.itemCode) != ItemAttributeMap.end()) {
+						uInfo.attrs = ItemAttributeMap[uInfo.itemCode];
+						const vector<Action> actions = map_action_cache.Get(&uInfo);
+						for (auto& action : actions) {
+							auto color = action.colorOnMap;
+							auto borderColor = action.borderColor;
+							auto dotColor = action.dotColor;
+							auto pxColor = action.pxColor;
+							auto lineColor = action.lineColor;
+							xPos = unit->pItemPath->dwPosX;
+							yPos = unit->pItemPath->dwPosY;
+							automapBuffer.push_top_layer(
+								[color, unit, xPos, yPos, MyPos, borderColor, dotColor, pxColor, lineColor]()->void {
+									POINT automapLoc;
+									Drawing::Hook::ScreenToAutomap(&automapLoc, xPos, yPos);
+									if (borderColor != UNDEFINED_COLOR)
+										Drawing::Boxhook::Draw(automapLoc.x - 4, automapLoc.y - 4, 8, 8, borderColor, Drawing::BTHighlight);
+									if (color != UNDEFINED_COLOR)
+										Drawing::Boxhook::Draw(automapLoc.x - 3, automapLoc.y - 3, 6, 6, color, Drawing::BTHighlight);
+									if (dotColor != UNDEFINED_COLOR)
+										Drawing::Boxhook::Draw(automapLoc.x - 2, automapLoc.y - 2, 4, 4, dotColor, Drawing::BTHighlight);
+									if (pxColor != UNDEFINED_COLOR)
+										Drawing::Boxhook::Draw(automapLoc.x - 1, automapLoc.y - 1, 2, 2, pxColor, Drawing::BTHighlight);
+								});
+							if (action.stopProcessing) break;
+						}
+					}
+					else {
+						HandleUnknownItemCode(uInfo.itemCode, "on map");
+					}
+				}
 
 				// Draw monster on automap
 				if (unit->dwType == UNIT_MONSTER && IsValidMonster(unit) && Toggles["Show Monsters"].state) {
