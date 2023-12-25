@@ -107,7 +107,7 @@ void Colorhook::OnDraw() {
 		//Draw the shaded background
 		Boxhook::Draw(0, 0, Hook::GetScreenWidth(), Hook::GetScreenHeight(), 0, BTOneHalf);
 		//Draw the actual choose color box
-		Framehook::Draw(310, 180, 180, 220, 0, BTNormal);
+		Framehook::Draw(310, 180, 180, 220, 0, BTThreeFourths);
 		//Draw title
 		
 
