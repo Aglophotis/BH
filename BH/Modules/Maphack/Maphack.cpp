@@ -1,14 +1,16 @@
-﻿#include "../../D2Ptrs.h"
+/* Maphack Module
+ *
+ */
+#include "../../D2Ptrs.h"
 #include "../../D2Helpers.h"
 #include "../../D2Stubs.h"
 #include "../../D2Intercepts.h"
-#include "MapNotify.h"
+#include "Maphack.h"
 #include "../../BH.h"
 #include "../../Drawing.h"
 #include "../Item/ItemDisplay.h"
-#include "../../AsyncDrawBuffer.h"
 #include "../Item/Item.h"
-#include "../../Modules/GameSettings/GameSettings.h"
+#include "../../AsyncDrawBuffer.h"
 
 #pragma optimize( "", off)
 
@@ -23,7 +25,7 @@ Patch* fpsPatch = new Patch(NOP, D2CLIENT, { 0x44E51, 0x45EA1 }, 0, 8);
 
 DrawDirective automapDraw(true, 5);
 
-MapNotify::MapNotify() : Module("MapNotify") {
+Maphack::Maphack() : Module("Maphack") {
 	revealType = MaphackRevealAct;
 	ResetRevealed();
 	missileColors["Player"] = 0x97;
@@ -42,7 +44,7 @@ MapNotify::MapNotify() : Module("MapNotify") {
 	ReadConfig();
 }
 
-void MapNotify::LoadConfig() {
+void Maphack::LoadConfig() {
 	automapMonsterColors.clear();
 	automapMonsterLines.clear();
 	automapHiddenMonsters.clear();
@@ -50,7 +52,7 @@ void MapNotify::LoadConfig() {
 	ReadConfig();
 }
 
-void MapNotify::ReadConfig() {
+void Maphack::ReadConfig() {
 	BH::config->ReadInt("Reveal Mode", revealType);
 	BH::config->ReadInt("Show Monster Resistance", monsterResistanceThreshold);
 	BH::config->ReadInt("LK Chest Lines", lkLinesColor);
@@ -61,22 +63,22 @@ void MapNotify::ReadConfig() {
 	BH::config->ReadAssoc("Missile Color", missileColors);
 	BH::config->ReadAssoc("Monster Color", monsterColors);
 
-	TextColorMap["ÿc0"] = 0x20;  // white
-	TextColorMap["ÿc1"] = 0x0A;  // red
-	TextColorMap["ÿc2"] = 0x84;  // green
-	TextColorMap["ÿc3"] = 0x97;  // blue
-	TextColorMap["ÿc4"] = 0x0D;  // gold
-	TextColorMap["ÿc5"] = 0xD0;  // gray
-	TextColorMap["ÿc6"] = 0x00;  // black
-	TextColorMap["ÿc7"] = 0x5A;  // tan
-	TextColorMap["ÿc8"] = 0x60;  // orange
-	TextColorMap["ÿc9"] = 0x0C;  // yellow
-	TextColorMap["ÿc;"] = 0x9B;  // purple
-	TextColorMap["ÿc:"] = 0x76;  // dark green
-	TextColorMap["ÿc\x06"] = 0x66; // coral
-	TextColorMap["ÿc\x07"] = 0x82; // sage
-	TextColorMap["ÿc\x09"] = 0xCB; // teal
-	TextColorMap["ÿc\x0C"] = 0xD6; // light gray
+	TextColorMap["\377c0"] = 0x20;  // white
+	TextColorMap["\377c1"] = 0x0A;  // red
+	TextColorMap["\377c2"] = 0x84;  // green
+	TextColorMap["\377c3"] = 0x97;  // blue
+	TextColorMap["\377c4"] = 0x0D;  // gold
+	TextColorMap["\377c5"] = 0xD0;  // gray
+	TextColorMap["\377c6"] = 0x00;  // black
+	TextColorMap["\377c7"] = 0x5A;  // tan
+	TextColorMap["\377c8"] = 0x60;  // orange
+	TextColorMap["\377c9"] = 0x0C;  // yellow
+	TextColorMap["\377c;"] = 0x9B;  // purple
+	TextColorMap["\377c:"] = 0x76;  // dark green
+	TextColorMap["\377c\x06"] = 0x66; // coral
+	TextColorMap["\377c\x07"] = 0x82; // sage
+	TextColorMap["\377c\x09"] = 0xCB; // teal
+	TextColorMap["\377c\x0C"] = 0xD6; // light gray
 
 	BH::config->ReadAssoc("Monster Color", MonsterColors);
 	for (auto it = MonsterColors.cbegin(); it != MonsterColors.cend(); it++) {
@@ -85,8 +87,7 @@ void MapNotify::ReadConfig() {
 		stringstream ss((*it).first);
 		if ((ss >> monsterId).fail()) {
 			continue;
-		}
-		else {
+		} else {
 			int monsterColor = StringToNumber((*it).second);
 			automapMonsterColors[monsterId] = monsterColor;
 		}
@@ -106,7 +107,7 @@ void MapNotify::ReadConfig() {
 		}
 	}
 
-
+	
 	BH::config->ReadAssoc("Monster Line", MonsterLines);
 	for (auto it = MonsterLines.cbegin(); it != MonsterLines.cend(); it++) {
 		// If the key is a number, it means a monster we've assigned a specific color
@@ -114,8 +115,7 @@ void MapNotify::ReadConfig() {
 		stringstream ss((*it).first);
 		if ((ss >> monsterId).fail()) {
 			continue;
-		}
-		else {
+		} else {
 			int lineColor = StringToNumber((*it).second);
 			automapMonsterLines[monsterId] = lineColor;
 		}
@@ -128,8 +128,7 @@ void MapNotify::ReadConfig() {
 		stringstream ss((*it).first);
 		if ((ss >> monsterId).fail()) {
 			continue;
-		}
-		else {
+		} else {
 			automapHiddenMonsters.push_back(monsterId);
 		}
 	}
@@ -151,7 +150,7 @@ void MapNotify::ReadConfig() {
 	BH::config->ReadInt("Minimap Max Ghost", automapDraw.maxGhost);
 }
 
-void MapNotify::ResetRevealed() {
+void Maphack::ResetRevealed() {
 	revealedGame = false;
 	for (int act = 0; act < 6; act++)
 		revealedAct[act] = false;
@@ -159,7 +158,7 @@ void MapNotify::ResetRevealed() {
 		revealedLevel[level] = false;
 }
 
-void MapNotify::ResetPatches() {
+void Maphack::ResetPatches() {
 	//Lighting Patch
 	if (Toggles["Force Light Radius"].state)
 		lightingPatch->Install();
@@ -177,7 +176,7 @@ void MapNotify::ResetPatches() {
 		infraPatch->Install();
 	else
 		infraPatch->Remove();
-	//GameShake Patch
+		//GameShake Patch
 	if (Toggles["Remove Shake"].state)
 		shakePatch->Install();
 	else
@@ -200,7 +199,7 @@ void MapNotify::ResetPatches() {
 		fpsPatch->Remove();
 }
 
-void MapNotify::OnLoad() {
+void Maphack::OnLoad() {
 	/*ResetRevealed();
 	ReadConfig();
 	ResetPatches();*/
@@ -222,7 +221,7 @@ void MapNotify::OnLoad() {
 
 	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Monster Resistances"].state, "  Resistances");
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Monster Resistances"].toggle, "");
-
+	
 	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Show Missiles"].state, "Show Missiles");
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Show Missiles"].toggle, "");
 
@@ -271,28 +270,39 @@ void MapNotify::OnLoad() {
 	options.push_back("Act");
 	options.push_back("Level");
 	new Combohook(settingsTab, 100, Y, 70, &revealType, options);
+
 }
 
-void MapNotify::OnKey(bool up, BYTE key, LPARAM lParam, bool* block) {
-	GameSettings* settings = static_cast<GameSettings*>(BH::moduleManager->Get("gamesettings"));
+void Maphack::OnKey(bool up, BYTE key, LPARAM lParam, bool* block) {
 	bool ctrlState = ((GetKeyState(VK_LCONTROL) & 0x80) || (GetKeyState(VK_RCONTROL) & 0x80));
-	if (key == settings->reloadConfigCtrl && ctrlState || key == settings->reloadConfig && !ctrlState) {
-		*block = true;
-		if (up)
-			BH::ReloadConfig();
+	Item* item = static_cast<Item*>(BH::moduleManager->Get("item"));
+	if (key == 0x52 && ctrlState) {
+		//*block = true;
+		//if (up)
+		//	BH::ReloadConfig();
 		return;
+	}
+	for (map<string,Toggle>::iterator it = Toggles.begin(); it != Toggles.end(); it++) {
+		if (key == (*it).second.toggle) {
+			*block = true;
+			if (up) {
+				(*it).second.state = !(*it).second.state;
+				ResetPatches();
+			}
+			return;
+		}
 	}
 	return;
 }
 
-void MapNotify::OnUnload() {
+void Maphack::OnUnload() {
 	lightingPatch->Remove();
 	weatherPatch->Remove();
 	infraPatch->Remove();
 	shakePatch->Remove();
 }
 
-void MapNotify::OnLoop() {
+void Maphack::OnLoop() {
 	//// Remove or install patchs based on state.
 	ResetPatches();
 	BH::settingsUI->SetVisible(Toggles["Show Settings"].state);
@@ -301,22 +311,22 @@ void MapNotify::OnLoop() {
 	UnitAny* unit = D2CLIENT_GetPlayerUnit();
 	if (!unit || !Toggles["Auto Reveal"].state)
 		return;
-
+	
 	// Reveal the automap based on configuration.
-	switch ((MaphackReveal)revealType) {
-	case MaphackRevealGame:
-		RevealGame();
+	switch((MaphackReveal)revealType) {
+		case MaphackRevealGame:
+			RevealGame();
 		break;
-	case MaphackRevealAct:
-		RevealAct(unit->pAct->dwAct + 1);
+		case MaphackRevealAct:
+			RevealAct(unit->pAct->dwAct + 1);
 		break;
-	case MaphackRevealLevel:
-		RevealLevel(unit->pPath->pRoom1->pRoom2->pLevel);
+		case MaphackRevealLevel:
+			RevealLevel(unit->pPath->pRoom1->pRoom2->pLevel);
 		break;
 	}
 }
 
-bool IsObjectChest(ObjectTxt* obj)
+bool IsObjectChest(ObjectTxt *obj)
 {
 	//ObjectTxt *obj = D2COMMON_GetObjectTxt(objno);
 	return (obj->nSelectable0 && (
@@ -340,7 +350,7 @@ BYTE nChestLockedColour = 0x09;
 
 Act* lastAct = NULL;
 
-void MapNotify::OnDraw() {
+void Maphack::OnDraw() {
 	UnitAny* player = D2CLIENT_GetPlayerUnit();
 
 	if (!player || !player->pAct || player->pPath->pRoom1->pRoom2->pLevel->dwLevelNo == 0)
@@ -362,18 +372,18 @@ void MapNotify::OnDraw() {
 				if (ItemAttributeMap.find(uInfo.itemCode) != ItemAttributeMap.end()) {
 					uInfo.attrs = ItemAttributeMap[uInfo.itemCode];
 					vector<Action> actions = map_action_cache.Get(&uInfo);
-					for (auto& action : actions) {
+					for (auto &action : actions) {
 						if (action.colorOnMap != UNDEFINED_COLOR ||
-							action.borderColor != UNDEFINED_COLOR ||
-							action.dotColor != UNDEFINED_COLOR ||
-							action.pxColor != UNDEFINED_COLOR ||
-							action.lineColor != UNDEFINED_COLOR) { // has map action
+								action.borderColor != UNDEFINED_COLOR ||
+								action.dotColor != UNDEFINED_COLOR ||
+								action.pxColor != UNDEFINED_COLOR ||
+								action.lineColor != UNDEFINED_COLOR) { // has map action
 							// Skip notification if ping level requirement not met
 							if (action.pingLevel > Item::GetPingLevel()) continue;
 							unit->dwFlags |= UNITFLAG_REVEALED;
 							if ((*BH::MiscToggles2)["Item Detail Notifications"].state
-								&& ((*BH::MiscToggles2)["Item Close Notifications"].state || (dwFlags & 0x00002000))
-								&& action.notifyColor != DEAD_COLOR) {
+							  && ((*BH::MiscToggles2)["Item Close Notifications"].state || (dwFlags & 0x00002000))
+							  && action.notifyColor != DEAD_COLOR) {
 								std::string itemName = GetItemName(unit);
 								size_t start_pos = 0;
 								while ((start_pos = itemName.find('\n', start_pos)) != std::string::npos) {
@@ -394,137 +404,22 @@ void MapNotify::OnDraw() {
 	}
 }
 
-//void MapNotify::OnDraw() {
-//	UnitAny* player = D2CLIENT_GetPlayerUnit();
-//
-//	if (!player || !player->pAct || player->pPath->pRoom1->pRoom2->pLevel->dwLevelNo == 0)
-//		return;
-//	// We're looping over all items and setting 2 flags:
-//	// UNITFLAG_NO_EXPERIENCE - Whether the item has been checked for a drop notification (to prevent checking it again)
-//	// UNITFLAG_REVEALED      - Whether the item should be notified and drawn on the automap
-//	// To my knowledge these flags arent typically used on items. So we can abuse them for our own use.
-//	for (Room1* room1 = player->pAct->pRoom1; room1; room1 = room1->pRoomNext) {
-//		for (UnitAny* unit = room1->pUnitFirst; unit; unit = unit->pListNext) {
-//			if (unit->dwType == UNIT_ITEM && (unit->dwFlags & UNITFLAG_NO_EXPERIENCE) == 0x0) {
-//				DWORD dwFlags = unit->pItemData->dwFlags;
-//				char* code = D2COMMON_GetItemText(unit->dwTxtFileNo)->szCode;
-//				UnitItemInfo uInfo;
-//				uInfo.item = unit;
-//				uInfo.itemCode[0] = code[0];
-//				uInfo.itemCode[1] = code[1] != ' ' ? code[1] : 0;
-//				uInfo.itemCode[2] = code[2] != ' ' ? code[2] : 0;
-//				uInfo.itemCode[3] = code[3] != ' ' ? code[3] : 0;
-//				uInfo.itemCode[4] = 0;
-//				if (ItemAttributeMap.find(uInfo.itemCode) != ItemAttributeMap.end()) {
-//					uInfo.attrs = ItemAttributeMap[uInfo.itemCode];
-//					for (vector<Rule*>::iterator it = MapRuleList.begin(); it != MapRuleList.end(); it++) {
-//						int filterLevel = Item::GetFilterLevel();
-//						if (filterLevel != 0 && (*it)->action.pingLevel < filterLevel && (*it)->action.pingLevel != -1) continue;
-//
-//						if ((*it)->Evaluate(&uInfo)) {
-//							if ((unit->dwFlags & UNITFLAG_REVEALED) == 0x0
-//								&& (*BH::MiscToggles2)["Item Detailed Notifications"].state) {
-//								if ((*BH::MiscToggles2)["Item Close Notifications"].state || (dwFlags & ITEM_NEW)) {
-//									std::string itemName = GetItemName(unit);
-//									size_t start_pos = 0;
-//									while ((start_pos = itemName.find('\n', start_pos)) != std::string::npos) {
-//										itemName.replace(start_pos, 1, " - ");
-//										start_pos += 3;
-//									}
-//									PrintText(ItemColorFromQuality(unit->pItemData->dwQuality), "%s", itemName.c_str());
-//								}
-//							}
-//							unit->dwFlags |= UNITFLAG_REVEALED;
-//							break;
-//						}
-//					}
-//				}
-//			}
-//			unit->dwFlags |= UNITFLAG_NO_EXPERIENCE;
-//		}
-//	}
-//}
-//
-//void MapNotify::OnAutomapDraw() {
-//	UnitAny* player = D2CLIENT_GetPlayerUnit();
-//
-//	if (!player || !player->pAct || player->pPath->pRoom1->pRoom2->pLevel->dwLevelNo == 0)
-//		return;
-//
-//	if (lastAct != player->pAct) {
-//		lastAct = player->pAct;
-//		automapDraw.forceUpdate();
-//	}
-//
-//	automapDraw.draw([=](AsyncDrawBuffer& automapBuffer) -> void {
-//		POINT MyPos;
-//		Drawing::Hook::ScreenToAutomap(&MyPos,
-//			D2CLIENT_GetUnitX(D2CLIENT_GetPlayerUnit()),
-//			D2CLIENT_GetUnitY(D2CLIENT_GetPlayerUnit()));
-//		for (Room1* room1 = player->pAct->pRoom1; room1; room1 = room1->pRoomNext) {
-//			for (UnitAny* unit = room1->pUnitFirst; unit; unit = unit->pListNext) {
-//				DWORD xPos, yPos;
-//				if (unit->dwType == UNIT_ITEM && (unit->dwFlags & UNITFLAG_REVEALED) == UNITFLAG_REVEALED) {
-//					char* code = D2COMMON_GetItemText(unit->dwTxtFileNo)->szCode;
-//					UnitItemInfo uInfo;
-//					uInfo.item = unit;
-//					uInfo.itemCode[0] = code[0];
-//					uInfo.itemCode[1] = code[1] != ' ' ? code[1] : 0;
-//					uInfo.itemCode[2] = code[2] != ' ' ? code[2] : 0;
-//					uInfo.itemCode[3] = code[3] != ' ' ? code[3] : 0;
-//					uInfo.itemCode[4] = 0;
-//					if (ItemAttributeMap.find(uInfo.itemCode) != ItemAttributeMap.end()) {
-//						uInfo.attrs = ItemAttributeMap[uInfo.itemCode];
-//						const vector<Action> actions = map_action_cache.Get(&uInfo);
-//						for (auto& action : actions) {
-//							auto color = action.colorOnMap;
-//							auto borderColor = action.borderColor;
-//							auto dotColor = action.dotColor;
-//							auto pxColor = action.pxColor;
-//							auto lineColor = action.lineColor;
-//							xPos = unit->pItemPath->dwPosX;
-//							yPos = unit->pItemPath->dwPosY;
-//							automapBuffer.push_top_layer(
-//								[color, unit, xPos, yPos, MyPos, borderColor, dotColor, pxColor, lineColor]()->void {
-//									POINT automapLoc;
-//									Drawing::Hook::ScreenToAutomap(&automapLoc, xPos, yPos);
-//									if (borderColor != UNDEFINED_COLOR)
-//										Drawing::Boxhook::Draw(automapLoc.x - 4, automapLoc.y - 4, 8, 8, borderColor, Drawing::BTHighlight);
-//									if (color != UNDEFINED_COLOR)
-//										Drawing::Boxhook::Draw(automapLoc.x - 3, automapLoc.y - 3, 6, 6, color, Drawing::BTHighlight);
-//									if (dotColor != UNDEFINED_COLOR)
-//										Drawing::Boxhook::Draw(automapLoc.x - 2, automapLoc.y - 2, 4, 4, dotColor, Drawing::BTHighlight);
-//									if (pxColor != UNDEFINED_COLOR)
-//										Drawing::Boxhook::Draw(automapLoc.x - 1, automapLoc.y - 1, 2, 2, pxColor, Drawing::BTHighlight);
-//								});
-//							if (action.stopProcessing) break;
-//						}
-//					}
-//					else {
-//						HandleUnknownItemCode(uInfo.itemCode, "on map");
-//					}
-//				}
-//			}
-//		}
-//		});
-//}
-
-void MapNotify::OnAutomapDraw() {
+void Maphack::OnAutomapDraw() {
 	UnitAny* player = D2CLIENT_GetPlayerUnit();
-
+	
 	if (!player || !player->pAct || player->pPath->pRoom1->pRoom2->pLevel->dwLevelNo == 0)
 		return;
 
-	if (lastAct != player->pAct) {
+	if (lastAct != player->pAct){
 		lastAct = player->pAct;
 		automapDraw.forceUpdate();
 	}
 
-	if (!IsInitialized()) {
+	if (!IsInitialized()){
 		Drawing::Texthook::Draw(10, 70, Drawing::None, 12, Gold, "Loading MPQ Data...");
 	}
-
-	automapDraw.draw([=](AsyncDrawBuffer& automapBuffer) -> void {
+	
+	automapDraw.draw([=](AsyncDrawBuffer &automapBuffer) -> void {
 		POINT MyPos;
 		Drawing::Hook::ScreenToAutomap(&MyPos,
 			D2CLIENT_GetUnitX(D2CLIENT_GetPlayerUnit()),
@@ -546,9 +441,9 @@ void MapNotify::OnAutomapDraw() {
 						color = monsterColors["Minion"];
 					//Cow king pack
 					if (unit->dwTxtFileNo == 391 &&
-						unit->pMonsterData->anEnchants[0] == ENCH_MAGIC_RESISTANT &&
-						unit->pMonsterData->anEnchants[1] == ENCH_LIGHTNING_ENCHANTED &&
-						unit->pMonsterData->anEnchants[3] != 0)
+							unit->pMonsterData->anEnchants[0] == ENCH_MAGIC_RESISTANT &&
+							unit->pMonsterData->anEnchants[1] == ENCH_LIGHTNING_ENCHANTED &&
+							unit->pMonsterData->anEnchants[3] != 0)
 						color = 0xE1;
 
 					// User can override colors of non-boss monsters
@@ -557,18 +452,18 @@ void MapNotify::OnAutomapDraw() {
 					}
 
 					// User can hide monsters from map
-					if (std::find(automapHiddenMonsters.begin(), automapHiddenMonsters.end(), unit->dwTxtFileNo) != automapHiddenMonsters.end()) {
+					if (std::find(automapHiddenMonsters.begin(), automapHiddenMonsters.end(), unit->dwTxtFileNo) != automapHiddenMonsters.end() ) {
 						continue;
 					}
 
 					// User can make it draw lines to monsters
-					if (automapMonsterLines.find(unit->dwTxtFileNo) != automapMonsterLines.end()) {
+					if (automapMonsterLines.find(unit->dwTxtFileNo) != automapMonsterLines.end() ) {
 						lineColor = automapMonsterLines[unit->dwTxtFileNo];
 					}
 
 					//Determine immunities
-					string szImmunities[] = { "ÿc7i", "ÿc8i", "ÿc1i", "ÿc9i", "ÿc3i", "ÿc2i" };
-					string szResistances[] = { "ÿc7r", "ÿc8r", "ÿc1r", "ÿc9r", "ÿc3r", "ÿc2r" };
+					string szImmunities[] = { "\377c7i", "\377c8i", "\377c1i", "\377c9i", "\377c3i", "\377c2i" };
+					string szResistances[] = { "\377c7r", "\377c8r", "\377c1r", "\377c9r", "\377c3r", "\377c2r" };
 					DWORD dwImmunities[] = {
 						STAT_DMGREDUCTIONPCT,
 						STAT_MAGICDMGREDUCTIONPCT,
@@ -587,12 +482,12 @@ void MapNotify::OnAutomapDraw() {
 							immunityText += szResistances[n];
 						}
 					}
-
+					
 					//Determine Enchantments
 					string enchantText;
 					if (Toggles["Monster Enchantments"].state) {
-						string szEnchantments[] = { "ÿc3m", "ÿc1e", "ÿc9e", "ÿc3e" };
-
+						string szEnchantments[] = {"\377c3m", "\377c1e", "\377c9e", "\377c3e"};						
+						
 						for (int n = 0; n < 9; n++) {
 							if (unit->pMonsterData->fBoss) {
 								if (unit->pMonsterData->anEnchants[n] == ENCH_MANA_BURN)
@@ -617,13 +512,7 @@ void MapNotify::OnAutomapDraw() {
 
 					xPos = unit->pPath->xPos;
 					yPos = unit->pPath->yPos;
-
-					//FixColor(immunityText);
-					//FixColor(enchantText);
-					//enchantText.assign("");
-					immunityText.assign("");
-
-					automapBuffer.push([immunityText, enchantText, color, xPos, yPos, lineColor, MyPos]()->void {
+					automapBuffer.push([immunityText, enchantText, color, xPos, yPos, lineColor, MyPos]()->void{
 						POINT automapLoc;
 						Drawing::Hook::ScreenToAutomap(&automapLoc, xPos, yPos);
 						if (immunityText.length() > 0)
@@ -634,7 +523,7 @@ void MapNotify::OnAutomapDraw() {
 						if (lineColor != -1) {
 							Drawing::Linehook::Draw(MyPos.x, MyPos.y, automapLoc.x, automapLoc.y, lineColor);
 						}
-						});
+					});
 				}
 				else if (unit->dwType == UNIT_MISSILE && Toggles["Show Missiles"].state) {
 					int color = 255;
@@ -657,12 +546,12 @@ void MapNotify::OnAutomapDraw() {
 					}
 
 					xPos = unit->pPath->xPos;
-					yPos = unit->pPath->yPos;
-					automapBuffer.push([color, unit, xPos, yPos]()->void {
+					yPos = unit->pPath->yPos;					
+					automapBuffer.push([color, unit, xPos, yPos]()->void{
 						POINT automapLoc;
 						Drawing::Hook::ScreenToAutomap(&automapLoc, xPos, yPos);
 						Drawing::Boxhook::Draw(automapLoc.x - 1, automapLoc.y - 1, 2, 2, color, Drawing::BTHighlight);
-						});
+					});
 				}
 				else if (unit->dwType == UNIT_ITEM && (unit->dwFlags & UNITFLAG_REVEALED) == UNITFLAG_REVEALED) {
 					UnitItemInfo uInfo;
@@ -674,7 +563,7 @@ void MapNotify::OnAutomapDraw() {
 					if (ItemAttributeMap.find(uInfo.itemCode) != ItemAttributeMap.end()) {
 						uInfo.attrs = ItemAttributeMap[uInfo.itemCode];
 						const vector<Action> actions = map_action_cache.Get(&uInfo);
-						for (auto& action : actions) {
+						for (auto &action : actions) {
 							// skip action if the ping level requirement isn't met
 							if (action.pingLevel > Item::GetPingLevel()) continue;
 							auto color = action.colorOnMap;
@@ -685,21 +574,21 @@ void MapNotify::OnAutomapDraw() {
 							xPos = unit->pItemPath->dwPosX;
 							yPos = unit->pItemPath->dwPosY;
 							automapBuffer.push_top_layer(
-								[color, unit, xPos, yPos, MyPos, borderColor, dotColor, pxColor, lineColor]()->void {
-									POINT automapLoc;
-									Drawing::Hook::ScreenToAutomap(&automapLoc, xPos, yPos);
-									if (borderColor != UNDEFINED_COLOR)
-										Drawing::Boxhook::Draw(automapLoc.x - 4, automapLoc.y - 4, 8, 8, borderColor, Drawing::BTHighlight);
-									if (color != UNDEFINED_COLOR)
-										Drawing::Boxhook::Draw(automapLoc.x - 3, automapLoc.y - 3, 6, 6, color, Drawing::BTHighlight);
-									if (dotColor != UNDEFINED_COLOR)
-										Drawing::Boxhook::Draw(automapLoc.x - 2, automapLoc.y - 2, 4, 4, dotColor, Drawing::BTHighlight);
-									if (pxColor != UNDEFINED_COLOR)
-										Drawing::Boxhook::Draw(automapLoc.x - 1, automapLoc.y - 1, 2, 2, pxColor, Drawing::BTHighlight);
-									if (lineColor != UNDEFINED_COLOR) {
-										Drawing::Linehook::Draw(MyPos.x, MyPos.y, automapLoc.x, automapLoc.y, lineColor);
-									}
-								});
+									[color, unit, xPos, yPos, MyPos, borderColor, dotColor, pxColor, lineColor]()->void{
+								POINT automapLoc;
+								Drawing::Hook::ScreenToAutomap(&automapLoc, xPos, yPos);
+								if (borderColor != UNDEFINED_COLOR)
+									Drawing::Boxhook::Draw(automapLoc.x - 4, automapLoc.y - 4, 8, 8, borderColor, Drawing::BTHighlight);
+								if (color != UNDEFINED_COLOR)
+									Drawing::Boxhook::Draw(automapLoc.x - 3, automapLoc.y - 3, 6, 6, color, Drawing::BTHighlight);
+								if (dotColor != UNDEFINED_COLOR)
+									Drawing::Boxhook::Draw(automapLoc.x - 2, automapLoc.y - 2, 4, 4, dotColor, Drawing::BTHighlight);
+								if (pxColor != UNDEFINED_COLOR)
+									Drawing::Boxhook::Draw(automapLoc.x - 1, automapLoc.y - 1, 2, 2, pxColor, Drawing::BTHighlight);
+								if (lineColor != UNDEFINED_COLOR) {
+									Drawing::Linehook::Draw(MyPos.x, MyPos.y, automapLoc.x, automapLoc.y, lineColor);
+								}
+							});
 							if (action.stopProcessing) break;
 						}
 					}
@@ -710,27 +599,27 @@ void MapNotify::OnAutomapDraw() {
 				else if (unit->dwType == UNIT_OBJECT && !unit->dwMode /* Not opened */ && Toggles["Show Chests"].state && IsObjectChest(unit->pObjectData->pTxt)) {
 					xPos = unit->pObjectPath->dwPosX;
 					yPos = unit->pObjectPath->dwPosY;
-					automapBuffer.push([xPos, yPos]()->void {
+					automapBuffer.push([xPos, yPos]()->void{
 						POINT automapLoc;
 						Drawing::Hook::ScreenToAutomap(&automapLoc, xPos, yPos);
 						Drawing::Boxhook::Draw(automapLoc.x - 1, automapLoc.y - 1, 2, 2, 255, Drawing::BTHighlight);
-						});
-				}
+					});
+				}				
 			}
 		}
 		if (lkLinesColor > 0 && player->pPath->pRoom1->pRoom2->pLevel->dwLevelNo == MAP_A3_LOWER_KURAST) {
-			for (Room2* pRoom = player->pPath->pRoom1->pRoom2->pLevel->pRoom2First; pRoom; pRoom = pRoom->pRoom2Next) {
+			for(Room2 *pRoom =  player->pPath->pRoom1->pRoom2->pLevel->pRoom2First; pRoom; pRoom = pRoom->pRoom2Next) {
 				for (PresetUnit* preset = pRoom->pPreset; preset; preset = preset->pPresetNext) {
 					DWORD xPos, yPos;
 					int lkLineColor = lkLinesColor;
 					if (preset->dwTxtFileNo == 160) {
 						xPos = (preset->dwPosX) + (pRoom->dwPosX * 5);
 						yPos = (preset->dwPosY) + (pRoom->dwPosY * 5);
-						automapBuffer.push([xPos, yPos, MyPos, lkLineColor]()->void {
+						automapBuffer.push([xPos, yPos, MyPos, lkLineColor]()->void{
 							POINT automapLoc;
 							Drawing::Hook::ScreenToAutomap(&automapLoc, xPos, yPos);
 							Drawing::Linehook::Draw(MyPos.x, MyPos.y, automapLoc.x, automapLoc.y, lkLineColor);
-							});
+						});
 					}
 				}
 			}
@@ -739,132 +628,132 @@ void MapNotify::OnAutomapDraw() {
 			return;
 		for (list<LevelList*>::iterator it = automapLevels.begin(); it != automapLevels.end(); it++) {
 			if (player->pAct->dwAct == (*it)->act) {
-				string tombStar = ((*it)->levelId == player->pAct->pMisc->dwStaffTombLevel) ? "ÿc2*" : "ÿc4";
+				string tombStar = ((*it)->levelId == player->pAct->pMisc->dwStaffTombLevel) ? "\377c2*" : "\377c4";
 				POINT unitLoc;
 				Hook::ScreenToAutomap(&unitLoc, (*it)->x, (*it)->y);
 				char* name = UnicodeToAnsi(D2CLIENT_GetLevelName((*it)->levelId));
 				std::string nameStr = name;
 				delete[] name;
 
-				automapBuffer.push([nameStr, tombStar, unitLoc]()->void {
+				automapBuffer.push([nameStr, tombStar, unitLoc]()->void{
 					Texthook::Draw(unitLoc.x, unitLoc.y - 15, Center, 6, Gold, "%s%s", nameStr.c_str(), tombStar.c_str());
-					});
+				});
 			}
 		}
-		});
+	});
 }
 
-void MapNotify::OnGameJoin() {
+void Maphack::OnGameJoin() {
 	ResetRevealed();
 	automapLevels.clear();
 }
 
 void Squelch(DWORD Id, BYTE button) {
 	LPBYTE aPacket = new BYTE[7];	//create packet
-	*(BYTE*)&aPacket[0] = 0x5d;
-	*(BYTE*)&aPacket[1] = button;
-	*(BYTE*)&aPacket[2] = 1;
+	*(BYTE*)&aPacket[0] = 0x5d;	
+	*(BYTE*)&aPacket[1] = button;	
+	*(BYTE*)&aPacket[2] = 1;	
 	*(DWORD*)&aPacket[3] = Id;
 	D2NET_SendPacket(7, 0, aPacket);
 
-	delete[] aPacket;	//clearing up data
+	delete [] aPacket;	//clearing up data
 
 	return;
 }
 
-void MapNotify::OnGamePacketRecv(BYTE* packet, bool* block) {
+void Maphack::OnGamePacketRecv(BYTE *packet, bool *block) {
 	switch (packet[0]) {
 
 	case 0x9c: {
-		INT64 icode = 0;
-		char code[5] = "";
-		BYTE mode = packet[1];
-		DWORD gid = *(DWORD*)&packet[4];
-		BYTE dest = ((packet[13] & 0x1C) >> 2);
+		INT64 icode   = 0;
+        char code[5]  = "";
+        BYTE mode     = packet[1];
+        DWORD gid     = *(DWORD*)&packet[4];
+        BYTE dest     = ((packet[13] & 0x1C) >> 2);
 
-		switch (dest)
-		{
-		case 0:
-		case 2:
-			icode = *(INT64*)(packet + 15) >> 0x04;
-			break;
-		case 3:
-		case 4:
-		case 6:
-			if (!((mode == 0 || mode == 2) && dest == 3))
-			{
-				if (mode != 0xF && mode != 1 && mode != 12)
-					icode = *(INT64*)(packet + 17) >> 0x1C;
-				else
-					icode = *(INT64*)(packet + 15) >> 0x04;
-			}
-			else
-				icode = *(INT64*)(packet + 17) >> 0x05;
-			break;
-		default:
-			break;
-		}
+        switch(dest)
+        {
+                case 0: 
+                case 2:
+                        icode = *(INT64 *)(packet+15)>>0x04;
+                        break;
+                case 3:
+                case 4:
+                case 6:
+                        if(!((mode == 0 || mode == 2) && dest == 3))
+                        {
+                                if(mode != 0xF && mode != 1 && mode != 12)
+                                        icode = *(INT64 *)(packet+17) >> 0x1C;
+                                else
+                                        icode = *(INT64 *)(packet+15) >> 0x04;
+                        } 
+                        else  
+                                icode = *(INT64 *)(packet+17) >> 0x05;
+                        break;
+                default:
+                        break;
+        }
 
-		memcpy(code, &icode, 4);
-		if (code[3] == ' ') code[3] = '\0';
+        memcpy(code, &icode, 4);
+        if(code[3] == ' ') code[3] = '\0';
 
-		//PrintText(1, "%s", code);
+        //PrintText(1, "%s", code);
 
 		//if(mode == 0x0 || mode == 0x2 || mode == 0x3) {
 		//	BYTE ear = packet[10] & 0x01;
 		//	if(ear) *block = true;
 		//}
 		break;
-	}
+		}
 
 	case 0xa8:
 	case 0xa7: {
-		//if(packet[1] == 0x0) {
-		//	if(packet[6+(packet[0]-0xa7)] == 100) {
-		//		UnitAny* pUnit = D2CLIENT_FindServerSideUnit(*(DWORD*)&packet[2], 0);
-		//		if(pUnit)
-		//			PrintText(1, "Alert: \377c4Player \377c2%s \377c4drank a \377c1Health \377c4potion!", pUnit->pPlayerData->szName);
-		//	} else if (packet[6+(packet[0]-0xa7)] == 105) {
-		//		UnitAny* pUnit = D2CLIENT_FindServerSideUnit(*(DWORD*)&packet[2], 0);
-		//		if(pUnit)
-		//			if(pUnit->dwTxtFileNo == 1)
-		//				if(D2COMMON_GetUnitState(pUnit, 30))
-		//					PrintText(1, "Alert: \377c4ES Sorc \377c2%s \377c4drank a \377c3Mana \377c4Potion!", pUnit->pPlayerData->szName);
-		//	} else if (packet[6+(packet[0]-0xa7)] == 102) {//remove portal delay
-		//		*block = true;
-		//	}
-		//}
-		break;
-	}
-	case 0x94: {
-		BYTE Count = packet[1];
-		DWORD Id = *(DWORD*)&packet[2];
-		for (DWORD i = 0; i < Count; i++) {
-			BaseSkill S;
-			S.Skill = *(WORD*)&packet[6 + (3 * i)];
-			S.Level = *(BYTE*)&packet[8 + (3 * i)];
-			Skills[Id].push_back(S);
+			//if(packet[1] == 0x0) {
+			//	if(packet[6+(packet[0]-0xa7)] == 100) {
+			//		UnitAny* pUnit = D2CLIENT_FindServerSideUnit(*(DWORD*)&packet[2], 0);
+			//		if(pUnit)
+			//			PrintText(1, "Alert: \377c4Player \377c2%s \377c4drank a \377c1Health \377c4potion!", pUnit->pPlayerData->szName);
+			//	} else if (packet[6+(packet[0]-0xa7)] == 105) {
+			//		UnitAny* pUnit = D2CLIENT_FindServerSideUnit(*(DWORD*)&packet[2], 0);
+			//		if(pUnit)
+			//			if(pUnit->dwTxtFileNo == 1)
+			//				if(D2COMMON_GetUnitState(pUnit, 30))
+			//					PrintText(1, "Alert: \377c4ES Sorc \377c2%s \377c4drank a \377c3Mana \377c4Potion!", pUnit->pPlayerData->szName);
+			//	} else if (packet[6+(packet[0]-0xa7)] == 102) {//remove portal delay
+			//		*block = true;
+			//	}
+			//}
+			break;			   
 		}
-		//for(vector<BaseSkill>::iterator it = Skills[Id].begin();  it != Skills[Id].end(); it++)
-		//	PrintText(1, "Skill %d, Level %d", it->Skill, it->Level);
-		break;
-	}
+	case 0x94: {
+			BYTE Count = packet[1];
+			DWORD Id = *(DWORD*)&packet[2];
+			for(DWORD i = 0;i < Count;i++) {
+				BaseSkill S;
+				S.Skill = *(WORD*)&packet[6+(3*i)];
+				S.Level = *(BYTE*)&packet[8+(3*i)];
+				Skills[Id].push_back(S);
+			}
+			//for(vector<BaseSkill>::iterator it = Skills[Id].begin();  it != Skills[Id].end(); it++)
+			//	PrintText(1, "Skill %d, Level %d", it->Skill, it->Level);
+			break;
+		}
 	case 0x5b: {	//36   Player In Game      5b [WORD Packet Length] [DWORD Player Id] [BYTE Char Type] [NULLSTRING[16] Char Name] [WORD Char Lvl] [WORD Party Id] 00 00 00 00 00 00 00 00
-		WORD lvl = *(WORD*)&packet[24];
-		DWORD Id = *(DWORD*)&packet[3];
-		char* name = (char*)&packet[8];
-		UnitAny* Me = D2CLIENT_GetPlayerUnit();
-		if (!Me)
-			return;
-		else if (!strcmp(name, Me->pPlayerData->szName))
-			return;
-		//if(lvl < 9)
-		//	Squelch(Id, 3);
-	}			//2 = mute, 3 = squelch, 4 = hostile
+			WORD lvl = *(WORD*)&packet[24];
+			DWORD Id = *(DWORD*)&packet[3];
+			char* name = (char*)&packet[8];
+			UnitAny* Me = D2CLIENT_GetPlayerUnit();
+			if(!Me)
+				return;
+			else if (!strcmp(name, Me->pPlayerData->szName))
+				return;
+			//if(lvl < 9)
+			//	Squelch(Id, 3);
+		}			//2 = mute, 3 = squelch, 4 = hostile
 	}
 }
 
-void MapNotify::RevealGame() {
+void Maphack::RevealGame() {
 	// Check if we have already revealed the game.
 	if (revealedGame)
 		return;
@@ -877,7 +766,7 @@ void MapNotify::RevealGame() {
 	revealedGame = true;
 }
 
-void MapNotify::RevealAct(int act) {
+void Maphack::RevealAct(int act) {
 	// Make sure we are given a valid act
 	if (act < 1 || act > 5)
 		return;
@@ -891,7 +780,7 @@ void MapNotify::RevealAct(int act) {
 		return;
 
 	// Initalize the act incase it is isn't the act we are in.
-	int actIds[6] = { 1, 40, 75, 103, 109, 137 };
+	int actIds[6] = {1, 40, 75, 103, 109, 137};
 	Act* pAct = D2COMMON_LoadAct(act - 1, player->pAct->dwMapSeed, *p_D2CLIENT_ExpCharFlag, 0, D2CLIENT_GetDifficulty(), NULL, actIds[act - 1], D2CLIENT_LoadAct_1, D2CLIENT_LoadAct_2);
 	if (!pAct || !pAct->pMisc)
 		return;
@@ -911,7 +800,7 @@ void MapNotify::RevealAct(int act) {
 	revealedAct[act] = true;
 }
 
-void MapNotify::RevealLevel(Level* level) {
+void Maphack::RevealLevel(Level* level) {
 	// Basic sanity checks to ensure valid level
 	if (!level || level->dwLevelNo < 0 || level->dwLevelNo > 255)
 		return;
@@ -923,7 +812,7 @@ void MapNotify::RevealLevel(Level* level) {
 	InitLayer(level->dwLevelNo);
 
 	// Iterate every room in the level.
-	for (Room2* room = level->pRoom2First; room; room = room->pRoom2Next) {
+	for(Room2* room = level->pRoom2First; room; room = room->pRoom2Next) {
 		bool roomData = false;
 
 		//Add Room1 Data if it is not already there.
@@ -950,12 +839,12 @@ void MapNotify::RevealLevel(Level* level) {
 	revealedLevel[level->dwLevelNo] = true;
 }
 
-void MapNotify::RevealRoom(Room2* room) {
+void Maphack::RevealRoom(Room2* room) {
 	//Grabs all the preset units in room.
 	for (PresetUnit* preset = room->pPreset; preset; preset = preset->pPresetNext)
 	{
 		int cellNo = -1;
-
+		
 		// Special NPC Check
 		if (preset->dwType == UNIT_MONSTER)
 		{
@@ -965,22 +854,21 @@ void MapNotify::RevealRoom(Room2* room) {
 			// Hephasto Check
 			if (preset->dwTxtFileNo == 745)
 				cellNo = 745;
-			// Special Object Check
-		}
-		else if (preset->dwType == UNIT_OBJECT) {
+		// Special Object Check
+		} else if (preset->dwType == UNIT_OBJECT) {
 			// Uber Chest in Lower Kurast Check
 			if (preset->dwTxtFileNo == 580 && room->pLevel->dwLevelNo == MAP_A3_LOWER_KURAST)
 				cellNo = 318;
 
 			// Countess Chest Check
-			if (preset->dwTxtFileNo == 371)
+			if (preset->dwTxtFileNo == 371) 
 				cellNo = 301;
 			// Act 2 Orifice Check
-			else if (preset->dwTxtFileNo == 152)
+			else if (preset->dwTxtFileNo == 152) 
 				cellNo = 300;
 			// Frozen Anya Check
-			else if (preset->dwTxtFileNo == 460)
-				cellNo = 1468;
+			else if (preset->dwTxtFileNo == 460) 
+				cellNo = 1468; 
 			// Canyon / Arcane Waypoint Check
 			if ((preset->dwTxtFileNo == 402) && (room->pLevel->dwLevelNo == 46))
 				cellNo = 0;
@@ -990,12 +878,11 @@ void MapNotify::RevealRoom(Room2* room) {
 
 			// If it isn't special, check for a preset.
 			if (cellNo == -1 && preset->dwTxtFileNo <= 572) {
-				ObjectTxt* obj = D2COMMON_GetObjectTxt(preset->dwTxtFileNo);
+				ObjectTxt *obj = D2COMMON_GetObjectTxt(preset->dwTxtFileNo);
 				if (obj)
 					cellNo = obj->nAutoMap;//Set the cell number then.
 			}
-		}
-		else if (preset->dwType == UNIT_TILE) {
+		} else if (preset->dwType == UNIT_TILE) {
 			LevelList* level = new LevelList;
 			for (RoomTile* tile = room->pRoomTiles; tile; tile = tile->pNext) {
 				if (*(tile->nNum) == preset->dwTxtFileNo) {
@@ -1027,9 +914,9 @@ void MapNotify::RevealRoom(Room2* room) {
 	return;
 }
 
-AutomapLayer* MapNotify::InitLayer(int level) {
+AutomapLayer* Maphack::InitLayer(int level) {
 	//Get the layer for the level.
-	AutomapLayer2* layer = D2COMMON_GetLayer(level);
+	AutomapLayer2 *layer = D2COMMON_GetLayer(level);
 
 	//Insure we have found the Layer.
 	if (!layer)
@@ -1039,15 +926,15 @@ AutomapLayer* MapNotify::InitLayer(int level) {
 	return (AutomapLayer*)D2CLIENT_InitAutomapLayer(layer->nLayerNo);
 }
 
-Level* MapNotify::GetLevel(Act* pAct, int level)
+Level* Maphack::GetLevel(Act* pAct, int level)
 {
 	//Insure that the shit we are getting is good.
 	if (level < 0 || !pAct)
 		return NULL;
 
 	//Loop all the levels in this act
-
-	for (Level* pLevel = pAct->pMisc->pLevelFirst; pLevel; pLevel = pLevel->pNextLevel)
+	
+	for(Level* pLevel = pAct->pMisc->pLevelFirst; pLevel; pLevel = pLevel->pNextLevel)
 	{
 		//Check if we have reached a bad level.
 		if (!pLevel)
@@ -1061,7 +948,7 @@ Level* MapNotify::GetLevel(Act* pAct, int level)
 	return D2COMMON_GetLevel(pAct->pMisc, level);
 }
 
-int HoverMonsterColor(UnitAny* pUnit) {
+int HoverMonsterColor(UnitAny *pUnit) {
 	int color = White;
 	if (pUnit->pMonsterData->fBoss)
 		color = Gold;
@@ -1069,7 +956,7 @@ int HoverMonsterColor(UnitAny* pUnit) {
 		color = Blue;
 	return color;
 }
-int HoverObjectPatch(UnitAny* pUnit, DWORD tY, DWORD unk1, DWORD unk2, DWORD tX, wchar_t* wTxt)
+int HoverObjectPatch(UnitAny* pUnit, DWORD tY, DWORD unk1, DWORD unk2, DWORD tX, wchar_t *wTxt)
 {
 	if (!pUnit || pUnit->dwType != UNIT_MONSTER || pUnit->pMonsterData->pMonStatsTxt->bAlign != MONSTAT_ALIGN_ENEMY)
 		return 0;
@@ -1092,8 +979,8 @@ int HoverObjectPatch(UnitAny* pUnit, DWORD tY, DWORD unk1, DWORD unk2, DWORD tX,
 	POINT p = Texthook::GetTextSize(wTxt, 1);
 	int center = tX + (p.x / 2);
 	int y = tY - p.y;
-	Texthook::Draw(center, y - 12, Center, 6, White, L"ÿc7%d ÿc8%d ÿc1%d ÿc9%d ÿc3%d ÿc2%d", dwResistances[0], dwResistances[1], dwResistances[2], dwResistances[3], dwResistances[4], dwResistances[5]);
-	Texthook::Draw(center, y, Center, 6, White, L"ÿc%d%s", HoverMonsterColor(pUnit), wTxt);
+	Texthook::Draw(center, y - 12, Center, 6, White, L"\377c7%d \377c8%d \377c1%d \377c9%d \377c3%d \377c2%d", dwResistances[0], dwResistances[1], dwResistances[2], dwResistances[3], dwResistances[4], dwResistances[5]);
+	Texthook::Draw(center, y, Center, 6, White, L"\377c%d%s", HoverMonsterColor(pUnit), wTxt);
 	Texthook::Draw(center, y + 8, Center, 6, White, L"%.0f%%", (hp / maxhp) * 100.0);
 	return 1;
 }
@@ -1103,13 +990,13 @@ void __declspec(naked) Weather_Interception()
 {
 	__asm {
 		je rainold
-		xor al, al
-		rainold :
+		xor al,al
+rainold:
 		ret 0x04
 	}
 }
 
-BOOL __fastcall InfravisionPatch(UnitAny* unit)
+BOOL __fastcall InfravisionPatch(UnitAny *unit)
 {
 	return false;
 }
@@ -1118,15 +1005,15 @@ void __declspec(naked) Lighting_Interception()
 {
 	__asm {
 		je lightold
-		mov eax, 0xff
-		mov byte ptr[esp + 4 + 0], al
-		mov byte ptr[esp + 4 + 1], al
-		mov byte ptr[esp + 4 + 2], al
-		add dword ptr[esp], 0x72;
+		mov eax,0xff
+		mov byte ptr [esp+4+0], al
+		mov byte ptr [esp+4+1], al
+		mov byte ptr [esp+4+2], al
+		add dword ptr [esp], 0x72;
 		ret
-			lightold :
+		lightold:
 		push esi
-			call D2COMMON_GetLevelIdFromRoom_I;
+		call D2COMMON_GetLevelIdFromRoom_I;
 		ret
 	}
 }
@@ -1136,7 +1023,7 @@ void __declspec(naked) Infravision_Interception()
 	__asm {
 		mov ecx, esi
 		call InfravisionPatch
-		add dword ptr[esp], 0x72
+		add dword ptr [esp], 0x72
 		ret
 	}
 }
@@ -1172,13 +1059,14 @@ void __declspec(naked) HoverObject_Interception()
 		ret 0x28
 		origobjectname:
 		add esp, 0x8
-			pop edx
-			pop ecx
-			pop eax
-			call D2WIN_DrawTextBuffer
-			push rtn
-			ret
+		pop edx
+		pop ecx
+		pop eax
+		call D2WIN_DrawTextBuffer
+		push rtn
+		ret
 	}
 }
+
 
 #pragma optimize( "", on)

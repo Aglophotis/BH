@@ -540,7 +540,7 @@ void ItemMover::OnKey(bool up, BYTE key, LPARAM lParam, bool* block) {
 		int tp_quantity = 0;
 		for (UnitAny *pItem = unit->pInventory->pFirstItem; pItem; pItem = pItem->pItemData->pNextInvItem) {
 			if (pItem->pItemData->ItemLocation == STORAGE_INVENTORY) {
-				char* code = D2COMMON_GetItemText(pItem->dwTxtFileNo)->szCode;
+				char* code = D2 COMMON_GetItemText(pItem->dwTxtFileNo)->szCode;
 				if (code[0] == 't' && code[1] == 'b' && code[2] =='k') {
 					tp_quantity = D2COMMON_GetUnitStat(pItem, STAT_AMMOQUANTITY, 0);
 					if (tp_quantity > 0) {

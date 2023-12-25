@@ -64,6 +64,7 @@ private:
 	unsigned int filterLevelIncKey;
 	unsigned int filterLevelDecKey;
 	unsigned int filterLevelPrevKey;
+	static unsigned int pingLevelSetting;
 public:
 	static UnitAny* viewingUnit;
 	vector<string> ItemFilterNames;
@@ -101,6 +102,7 @@ public:
 	static UnitAny* GetViewUnitAndDrawBox();
 
 	static unsigned int GetFilterLevel() { return filterLevelSetting; }
+	static unsigned int GetPingLevel() { return pingLevelSetting; }
 };
 
 void ItemName_Interception();

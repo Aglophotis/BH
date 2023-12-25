@@ -56,6 +56,10 @@ UI::~UI() {
 	DeleteCriticalSection(&crit);
 }
 
+void UI::SetVisible(bool newState) {
+	visible = newState;
+}
+
 void UI::SetX(unsigned int newX) {
 	if (newX >= 0 && newX <= Hook::GetScreenWidth()) {
 		Lock();
@@ -111,6 +115,7 @@ void UI::SetMinimizedY(unsigned int newY) {
 }
 
 void UI::OnDraw() {
+	if (!IsVisible()) return;
 	if (IsMinimized()) {
 		int n = 0;
 		for (list<UI*>::iterator it = Minimized.begin(); it != Minimized.end(); it++, n++)

@@ -76,6 +76,7 @@ std::vector<CharStats*> CharList;
 std::map<std::string, ItemAttributes*> ItemAttributeMap;
 
 map<std::string, Toggle> Item::Toggles;
+unsigned int Item::pingLevelSetting = 0;
 unsigned int Item::filterLevelSetting;
 unsigned int Item::prevFilterLevelSetting;
 UnitAny* Item::viewingUnit;

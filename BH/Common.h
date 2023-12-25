@@ -77,6 +77,8 @@ int StringToNumber(std::string str);
 
 void FixColor(wchar_t* word);
 
+void FixColor(std::string &word);
+
 std::string Trim(std::string source);
 
 void PrintText(DWORD Color, char* szText, ...);

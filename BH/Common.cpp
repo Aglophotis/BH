@@ -190,6 +190,16 @@ void FixColor(wchar_t* word) {
 	}
 }
 
+void FixColor(std::string &word) {
+	for (DWORD i = 0; i < word.length(); i++)
+	{
+		if ((word[i] == '?') && word[i + 1] == 'c')
+		{
+			word[i] = 'ÿ';
+		};
+	}
+}
+
 // This function prints at most 151 characters (152 including null)
 // TODO: Fix this so this limitation
 void PrintText(DWORD Color, char* szText, ...) {
