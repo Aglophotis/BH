@@ -168,7 +168,7 @@ void GameSettings::LoadInteractionTab() {
 
 	y += 15;
 	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		BH::menu->GetStringOrDefault("menu.inter.place_one_stucked_key", "Ctrl+Left Click"));
+		BH::menu->GetStringOrDefault("menu.inter.place_one_stacked_key", "Ctrl+Left Click"));
 	colored_text->SetColor(Gold);
 	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
 		BH::menu->GetStringOrDefault("menu.inter.place_one_stacked", "Place 1 stacked item"));

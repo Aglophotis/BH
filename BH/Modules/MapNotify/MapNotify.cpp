@@ -144,6 +144,7 @@ void MapNotify::ReadConfig() {
 	BH::config->ReadToggle("Remove Shake", "None", false, Toggles["Remove Shake"]);
 	BH::config->ReadToggle("Display Level Names", "None", true, Toggles["Display Level Names"]);
 	BH::config->ReadToggle("Monster Resistances", "None", true, Toggles["Monster Resistances"]);
+	BH::config->ReadToggle("Monster Immunity", "None", true, Toggles["Monster Immunity"]);
 	BH::config->ReadToggle("Monster Enchantments", "None", true, Toggles["Monster Enchantments"]);
 	BH::config->ReadToggle("Apply CPU Patch", "None", true, Toggles["Apply CPU Patch"]);
 	BH::config->ReadToggle("Apply FPS Patch", "None", true, Toggles["Apply FPS Patch"]);
@@ -205,71 +206,74 @@ void MapNotify::OnLoad() {
 	ReadConfig();
 	ResetPatches();*/
 
-	settingsTab = new UITab("Maphack", BH::settingsUI);
+	settingsTab = new UITab(BH::menu->GetStringOrDefault("tab.mh", "Maphack"), BH::settingsUI);
 
-	new Texthook(settingsTab, 80, 3, "Toggles");
+	new Texthook(settingsTab, 80, 3, BH::menu->GetStringOrDefault("menu.mh.toggles", "Toggles"));
 	unsigned int Y = 0;
 	int keyhook_x = 150;
 	int col2_x = 250;
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Auto Reveal"].state, "Auto Reveal");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Auto Reveal"].state, BH::menu->GetStringOrDefault("menu.mh.reveal", "Auto Reveal"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Auto Reveal"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Show Monsters"].state, "Show Monsters");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Show Monsters"].state, BH::menu->GetStringOrDefault("menu.mh.monster", "Show Monsters"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Show Monsters"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Monster Enchantments"].state, "  Enchantments");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Monster Enchantments"].state, "  " + BH::menu->GetStringOrDefault("menu.mh.ench", "Enchantments"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Monster Enchantments"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Monster Resistances"].state, "  Resistances");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Monster Resistances"].state, "  " + BH::menu->GetStringOrDefault("menu.mh.res", "Resistances"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Monster Resistances"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Show Missiles"].state, "Show Missiles");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Monster Immunity"].state, "  " + BH::menu->GetStringOrDefault("menu.mh.imm", "Immunity"));
+	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Monster Immunity"].toggle, "");
+
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Show Missiles"].state, BH::menu->GetStringOrDefault("menu.mh.miss", "Show Missiles"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Show Missiles"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Show Chests"].state, "Show Chests");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Show Chests"].state, BH::menu->GetStringOrDefault("menu.mh.chest", "Show Chests"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Show Chests"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Force Light Radius"].state, "Light Radius");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Force Light Radius"].state, BH::menu->GetStringOrDefault("menu.mh.light", "Light Radius"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Force Light Radius"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Remove Weather"].state, "Remove Weather");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Remove Weather"].state, BH::menu->GetStringOrDefault("menu.mh.weather", "Remove Weather"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Remove Weather"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Infravision"].state, "Infravision");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Infravision"].state, BH::menu->GetStringOrDefault("menu.mh.infra", "Infravision"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Infravision"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Remove Shake"].state, "Remove Shake");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Remove Shake"].state, BH::menu->GetStringOrDefault("menu.mh.shake", "Remove Shake"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Remove Shake"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Display Level Names"].state, "Level Names");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Display Level Names"].state, BH::menu->GetStringOrDefault("menu.mh.lvl_names", "Level Names"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Display Level Names"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Apply CPU Patch"].state, "CPU Patch");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Apply CPU Patch"].state, BH::menu->GetStringOrDefault("menu.mh.cpu", "CPU Patch"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Apply CPU Patch"].toggle, "");
 
-	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Apply FPS Patch"].state, "FPS Patch (SP Only)");
+	new Checkhook(settingsTab, 4, (Y += 15), &Toggles["Apply FPS Patch"].state, BH::menu->GetStringOrDefault("menu.mh.fps", "FPS Patch (SP Only)"));
 	new Keyhook(settingsTab, keyhook_x, (Y + 2), &Toggles["Apply FPS Patch"].toggle, "");
 
-	new Texthook(settingsTab, col2_x + 5, 3, "Missile Colors");
+	new Texthook(settingsTab, col2_x + 5, 3, BH::menu->GetStringOrDefault("menu.mh.miss_color", "Missile Colors"));
 
-	new Colorhook(settingsTab, col2_x, 17, &missileColors["Player"], "Player");
-	new Colorhook(settingsTab, col2_x, 32, &missileColors["Neutral"], "Neutral");
-	new Colorhook(settingsTab, col2_x, 47, &missileColors["Party"], "Party");
-	new Colorhook(settingsTab, col2_x, 62, &missileColors["Hostile"], "Hostile");
+	new Colorhook(settingsTab, col2_x, 17, &missileColors["Player"], BH::menu->GetStringOrDefault("menu.mh.player_color", "Player"));
+	new Colorhook(settingsTab, col2_x, 32, &missileColors["Neutral"], BH::menu->GetStringOrDefault("menu.mh.neutral_color", "Neutral"));
+	new Colorhook(settingsTab, col2_x, 47, &missileColors["Party"], BH::menu->GetStringOrDefault("menu.mh.party_color", "Party"));
+	new Colorhook(settingsTab, col2_x, 62, &missileColors["Hostile"], BH::menu->GetStringOrDefault("menu.mh.hostile_color", "Hostile"));
 
-	new Texthook(settingsTab, col2_x + 5, 77, "Monster Colors");
+	new Texthook(settingsTab, col2_x + 5, 77, BH::menu->GetStringOrDefault("menu.mh.monster_color", "Monster Colors"));
 
-	new Colorhook(settingsTab, col2_x, 92, &monsterColors["Normal"], "Normal");
-	new Colorhook(settingsTab, col2_x, 107, &monsterColors["Minion"], "Minion");
-	new Colorhook(settingsTab, col2_x, 122, &monsterColors["Champion"], "Champion");
-	new Colorhook(settingsTab, col2_x, 137, &monsterColors["Boss"], "Boss");
+	new Colorhook(settingsTab, col2_x, 92, &monsterColors["Normal"], BH::menu->GetStringOrDefault("menu.mh.normal_color", "Normal"));
+	new Colorhook(settingsTab, col2_x, 107, &monsterColors["Minion"], BH::menu->GetStringOrDefault("menu.mh.minion_color", "Minion"));
+	new Colorhook(settingsTab, col2_x, 122, &monsterColors["Champion"], BH::menu->GetStringOrDefault("menu.mh.champ_color", "Champion"));
+	new Colorhook(settingsTab, col2_x, 137, &monsterColors["Boss"], BH::menu->GetStringOrDefault("menu.mh.boss_color", "Boss"));
 
-	new Texthook(settingsTab, 6, (Y += 15), "Reveal Type:");
+	new Texthook(settingsTab, 6, (Y += 15), BH::menu->GetStringOrDefault("menu.mh.rev_type", "Reveal Type:"));
 
 	vector<string> options;
-	options.push_back("Game");
-	options.push_back("Act");
-	options.push_back("Level");
+	options.push_back(BH::menu->GetStringOrDefault("menu.mh.game", "Game"));
+	options.push_back(BH::menu->GetStringOrDefault("menu.mh.act", "Act"));
+	options.push_back(BH::menu->GetStringOrDefault("menu.mh.lvl", "Level"));
 	new Combohook(settingsTab, 100, Y, 70, &revealType, options);
 }
 
@@ -684,7 +688,10 @@ void MapNotify::OnAutomapDraw() {
 					//FixColor(immunityText);
 					//FixColor(enchantText);
 					//enchantText.assign("");
-					immunityText.assign("");
+
+					if (!Toggles["Monster Immunity"].state) {
+						immunityText.assign("");
+					}
 
 					automapBuffer.push([immunityText, enchantText, color, xPos, yPos, lineColor, MyPos]()->void {
 						POINT automapLoc;
