@@ -166,7 +166,7 @@ void UI::OnDraw() {
 			SetX(newX);
 			SetY(newY);
 		}
-		Framehook::Draw(GetX(), GetY(), GetXSize(), GetYSize(), 0, (IsActive()?BTNormal:BTOneHalf));
+		Framehook::Draw(GetX(), GetY(), GetXSize(), GetYSize(), 0, (IsActive()? BTOneHalf :BTOneHalf));
 		Framehook::Draw(GetX(), GetY(), GetXSize(), TITLE_BAR_HEIGHT, 0, BTNormal);
 		Texthook::Draw(GetX() + 4, GetY () + 3, false, 0, InTitle((*p_D2CLIENT_MouseX), (*p_D2CLIENT_MouseY))?Silver:White, GetName());
 		for (list<UITab*>::iterator it = Tabs.begin(); it != Tabs.end(); it++)

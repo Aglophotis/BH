@@ -625,13 +625,13 @@ void Item::DrawSettings() {
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Show Rune Numbers"].toggle, "");
 	y += 15;
 
-	Checkhook* alt = new Checkhook(settingsTab, x, y, &Toggles["Alt Item Style"].state, BH::menu->GetStringOrDefault("menu.item.alt_style", "Alt Style"));
-	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Alt Item Style"].toggle, "");
-	y += 15;
+	//Checkhook* alt = new Checkhook(settingsTab, x, y, &Toggles["Alt Item Style"].state, BH::menu->GetStringOrDefault("menu.item.alt_style", "Alt Style"));
+	//new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Alt Item Style"].toggle, "");
+	//y += 15;
 
-	Checkhook* color = new Checkhook(settingsTab, x, y, &Toggles["Color Mod"].state, BH::menu->GetStringOrDefault("menu.item.color", "Color Mod"));
-	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Color Mod"].toggle, "");
-	y += 15;
+	//Checkhook* color = new Checkhook(settingsTab, x, y, &Toggles["Color Mod"].state, BH::menu->GetStringOrDefault("menu.item.color", "Color Mod"));
+	//new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Color Mod"].toggle, "");
+	//y += 15;
 
 	Checkhook* shorten = new Checkhook(settingsTab, x, y, &Toggles["Shorten Item Names"].state, BH::menu->GetStringOrDefault("menu.item.short", "Shorten Names"));
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Shorten Item Names"].toggle, "");
@@ -659,7 +659,7 @@ void Item::DrawSettings() {
 
 	new Checkhook(settingsTab, x, y, &Toggles["Verbose Notifications"].state, BH::menu->GetStringOrDefault("menu.item.verbose_notify", "Verbose Notifications"));
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Verbose Notifications"].toggle, "");
-	y += 15;
+	y += 20;
 
 	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.filter_inc", "Increase Filter Level"));
 	colored_text->SetColor(Gold);
