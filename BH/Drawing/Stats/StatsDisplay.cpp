@@ -731,8 +731,8 @@ void StatsDisplay::OnDraw()
 			bp_string);
 
 
-		y += 16;
-		GetIASBreakpointString(unit, &(BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(":ÿc0 "))[0], column1, &y);
+		//y += 16;
+		//GetIASBreakpointString(unit, &(BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(":ÿc0 "))[0], column1, &y);
 
 		y += 8;
 
@@ -1196,54 +1196,54 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 			nAnimAcceleration = nFrameMinAccr + nAttackRate;
 			nMinAnimAcceleration = nAttackRate;
 		}
-		//else
-		//{
-		//	nMode = pRightSkill->mode;
-		//	// Ignore spells. Ignore auras/Force Move
-		//	//if (nMode == PLAYER_MODE_CAST || nMode == PLAYER_MODE_RUN)
-		//	//{
-		//	//	Texthook::Draw(x,
-		//	//		*pY,
-		//	//		None,
-		//	//		6,
-		//	//		Gold,
-		//	//		"IAS (Frames): N/A");
-		//	//	return;
-		//	//}
+		else
+		{
+			nMode = pRightSkill->mode;
+			//Ignore spells. Ignore auras/Force Move
+			if (nMode == PLAYER_MODE_CAST || nMode == PLAYER_MODE_RUN)
+			{
+				Texthook::Draw(x,
+					*pY,
+					None,
+					6,
+					Gold,
+					BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(": N/A"));
+				return;
+			}
 
-		//	D2COMMON_10350_ConvertMode(pUnit, &nAnimType, &nUnitID, &nMode, (char*)"StatsDisplay.cpp", 1009);
-		//	pAnimData = D2COMMON_GetAnimDataRecord(pUnit, nUnitID, nMode, nAnimType, pUnit->pInventory);
-		//	//if (!pAnimData)
-		//	//{
-		//	//	Texthook::Draw(x,
-		//	//		*pY,
-		//	//		None,
-		//	//		6,
-		//	//		Gold,
-		//	//		"IAS (Frames): N/A");
-		//	//	return;
-		//	//}
-		//	// Hide Werewolf & Werebear until we have their frames worked out
-		//	if (nUnitID == 430 || nUnitID == 431)
-		//	{
-		//		Texthook::Draw(x,
-		//			*pY,
-		//			None,
-		//			6,
-		//			Gold,
-		//			"IAS (Frames): N/A (Work in Progress)");
-		//		return;
-		//	}
+			D2COMMON_10350_ConvertMode(pUnit, &nAnimType, &nUnitID, &nMode, (char*)"StatsDisplay.cpp", 1009);
+			pAnimData = D2COMMON_GetAnimDataRecord(pUnit, nUnitID, nMode, nAnimType, pUnit->pInventory);
+			if (!pAnimData)
+			{
+				Texthook::Draw(x,
+					*pY,
+					None,
+					6,
+					Gold,
+					BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(": N/A"));
+				return;
+			}
+			// Hide Werewolf & Werebear until we have their frames worked out
+			if (nUnitID == 430 || nUnitID == 431)
+			{
+				Texthook::Draw(x,
+					*pY,
+					None,
+					6,
+					Gold,
+					BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(": N/A"));
+				return;
+			}
 
-		//	nFrames = pAnimData->dwFrames;
-		//	nAnimSpeed = pAnimData->dwAnimSpeed;
-		//	// This calculates EIAS from IAS
-		//	nFrameMinAccr = D2COMMON_GetFrameMinAccr_STUB(FRAMES_IAS, pUnit);
-		//	// This is 100 + WSM + SIAS
-		//	nAttackRate = D2COMMON_GetUnitStat(pUnit, STAT_ATTACKRATE, 0) + nAttackRateBonus;
-		//	nAnimAcceleration = nFrameMinAccr + nAttackRate;
-		//	nMinAnimAcceleration = nAttackRate;
-		//}
+			nFrames = pAnimData->dwFrames;
+			nAnimSpeed = pAnimData->dwAnimSpeed;
+			// This calculates EIAS from IAS
+			nFrameMinAccr = D2COMMON_GetFrameMinAccr_STUB(FRAMES_IAS, pUnit);
+			// This is 100 + WSM + SIAS
+			nAttackRate = D2COMMON_GetUnitStat(pUnit, STAT_ATTACKRATE, 0) + nAttackRateBonus;
+			nAnimAcceleration = nFrameMinAccr + nAttackRate;
+			nMinAnimAcceleration = nAttackRate;
+		}
 
 
 		if (rollback_skills.find(nSkillId) != rollback_skills.end())
