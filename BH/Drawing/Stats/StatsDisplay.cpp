@@ -74,16 +74,16 @@ std::set<int> rollback_skills = {
 	26, 30, 106, 248, 255
 };
 
-std::map<DWORD, std::string> merc_skill_names = {
-	{ MERC_A1, "Fire/Cold/Magic Arrow" },
+std::map<DWORD, std::pair<std::string, std::string>> merc_skill_names = {
+	{ MERC_A1, make_pair("stat.merc_a1", "Fire/Cold/Magic Arrow")},
 
-	{ MERC_A2, "Jab" },
+	{ MERC_A2, make_pair("stat.merc_a2", "Jab") },
 
-	{ MERC_A3, "Fireball/Ice Blast/Lightning" },
+	{ MERC_A3, make_pair("stat.merc_a3", "Fireball/Ice Blast/Lightning") },
 
-	{ MERC_A4, "Holy Nova/Bone Spear" },
+	{ MERC_A4, make_pair("stat.merc_a4", "Holy Nova/Bone Spear") },
 
-	{ MERC_A5, "Concentrate/Bash" },
+	{ MERC_A5, make_pair("stat.merc_a5", "Concentrate/Bash") },
 
 };
 
@@ -660,7 +660,7 @@ void StatsDisplay::OnDraw()
 			std::string sSkillText = "";
 			if (merc_skill_names.find(unit->dwTxtFileNo) != merc_skill_names.end())
 			{
-				sSkillText = merc_skill_names.at(unit->dwTxtFileNo);
+				sSkillText = BH::menu->GetStringOrDefault(merc_skill_names.at(unit->dwTxtFileNo).first, merc_skill_names.at(unit->dwTxtFileNo).second);
 			}
 
 			sprintf(szSkillText, "%.255s", sSkillText.c_str());
