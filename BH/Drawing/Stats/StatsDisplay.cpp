@@ -730,9 +730,8 @@ void StatsDisplay::OnDraw()
 			BH::menu->GetStringOrDefault("stat.fhr", "FHR") + string(":ÿc0 %s"),
 			bp_string);
 
-
-		//y += 16;
-		//GetIASBreakpointString(unit, &(BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(":ÿc0 "))[0], column1, &y);
+		y += 16;
+		GetIASBreakpointString(unit, &(BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(":ÿc0 "))[0], column1, &y);
 
 		y += 8;
 
@@ -1212,7 +1211,10 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 			}
 
 			D2COMMON_10350_ConvertMode(pUnit, &nAnimType, &nUnitID, &nMode, (char*)"StatsDisplay.cpp", 1009);
-			pAnimData = D2COMMON_GetAnimDataRecord(pUnit, nUnitID, nMode, nAnimType, pUnit->pInventory);
+			if (nMode != -1) {
+				pAnimData = D2COMMON_GetAnimDataRecord(pUnit, nUnitID, nMode, nAnimType, pUnit->pInventory);
+			}
+
 			if (!pAnimData)
 			{
 				Texthook::Draw(x,
