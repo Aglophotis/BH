@@ -225,6 +225,8 @@ bool Texthook::Draw(unsigned int x, unsigned int y, int align, unsigned int font
 	//Draw the text!
 	unsigned int height[] = {10,11,18,24,10,13,7,13,10,12,8,8,7,12};
 	DWORD size = D2WIN_SetTextSize(font);
+
+	FixColor(wString);
 	D2WIN_DrawText(wString, x, y + height[font], color, 0);
 	D2WIN_SetTextSize(size);
 

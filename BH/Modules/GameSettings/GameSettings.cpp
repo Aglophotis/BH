@@ -51,9 +51,23 @@ void GameSettings::LoadGeneralTab() {
 	new Drawing::Texthook(generalTab, x, (y), BH::menu->GetStringOrDefault("menu.gen.general", "General"));
 
 	y += 15;
+	colored_text = new Drawing::Texthook(generalTab, x, (y), BH::menu->GetStringOrDefault("menu.gen.resync", "Resync"));
+	colored_text->SetColor(Gold);
+	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &resyncKey, "");
+
+	y += 15;
+	colored_text = new Drawing::Texthook(generalTab, x, (y), BH::menu->GetStringOrDefault("menu.gen.adv_stat", "Advanced Stat Display"));
+	colored_text->SetColor(Gold);
+	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &advStatMenuKey, "");
+
+	y += 15;
 	colored_text = new Drawing::Texthook(generalTab, x, (y), BH::menu->GetStringOrDefault("menu.gen.reload", "Reload Config"));
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &reloadConfig, "");
+
+	y += 15;
+	new Drawing::Checkhook(generalTab, x, y, &GameSettings::Toggles["Screenshake"].state, BH::menu->GetStringOrDefault("menu.gen.shake", "Enable Screenshake"));
+	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &GameSettings::Toggles["Screenshake"].toggle, "");
 
 	y += 15;
 	new Drawing::Checkhook(generalTab, x, y, &ScreenInfo::Toggles["Experience Meter"].state, BH::menu->GetStringOrDefault("menu.gen.exp", "Experience Meter"));

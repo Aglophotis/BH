@@ -353,8 +353,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			"Name:ÿc0 %s",
-			isMerc ? "ÿc;Mercenary" : unit->pPlayerData->szName);
+			BH::menu->GetStringOrDefault("stat.name", "Name") + string(":ÿc0 %s"),
+			isMerc ? &(string("ÿc;") + BH::menu->GetStringOrDefault("stat.merc", "Mercenary"))[0] : unit->pPlayerData->szName);
 
 		auto player_level = D2COMMON_GetUnitStat(unit, STAT_LEVEL, 0);
 		Texthook::Draw(pRect.right - 5,
@@ -362,7 +362,7 @@ void StatsDisplay::OnDraw()
 			Right,
 			6,
 			Gold,
-			L"Level:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.lvl", "Level") +  string(":ÿc0 %d"),
 			static_cast<int>(player_level));
 
 		auto map_id = **Var_D2CLIENT_MapId();
@@ -378,11 +378,13 @@ void StatsDisplay::OnDraw()
 			y + 12,
 			Right,
 			6,
-			Gold,
-			L"XP: %.2f%% / Additional XP:ÿc: %d%%",
+			Gold, 
+			BH::menu->GetStringOrDefault("stat.xp", "XP") + 
+			string(": %.2f%% / ") +
+			BH::menu->GetStringOrDefault("stat.addit_xp", "Additional XP") +
+			string(":ÿc: %d%%"),
 			xp_percentage,
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_ADDEXPERIENCE, 0)));
-
 
 		y += 8;
 
@@ -401,7 +403,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Red,
-			L"ÿc4Fire Resist:ÿc1 %d ÿc0/ %d",
+			string("ÿc4") + BH::menu->GetStringOrDefault("stat.res_fire", "Fire Resist") + string(":ÿc1 % d ÿc0 / % d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FIRERESIST, 0)) + penalty,
 			fMax);
 		Texthook::Draw(column1,
@@ -409,7 +411,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Blue,
-			L"ÿc4Cold Resist:ÿc3 %d ÿc0/ %d",
+			string("ÿc4") + BH::menu->GetStringOrDefault("stat.res_cold", "Cold Resist") + string(":ÿc3 % d ÿc0 / % d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_COLDRESIST, 0)) + penalty,
 			cMax);
 		Texthook::Draw(column1,
@@ -417,7 +419,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Yellow,
-			L"ÿc4Lightning Resist:ÿc9 %d ÿc0/ %d",
+			string("ÿc4") + BH::menu->GetStringOrDefault("stat.res_light", "Lightning Resist") + string(":ÿc9 % d ÿc0 / % d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_LIGHTNINGRESIST, 0)) + penalty,
 			lMax);
 		Texthook::Draw(column1,
@@ -425,17 +427,18 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Poison Resist:ÿc2 %d ÿc0/ %d  ÿc4Length:ÿc: %d%%",
+			BH::menu->GetStringOrDefault("stat.res_poison", "Poison Resist") + string(":ÿc2 %d ÿc0/ %d  ÿc4") + BH::menu->GetStringOrDefault("stat.res_length", "Length") + string(":ÿc: %d%%"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_POISONRESIST, 0)) + penalty,
 			pMax,
 			(100 - penalty - pLengthReduce)
 		);
+
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
 			6,
 			Gold,
-			L"Curse Resist:ÿc8 %d /ÿc0 50 ÿc4Length:ÿc0 %d%%",
+			BH::menu->GetStringOrDefault("stat.res_curse", "Curse Resist") + string(":ÿc8 %d /ÿc0 50 ÿc4") + BH::menu->GetStringOrDefault("stat.res_length", "Length") + string(":ÿc0 %d%%"),
 			static_cast<int>(min(D2COMMON_GetUnitStat(unit, STAT_CURSE_EFFECTIVENESS, 0), 50)),
 			static_cast<int>(max(100 - D2COMMON_GetUnitStat(unit, STAT_CURSERESISTANCE, 0), 25)));
 		y += 8;
@@ -453,7 +456,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Red,
-			L"ÿc4Absorption: ÿc1%dÿc0/ÿc1%d%c ÿc3%dÿc0/ÿc3%d%c ÿc9%dÿc0/ÿc9%d%c ÿc8%dÿc0/ÿc8%d%c",
+			string("ÿc4") + BH::menu->GetStringOrDefault("stat.absorp", "Absorpition") + string(": ÿc1%dÿc0/ÿc1%d%c ÿc3%dÿc0/ÿc3%d%c ÿc9%dÿc0/ÿc9%d%c ÿc8%dÿc0/ÿc8%d%c"),
 			fAbsorb,
 			fAbsorbPct,
 			'%',
@@ -476,7 +479,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Tan,
-			L"ÿc4Damage Reduction: ÿc7%dÿc0/ÿc7%d%c ÿc8%dÿc0/ÿc8%d%c",
+			string("ÿc4") + BH::menu->GetStringOrDefault("stat.dmg_reduce", "Damage Reduction") + string(": ÿc7%dÿc0/ÿc7%d%c ÿc8%dÿc0/ÿc8%d%c"),
 			dmgReduction,
 			dmgReductionPct,
 			'%',
@@ -488,7 +491,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Attacker Takes Damage:ÿc0 %d ÿc9 %d",
+			BH::menu->GetStringOrDefault("stat.thorn", "Attacker Takes Damage") + string(":ÿc0 %d ÿc9 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_ATTACKERTAKESDAMAGE, 0)),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_ATTACKERTAKESLTNGDMG, 0)));
 		y += 8;
@@ -509,7 +512,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Elemental Mastery:ÿc1 %d%%ÿc3 %d%%ÿc9 %d%%ÿc2 %d%%ÿc8 %d%%",
+			BH::menu->GetStringOrDefault("stat.elem_mastery", "Elemental Mastery") + string(":ÿc1 %d%%ÿc3 %d%%ÿc9 %d%%ÿc2 %d%%ÿc8 %d%%"),
 			fMastery,
 			cMastery,
 			lMastery,
@@ -520,7 +523,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Elemental Pierce:ÿc1 %d%%ÿc3 %d%%ÿc9 %d%%ÿc2 %d%%ÿc8 %d%%",
+			BH::menu->GetStringOrDefault("stat.elem_pierce", "Elemental Pierce") + string(":ÿc1 %d%%ÿc3 %d%%ÿc9 %d%%ÿc2 %d%%ÿc8 %d%%"),
 			fPierce,
 			cPierce,
 			lPierce,
@@ -536,7 +539,14 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Base AR:ÿc5 dex:ÿc0 %dÿc5 equip:ÿc0% dÿc5 total:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.base_ar", "Base AR") + 
+			string(":ÿc5 ") +
+			BH::menu->GetStringOrDefault("stat.dex", "dex") +
+			string(":ÿc0 %dÿc5 ") +
+			BH::menu->GetStringOrDefault("stat.equip", "equip") +
+			string(":ÿc0% dÿc5 ") +
+			BH::menu->GetStringOrDefault("stat.total", "total") +
+			string(":ÿc0 %d"),
 			dexAR,
 			gearAR,
 			dexAR + gearAR);
@@ -549,7 +559,14 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Base Def:ÿc5 dex:ÿc0 %dÿc5 equip:ÿc0 %dÿc5 total:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.base_def", "Base Def") +
+			string(":ÿc5 ") +
+			BH::menu->GetStringOrDefault("stat.dex", "dex") +
+			string(":ÿc0 %dÿc5 ") +
+			BH::menu->GetStringOrDefault("stat.equip", "equip") +
+			string(":ÿc0 %dÿc5 ") +
+			BH::menu->GetStringOrDefault("stat.total", "total") +
+			string(":ÿc0 %d"),
 			dexDef,
 			gearDef,
 			dexDef + gearDef);
@@ -559,7 +576,12 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Base Damage:ÿc5 1h:ÿc0 %d-%dÿc5 2h:ÿc0 %d-%d",
+			BH::menu->GetStringOrDefault("stat.base_dmg", "Base Damage") + 
+			string(":ÿc5 ") +
+			BH::menu->GetStringOrDefault("stat.1h", "1h") +
+			string(":ÿc0 %d-%dÿc5 ") +
+			BH::menu->GetStringOrDefault("stat.2h", "2h") +
+			string(":ÿc0 %d-%d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MINIMUMDAMAGE, 0)),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAXIMUMDAMAGE, 0)),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_SECONDARYMINIMUMDAMAGE, 0)),
@@ -572,7 +594,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Cast Rate:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.cast_rate", "Cast Rate") + string(":ÿc0 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FASTERCAST, 0))
 		);
 		Texthook::Draw(column2,
@@ -580,7 +602,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Block Rate:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.block_rate", "Block Rate") + string(":ÿc0 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FASTERBLOCK, 0))
 		);
 		Texthook::Draw(column1,
@@ -588,7 +610,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Hit Recovery:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.hit_recovery", "Hit Recovery") + string(":ÿc0 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FASTERHITRECOVERY, 0))
 		);
 		Texthook::Draw(column2,
@@ -596,7 +618,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Run/Walk:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.run", "Run/Walk") + string(":ÿc0 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FASTERRUNWALK, 0))
 		);
 		Texthook::Draw(column1,
@@ -604,14 +626,14 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Attack Rate:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.attack_rate", "Attack Rate") + string(":ÿc0 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_ATTACKRATE, 0)));
 		Texthook::Draw(column2,
 			y,
 			None,
 			6,
 			Gold,
-			L"IAS:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.ias", "IAS") + string(":ÿc0 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_IAS, 0)));
 		y += 8;
 
@@ -630,7 +652,7 @@ void StatsDisplay::OnDraw()
 				None,
 				6,
 				Gold,
-				"Breakpoints (ÿc0%sÿc4):",
+				BH::menu->GetStringOrDefault("stat.break", "Breakpoints") + string(" (ÿc0%sÿc4):"),
 				rightSkillName);
 		}
 		else
@@ -648,7 +670,7 @@ void StatsDisplay::OnDraw()
 				None,
 				6,
 				Gold,
-				"Breakpoints (ÿc0%sÿc4):",
+				BH::menu->GetStringOrDefault("stat.break", "Breakpoints") + string(" (ÿc0%sÿc4):"),
 				szSkillText);
 		}
 
@@ -674,7 +696,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			"FCR:ÿc0 %s",
+			BH::menu->GetStringOrDefault("stat.fcr", "FCR") + string(":ÿc0 %s"),
 			bp_fcr_string);
 
 
@@ -705,13 +727,12 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			"FHR:ÿc0 %s",
+			BH::menu->GetStringOrDefault("stat.fhr", "FHR") + string(":ÿc0 %s"),
 			bp_string);
 
 
-		char ias_bp_string[255] = "IAS (Frames):ÿc0 ";
 		y += 16;
-		GetIASBreakpointString(unit, ias_bp_string, column1, &y);
+		GetIASBreakpointString(unit, &(BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(":ÿc0 "))[0], column1, &y);
 
 		y += 8;
 
@@ -720,14 +741,14 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Crushing Blow:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.crush", "Crushing Blow") + string(":ÿc0 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_CRUSHINGBLOW, 0)));
 		Texthook::Draw(column2,
 			y,
 			None,
 			6,
 			Gold,
-			L"Open Wounds: ÿc0%d%%/+%d",
+			BH::menu->GetStringOrDefault("stat.wounds", "Open Wounds") + string(": ÿc0%d%%/+%d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_OPENWOUNDS, 0)),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_DEEP_WOUNDS, 0)));
 		Texthook::Draw(column1,
@@ -735,35 +756,35 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Deadly Strike:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.deadly", "Deadly Strike") + string(":ÿc0 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_DEADLYSTRIKE, 0)));
 		Texthook::Draw(column2,
 			y,
 			None,
 			6,
 			Gold,
-			L"Critical Strike: ÿc0%d",
+			BH::menu->GetStringOrDefault("stat.critical", "Critical Strike") +  string(": ÿc0%d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_CRITICALSTRIKE, 0)));
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
 			6,
 			Gold,
-			L"Life Leech:ÿc1 %d",
+			BH::menu->GetStringOrDefault("stat.life_leech", "Life Leech") + string(":ÿc1 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_LIFELEECH, 0)));
 		Texthook::Draw(column2,
 			y,
 			None,
 			6,
 			Gold,
-			L"Mana Leech:ÿc3 %d",
+			BH::menu->GetStringOrDefault("stat.mana_leech", "Mana Leech") + string(":ÿc3 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MANALEECH, 0)));
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
 			6,
 			Gold,
-			L"Projectile Pierce:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.proj_pierce", "Projectile Pierce") + string(":ÿc0 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PIERCINGATTACK, 0)) +
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PIERCE, 0)));
 		Texthook::Draw(column2,
@@ -771,7 +792,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"HP/MP per Kill:ÿc1 %d ÿc0/ÿc3 %d",
+			BH::menu->GetStringOrDefault("stat.per_kill", "HP/MP per Kill") + string(":ÿc1 %d ÿc0/ÿc3 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_LIFEAFTEREACHKILL, 0)),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MANAAFTEREACHKILL, 0)));
 
@@ -810,7 +831,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Added Damage:ÿc0 %d",
+			BH::menu->GetStringOrDefault("stat.add_dmg", "Added Damage") + string(":ÿc0 %d"),
 			addedPhys);
 		Texthook::Draw(column2,
 			y,
@@ -859,7 +880,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Magic Find:ÿc3 %d",
+			BH::menu->GetStringOrDefault("stat.magic_find", "Magic Find") + string(":ÿc3 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAGICFIND, 0))
 		);
 		Texthook::Draw(column2,
@@ -867,7 +888,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Gold Find:ÿc9 %d",
+			BH::menu->GetStringOrDefault("stat.gold_find", "Gold Find") + string(":ÿc9 %d"),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_GOLDFIND, 0)));
 
 		if (!isMerc)
@@ -877,7 +898,7 @@ void StatsDisplay::OnDraw()
 				None,
 				6,
 				Gold,
-				L"Stash Gold:ÿc9 %d",
+				BH::menu->GetStringOrDefault("stat.stash_gold", "Stash Gold") + string(":ÿc9 %d"),
 				static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_GOLDBANK, 0)));
 		}
 
@@ -1105,7 +1126,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 				None,
 				6,
 				Gold,
-				"IAS (Frames):ÿc8 0 (%d)",
+				BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(":ÿc8 0 (%d)"),
 				WWNextHitDelay);
 			return;
 		}
@@ -1131,7 +1152,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 					None,
 					6,
 					Gold,
-					"IAS (Frames): N/A");
+					BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(": N/A"));
 				return;
 			}
 
@@ -1145,7 +1166,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 					None,
 					6,
 					Gold,
-					"IAS (Frames): N/A");
+					BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(": N/A"));
 				return;
 			}
 			if (pSeqInfo->pSeqData->bMode == PLAYER_MODE_CAST)
@@ -1155,7 +1176,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 					None,
 					6,
 					Gold,
-					"IAS (Frames): N/A");
+					BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(": N/A"));
 				return;
 			}
 
@@ -1175,54 +1196,54 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 			nAnimAcceleration = nFrameMinAccr + nAttackRate;
 			nMinAnimAcceleration = nAttackRate;
 		}
-		else
-		{
-			nMode = pRightSkill->mode;
-			// Ignore spells. Ignore auras/Force Move
-			if (nMode == PLAYER_MODE_CAST || nMode == PLAYER_MODE_RUN)
-			{
-				Texthook::Draw(x,
-					*pY,
-					None,
-					6,
-					Gold,
-					"IAS (Frames): N/A");
-				return;
-			}
+		//else
+		//{
+		//	nMode = pRightSkill->mode;
+		//	// Ignore spells. Ignore auras/Force Move
+		//	//if (nMode == PLAYER_MODE_CAST || nMode == PLAYER_MODE_RUN)
+		//	//{
+		//	//	Texthook::Draw(x,
+		//	//		*pY,
+		//	//		None,
+		//	//		6,
+		//	//		Gold,
+		//	//		"IAS (Frames): N/A");
+		//	//	return;
+		//	//}
 
-			D2COMMON_10350_ConvertMode(pUnit, &nAnimType, &nUnitID, &nMode, (char*)"StatsDisplay.cpp", 1009);
-			pAnimData = D2COMMON_GetAnimDataRecord(pUnit, nUnitID, nMode, nAnimType, pUnit->pInventory);
-			if (!pAnimData)
-			{
-				Texthook::Draw(x,
-					*pY,
-					None,
-					6,
-					Gold,
-					"IAS (Frames): N/A");
-				return;
-			}
-			// Hide Werewolf & Werebear until we have their frames worked out
-			if (nUnitID == 430 || nUnitID == 431)
-			{
-				Texthook::Draw(x,
-					*pY,
-					None,
-					6,
-					Gold,
-					"IAS (Frames): N/A (Work in Progress)");
-				return;
-			}
+		//	D2COMMON_10350_ConvertMode(pUnit, &nAnimType, &nUnitID, &nMode, (char*)"StatsDisplay.cpp", 1009);
+		//	pAnimData = D2COMMON_GetAnimDataRecord(pUnit, nUnitID, nMode, nAnimType, pUnit->pInventory);
+		//	//if (!pAnimData)
+		//	//{
+		//	//	Texthook::Draw(x,
+		//	//		*pY,
+		//	//		None,
+		//	//		6,
+		//	//		Gold,
+		//	//		"IAS (Frames): N/A");
+		//	//	return;
+		//	//}
+		//	// Hide Werewolf & Werebear until we have their frames worked out
+		//	if (nUnitID == 430 || nUnitID == 431)
+		//	{
+		//		Texthook::Draw(x,
+		//			*pY,
+		//			None,
+		//			6,
+		//			Gold,
+		//			"IAS (Frames): N/A (Work in Progress)");
+		//		return;
+		//	}
 
-			nFrames = pAnimData->dwFrames;
-			nAnimSpeed = pAnimData->dwAnimSpeed;
-			// This calculates EIAS from IAS
-			nFrameMinAccr = D2COMMON_GetFrameMinAccr_STUB(FRAMES_IAS, pUnit);
-			// This is 100 + WSM + SIAS
-			nAttackRate = D2COMMON_GetUnitStat(pUnit, STAT_ATTACKRATE, 0) + nAttackRateBonus;
-			nAnimAcceleration = nFrameMinAccr + nAttackRate;
-			nMinAnimAcceleration = nAttackRate;
-		}
+		//	nFrames = pAnimData->dwFrames;
+		//	nAnimSpeed = pAnimData->dwAnimSpeed;
+		//	// This calculates EIAS from IAS
+		//	nFrameMinAccr = D2COMMON_GetFrameMinAccr_STUB(FRAMES_IAS, pUnit);
+		//	// This is 100 + WSM + SIAS
+		//	nAttackRate = D2COMMON_GetUnitStat(pUnit, STAT_ATTACKRATE, 0) + nAttackRateBonus;
+		//	nAnimAcceleration = nFrameMinAccr + nAttackRate;
+		//	nMinAnimAcceleration = nAttackRate;
+		//}
 
 
 		if (rollback_skills.find(nSkillId) != rollback_skills.end())
@@ -1508,7 +1529,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 			None,
 			6,
 			Gold,
-			"IAS (Frames): N/A");
+			BH::menu->GetStringOrDefault("stat.ias_frames", "IAS (Frames)") + string(": N/A"));
 	}
 }
 

@@ -1489,9 +1489,10 @@ void BuildAction(string* str,
 			);
 		}
 	}
+
 	catch (std::exception e)
 	{
-		act->name = "\255c1FILTER REGEX ERROR";
+		//act->name = "\255c1FILTER REGEX ERROR";
 	}
 
 	// new stuff:
