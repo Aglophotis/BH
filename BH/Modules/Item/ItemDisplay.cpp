@@ -1478,6 +1478,7 @@ void BuildAction(string* str,
 			R"(^(?:(?:%[^%]*%)|[^%])*%((?:\w|_|-)*?[a-z]+?(?:\w|_|-)*?)%)",
 			std::regex_constants::ECMAScript);
 		std::smatch replace_match;
+
 		while (std::regex_search(act->name, replace_match, replace_reg))
 		{
 			auto offset = replace_match[1].first - act->name.begin();
