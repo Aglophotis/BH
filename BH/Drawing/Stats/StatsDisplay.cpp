@@ -869,7 +869,10 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Green,
-			"%d-%d over %.1fs",
+			string("%d-%d ") +
+			BH::menu->GetStringOrDefault("stat.over", "over") +
+			string(" %.1f") +
+			BH::menu->GetStringOrDefault("stat.second", "s"),
 			static_cast<int>(minPoison / 256.0 * poisonLength),
 			static_cast<int>(maxPoison / 256.0 * poisonLength),
 			poisonLength / 25.0);
