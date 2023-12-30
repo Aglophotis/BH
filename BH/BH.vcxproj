@@ -90,7 +90,7 @@
       <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /S /Q /F "$(OutDir)*.*" "$(DIABLO_DEBUG_FOLDER)\"</Command>
+      <Command>xcopy /Y /S /Q /F "$(OutDir)*.*" "D:\Games\Diablo II\D2MYTH\MythCore\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>

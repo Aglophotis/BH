@@ -14,7 +14,6 @@ HINSTANCE BH::instance;
 ModuleManager* BH::moduleManager;
 Config* BH::config;
 Config* BH::lootFilter;
-Config* BH::menu;
 Drawing::UI* BH::settingsUI;
 Drawing::StatsDisplay* BH::statsDisplay;
 bool BH::initialized;
@@ -72,34 +71,28 @@ bool BH::Startup(HINSTANCE instance, VOID* reserved) {
 void BH::Initialize()
 {
 	moduleManager = new ModuleManager();
-	config = new Config("ProjectDiablo.cfg");
-
+	config = new Config("D2MYTH.cfg");
 	if (!config->Parse()) {
-		config->SetConfigName("ProjectDiablo_Default.cfg");
+		config->SetConfigName("D2MYTH_Default.cfg");
 		if (!config->Parse()) {
-			string msg = "Could not find ProjectDiablo config.\nAttempted to load " +
-				path + "ProjectDiablo.cfg (failed).\nAttempted to load " +
-				path + "ProjectDiablo_Default.cfg (failed).\n\nDefaults loaded.";
-			MessageBox(NULL, msg.c_str(), "Failed to load ProjectDiablo config", MB_OK);
+			string msg = "Could not find D2MYTH config.\nAttempted to load " +
+				path + "D2MYTH.cfg (failed).\nAttempted to load " +
+				path + "D2MYTH_Default.cfg (failed).\n\nDefaults loaded.";
+			MessageBox(NULL, msg.c_str(), "Failed to load D2MYTH config", MB_OK);
 		}
 	}
 
-	lootFilter = new Config("loot." + GetLangCode() +".filter");
+	lootFilter = new Config("loot." + GetLangCode() + ".filter");
 	if (!lootFilter->Parse()) {
 		lootFilter->SetConfigName("loot.filter");
 		if (!lootFilter->Parse()) {
 			string msg = "Could not find default loot filter.\nAttempted to load " +
 				path + "loot.LANG_CODE.filter (failed).\nAttempted to load " +
 				path + "loot.filter (failed).\n\nDefaults loaded.";
-			MessageBox(NULL, msg.c_str(), "Failed to load ProjectDiablo lootFilter", MB_OK);
+			MessageBox(NULL, msg.c_str(), "Failed to load D2MYTH lootFilter", MB_OK);
 		}
 	}
 
-	menu = new Config("menu." + GetLangCode() + ".cfg");
-	if (!menu->Parse()) {
-		menu->SetConfigName("menu.cfg");
-		menu->Parse();
-	}
 
 	// Do this asynchronously because D2GFX_GetHwnd() will be null if
 	// we inject on process start
@@ -112,7 +105,7 @@ void BH::Initialize()
 		SetWindowLong(D2GFX_GetHwnd(), GWL_WNDPROC, (LONG)GameWindowEvent);
 		});
 
-	settingsUI = new Drawing::UI(menu->GetStringOrDefault("ui.button", "Settings"), 400, 366);
+	settingsUI = new Drawing::UI(SETTINGS_TEXT, 400, 366);
 
 	Task::InitializeThreadPool(2);
 
@@ -123,7 +116,7 @@ void BH::Initialize()
 	new Item();
 	new Party();
 	new ItemMover();
-	new StashExport();
+	//new StashExport();
 	new MapNotify();
 	new ChatColor();
 
@@ -176,8 +169,8 @@ bool BH::Shutdown() {
 bool BH::ReloadConfig() {
 	if (initialized) {
 		if (D2CLIENT_GetPlayerUnit()) {
-			PrintText(0, &(menu->GetStringOrDefault("chat.config_reload", "Reloading config") + string(": %s"))[0], config->GetConfigName().c_str());
-			PrintText(0, &(menu->GetStringOrDefault("chat.filter_reload", "Reloading filter") + string(": %s"))[0], lootFilter->GetConfigName().c_str());
+			PrintText(0, "Reloading config: %s", config->GetConfigName().c_str());
+			PrintText(0, "Reloading filter: %s", lootFilter->GetConfigName().c_str());
 		}
 		config->Parse();
 		lootFilter->Parse();

@@ -19,38 +19,38 @@ using namespace Drawing;
 void StashExport::OnLoad() {
 	LoadConfig();
 
-	//settingsTab = new UITab(BH::menu->GetStringOrDefault("tab.stash", "StashExport"), BH::settingsUI);
+	settingsTab = new UITab("StashExport", BH::settingsUI);
 
 	unsigned int x = 8;
 	unsigned int y = 7;
 	int keyhook_x = 310;
 
-	/*new Checkhook(settingsTab, x, y, &Toggles["Include Equipment"].state, BH::menu->GetStringOrDefault("menu.stash.equip", "Include Equipment"));
-	new Checkhook(settingsTab, x, (y += 15), &Toggles["Include Fixed Stats"].state, BH::menu->GetStringOrDefault("menu.stash.fix_stat", "Include Fixed Stats"));
-	new Checkhook(settingsTab, x, (y += 15), &Toggles["Condense Stats"].state, BH::menu->GetStringOrDefault("menu.stash.cond_stat", "Condense Stats"));
-	new Checkhook(settingsTab, x, (y += 15), &Toggles["Export On Menu"].state, BH::menu->GetStringOrDefault("menu.stash.export", "Export On Menu"));*/
+	new Checkhook(settingsTab, x, y, &Toggles["Include Equipment"].state, "Include Equipment");
+	new Checkhook(settingsTab, x, (y += 15), &Toggles["Include Fixed Stats"].state, "Include Fixed Stats");
+	new Checkhook(settingsTab, x, (y += 15), &Toggles["Condense Stats"].state, "Condense Stats");
+	new Checkhook(settingsTab, x, (y += 15), &Toggles["Export On Menu"].state, "Export On Menu");
 
 	// the MustacheTemplates will not be reloaded
-	//options.clear();
-	//options.push_back("json");
+	options.clear();
+	options.push_back("json");
 
-	//BH::config->ReadAssoc("Mustache", mustaches);
-	//BH::config->ReadString("Mustache Default", dfltExprt);
-	//int idx = 0;
+	BH::config->ReadAssoc("Mustache", mustaches);
+	BH::config->ReadString("Mustache Default", dfltExprt);
+	int idx = 0;
 
-	//for (auto it = mustaches.cbegin(); it != mustaches.cend(); it++) {
-	//	auto t = Mustache::parse(it->second);
-	//	if (t) {
-	//		idx++;
-	//		if (dfltExprt.compare(it->first) == 0) {
-	//			exportType = idx;
-	//		}
-	//		MustacheTemplates[it->first] = std::unique_ptr<Mustache::AMustacheTemplate>(t);
-	//		options.push_back(it->first);
-	//	}
-	//}
+	for (auto it = mustaches.cbegin(); it != mustaches.cend(); it++) {
+		auto t = Mustache::parse(it->second);
+		if (t) {
+			idx++;
+			if (dfltExprt.compare(it->first) == 0) {
+				exportType = idx;
+			}
+			MustacheTemplates[it->first] = std::unique_ptr<Mustache::AMustacheTemplate>(t);
+			options.push_back(it->first);
+		}
+	}
 
-	//new Combohook(settingsTab, x, (y += 15), 150, &exportType, options);
+	new Combohook(settingsTab, x, (y += 15), 150, &exportType, options);
 }
 
 void StashExport::LoadConfig() {
@@ -103,7 +103,7 @@ JSONObject* StashExport::getStatEntry(WORD statId, WORD statId2, DWORD statVal, 
 			entry->set("value", (int)statVal);
 		}
 	}
-						   break;
+		break;
 	case STAT_AURA: {
 		SkillsTxt* pSkillsTxt = &(*p_D2COMMON_sgptDataTable)->pSkillsTxt[statId2];
 		SkillDescTxt* pSkillDescTxt = &(*p_D2COMMON_sgptDataTable)->pSkillDescTxt[pSkillsTxt->wSkillDesc];
@@ -115,7 +115,7 @@ JSONObject* StashExport::getStatEntry(WORD statId, WORD statId2, DWORD statVal, 
 			entry->set("name", name);
 		}
 	}
-				  break;
+		break;
 	case STAT_SKILLTAB:
 		for (int j = 0; j < 21; j++) {
 			if (SKILL_TABS[j].id == statId2) {
@@ -196,7 +196,7 @@ JSONObject* StashExport::getStatEntry(WORD statId, WORD statId2, DWORD statVal, 
 	return entry;
 }
 
-void StashExport::fillStats(JSONArray* statsArray, ItemsTxtStat* itemDef, UnitAny* pItem, int maxProps)
+void StashExport::fillStats(JSONArray* statsArray, ItemsTxtStat *itemDef, UnitAny* pItem, int maxProps)
 {
 	for (int prop = 0; prop < maxProps; prop++)
 	{
@@ -205,7 +205,7 @@ void StashExport::fillStats(JSONArray* statsArray, ItemsTxtStat* itemDef, UnitAn
 		ItemsTxtStat itemStats = itemDef[prop];
 		PropertiesTxt* pPropertiesTxt = &(*p_D2COMMON_sgptDataTable)->pPropertiesTxt[itemDef[prop].dwProp];
 		if (!pPropertiesTxt) { break; }
-
+		
 		for (int stat = 0; stat < 8; stat++)
 		{
 			int func = pPropertiesTxt->nFunc[stat];
@@ -239,7 +239,7 @@ void StashExport::fillStats(JSONArray* statsArray, ItemsTxtStat* itemDef, UnitAn
 			//	entry->set("name", UnicodeToAnsi(GetTblEntryByIndex(pItemStatCostTxt->wDescStrPos, TBLOFFSET_STRING)));
 			//	break;
 			//}
-
+			
 		}
 	}
 }

@@ -85,7 +85,6 @@ struct KeyCode {
 	std::string name;
 	unsigned int value;
 	std::string literalName;
-	std::string tag;
 };
 
 KeyCode GetKeyCode(unsigned int nKey);

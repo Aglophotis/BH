@@ -589,100 +589,100 @@ void Item::LoadConfig() {
 
 void Item::DrawSettings() {
 	Drawing::Texthook* colored_text;
-	settingsTab = new UITab(BH::menu->GetStringOrDefault("tab.item", "Item"), BH::settingsUI);
+	settingsTab = new UITab("Item", BH::settingsUI);
 	unsigned int x = 8;
 	unsigned int y = 7;
 
 	// Settings
-	new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.settings", "Settings"));
+	new Drawing::Texthook(settingsTab, x, (y), "Settings");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &Toggles["Always Show Items"].state, BH::menu->GetStringOrDefault("menu.item.alw_show_items", "Always Show Items"));
+	new Checkhook(settingsTab, x, y, &Toggles["Always Show Items"].state, "Always Show Items");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Always Show Items"].toggle, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &Toggles["Always Show Item Stat Ranges"].state, BH::menu->GetStringOrDefault("menu.item.alw_show_items_stat_range", "Always Show Item Stat Ranges"));
+	new Checkhook(settingsTab, x, y, &Toggles["Always Show Item Stat Ranges"].state, "Always Show Item Stat Ranges");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Always Show Item Stat Ranges"].toggle, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &Toggles["Show iLvl"].state, BH::menu->GetStringOrDefault("menu.item.alw_show_item_lvl", "Show Item Level"));
+	new Checkhook(settingsTab, x, y, &Toggles["Show iLvl"].state, "Show Item Level");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Show iLvl"].toggle, "");
 	y += 20;
 
 	// Display Style
-	new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.style", "Display Style (only without loot filter)"));
+	new Drawing::Texthook(settingsTab, x, (y), "Display Style (only without loot filter)");
 	y += 15;
 
-	Checkhook* etheral = new Checkhook(settingsTab, x, y, &Toggles["Show Ethereal"].state, BH::menu->GetStringOrDefault("menu.item.eth", "Show Ethereal"));
+	Checkhook* etheral = new Checkhook(settingsTab, x, y, &Toggles["Show Ethereal"].state, "Show Ethereal");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Show Ethereal"].toggle, "");
 	y += 15;
 
-	Checkhook* sockets = new Checkhook(settingsTab, x, y, &Toggles["Show Sockets"].state, BH::menu->GetStringOrDefault("menu.item.sockets", "Show Sockets"));
+	Checkhook* sockets = new Checkhook(settingsTab, x, y, &Toggles["Show Sockets"].state, "Show Sockets");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Show Sockets"].toggle, "");
 	y += 15;
 
-	Checkhook* runes = new Checkhook(settingsTab, x, y, &Toggles["Show Rune Numbers"].state, BH::menu->GetStringOrDefault("menu.item.rune_lvl", "Show Rune Numbers"));
+	Checkhook* runes = new Checkhook(settingsTab, x, y, &Toggles["Show Rune Numbers"].state, "Show Rune Numbers");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Show Rune Numbers"].toggle, "");
 	y += 15;
 
-	//Checkhook* alt = new Checkhook(settingsTab, x, y, &Toggles["Alt Item Style"].state, BH::menu->GetStringOrDefault("menu.item.alt_style", "Alt Style"));
-	//new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Alt Item Style"].toggle, "");
-	//y += 15;
+	Checkhook* alt = new Checkhook(settingsTab, x, y, &Toggles["Alt Item Style"].state, "Alt Style");
+	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Alt Item Style"].toggle, "");
+	y += 15;
 
-	//Checkhook* color = new Checkhook(settingsTab, x, y, &Toggles["Color Mod"].state, BH::menu->GetStringOrDefault("menu.item.color", "Color Mod"));
-	//new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Color Mod"].toggle, "");
-	//y += 15;
+	Checkhook* color = new Checkhook(settingsTab, x, y, &Toggles["Color Mod"].state, "Color Mod");
+	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Color Mod"].toggle, "");
+	y += 15;
 
-	Checkhook* shorten = new Checkhook(settingsTab, x, y, &Toggles["Shorten Item Names"].state, BH::menu->GetStringOrDefault("menu.item.short", "Shorten Names"));
+	Checkhook* shorten = new Checkhook(settingsTab, x, y, &Toggles["Shorten Item Names"].state, "Shorten Names");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Shorten Item Names"].toggle, "");
 	y += 20;
 
 	// Loot Filter
-	new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.filter", "Loot Filter"));
+	new Drawing::Texthook(settingsTab, x, (y), "Loot Filter");
 
 	y += 15;
-	new Checkhook(settingsTab, x, y, &Toggles["Advanced Item Display"].state, BH::menu->GetStringOrDefault("menu.item.filter_enable", "Enable Loot Filter"));
+	new Checkhook(settingsTab, x, y, &Toggles["Advanced Item Display"].state, "Enable Loot Filter");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Advanced Item Display"].toggle, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &Toggles["Item Drop Notifications"].state, BH::menu->GetStringOrDefault("menu.item.drop_notify", "Drop Notifications"));
+	new Checkhook(settingsTab, x, y, &Toggles["Item Drop Notifications"].state, "Drop Notifications");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Item Drop Notifications"].toggle, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &Toggles["Item Close Notifications"].state, BH::menu->GetStringOrDefault("menu.item.close_notify", "Close Notifications"));
+	new Checkhook(settingsTab, x, y, &Toggles["Item Close Notifications"].state, "Close Notifications");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Item Close Notifications"].toggle, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &Toggles["Item Detailed Notifications"].state, BH::menu->GetStringOrDefault("menu.item.detailed_notify", "Detailed Notifications"));
+	new Checkhook(settingsTab, x, y, &Toggles["Item Detailed Notifications"].state, "Detailed Notifications");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Item Detailed Notifications"].toggle, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &Toggles["Verbose Notifications"].state, BH::menu->GetStringOrDefault("menu.item.verbose_notify", "Verbose Notifications"));
+	new Checkhook(settingsTab, x, y, &Toggles["Verbose Notifications"].state, "Verbose Notifications");
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Verbose Notifications"].toggle, "");
-	y += 20;
+	y += 15;
 
-	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.filter_inc", "Increase Filter Level"));
+	colored_text = new Drawing::Texthook(settingsTab, x, (y), "Increase Filter Level");
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &filterLevelIncKey, "");
 	y += 15;
 
-	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.filter_dec", "Decrease Filter Level"));
+	colored_text = new Drawing::Texthook(settingsTab, x, (y), "Decrease Filter Level");
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &filterLevelDecKey, "");
 	y += 15;
 
-	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.filter_prev", "Restore Previous Filter Level"));
+	colored_text = new Drawing::Texthook(settingsTab, x, (y), "Restore Previous Filter Level");
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &filterLevelPrevKey, "");
 	y += 15;
 
-	colored_text = new Texthook(settingsTab, x, y + 2, BH::menu->GetStringOrDefault("menu.item.filter_lvl", "Filter Level:"));
+	colored_text = new Texthook(settingsTab, x, y + 2, "Filter Level:");
 	colored_text->SetColor(Gold);
 	// Just a default as this is called first time around, not used
 	if (ItemFilterNames.size() == 0) {
 		ItemFilterNames.clear();
-		ItemFilterNames.push_back(BH::menu->GetStringOrDefault("menu.item.filter_lvl_0", "0 - Show All Items"));
-		ItemFilterNames.push_back(BH::menu->GetStringOrDefault("menu.item.filter_lvl_1", "1 - Normal"));
+		ItemFilterNames.push_back(string("0 - Show All Items"));
+		ItemFilterNames.push_back("1 - Normal");
 	}
 
 	new Combohook(settingsTab, 120, y, 200, &filterLevelSetting, ItemFilterNames);
@@ -694,7 +694,7 @@ void Item::ReplaceItemFilters(vector<string> itemFilterNames) {
 		Hook* h = *it;
 		Combohook* dropDown = dynamic_cast<Combohook*> (h);
 		if (dropDown != NULL) {
-			if (dropDown->GetOptions()[0] == &(BH::menu->GetStringOrDefault("menu.item.filter_lvl_0", "0 - Show All Items"))[0]) {
+			if (dropDown->GetOptions()[0] == "0 - Show All Items") {
 				dropDown->ClearOptions();
 
 				for each (string option in ItemFilterNames)
@@ -720,14 +720,9 @@ void Item::ChangeFilterLevels(int newLevel) {
 	filterLevelSetting = newLevel;
 	
 	if (filterLevelSetting == 0)
-		PrintText(TextColor::Gold, 
-			&(BH::menu->GetStringOrDefault("menu.item.filter_lvl", "Filter Level:") +
-			string("ÿc5") +
-			BH::menu->GetStringOrDefault("menu.item.filter_lvl_0", "0 - Show All Items"))[0]);
+		PrintText(TextColor::Gold, "Filter level: ÿc50 - Show All Items");
 	else
-		PrintText(TextColor::Gold, 
-			&(BH::menu->GetStringOrDefault("menu.item.filter_lvl", "Filter Level:") + string("ÿc0%s"))[0],
-			ItemFilterNames[filterLevelSetting].c_str());
+		PrintText(TextColor::Gold, "Filter level: ÿc0%s", ItemFilterNames[filterLevelSetting].c_str());
 
 	ResetCaches();
 }
@@ -964,9 +959,9 @@ void Item::ProcessItemPacketFilterRules(UnitItemInfo* uInfo, px9c* pPacket)
 				pPacket->nAction == ITEM_ACTION_NEW_GROUND &&
 				color != DEAD_COLOR
 				) {
-				PrintText(color, &(string("%s%s ") + BH::menu->GetStringOrDefault("chat.dropped", "Dropped"))[0],
+				PrintText(color, "%s%s Dropped",
 					uInfo->attrs->name.c_str(),
-					(*BH::MiscToggles2)["Verbose Notifications"].state ? string(" \255c5") + BH::menu->GetStringOrDefault("chat.drop", "drop") : ""
+					(*BH::MiscToggles2)["Verbose Notifications"].state ? " \255c5drop" : ""
 				);
 			}
 			if ((*BH::MiscToggles2)["Item Close Notifications"].state &&
@@ -975,7 +970,7 @@ void Item::ProcessItemPacketFilterRules(UnitItemInfo* uInfo, px9c* pPacket)
 				) {
 				PrintText(color, "%s%s",
 					uInfo->attrs->name.c_str(),
-					(*BH::MiscToggles2)["Verbose Notifications"].state ? string(" \255c5") + BH::menu->GetStringOrDefault("chat.close", "close") : ""
+					(*BH::MiscToggles2)["Verbose Notifications"].state ? " \255c5close" : ""
 				);
 			}
 		}
@@ -1000,84 +995,84 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 		// We will also strip ilvls from these items
 		if (code[0] == 't' && code[1] == 's' && code[2] == 'c')  // town portal scroll
 		{
-			itemName = string("ÿc2**ÿc0") + BH::menu->GetStringOrDefault("short.tp", "TP");
+			itemName = "ÿc2**ÿc0TP";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'i' && code[1] == 's' && code[2] == 'c')  // identify scroll
 		{
-			itemName = string("ÿc2**ÿc0") + BH::menu->GetStringOrDefault("short.id", "ID");
+			itemName = "ÿc2**ÿc0ID";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'v' && code[1] == 'p' && code[2] == 's')  // stamina potion
 		{
-			itemName = BH::menu->GetStringOrDefault("short.stam", "Stam");
+			itemName = "Stam";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'y' && code[1] == 'p' && code[2] == 's')  // antidote potion
 		{
-			itemName = BH::menu->GetStringOrDefault("short.anti", "Anti");
+			itemName = "Anti";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'w' && code[1] == 'm' && code[2] == 's')  // thawing potion
 		{
-			itemName = BH::menu->GetStringOrDefault("short.thaw", "Thaw");
+			itemName = "Thaw";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'g' && code[1] == 'p' && code[2] == 's')  // rancid gas potion
 		{
-			itemName = BH::menu->GetStringOrDefault("short.ranc", "Ranc");
+			itemName = "Ranc";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'o' && code[1] == 'p' && code[2] == 's')  // oil potion
 		{
-			itemName = BH::menu->GetStringOrDefault("short.oil", "Oil");
+			itemName = "Oil";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'g' && code[1] == 'p' && code[2] == 'm')  // choking gas potion
 		{
-			itemName = BH::menu->GetStringOrDefault("short.chok", "Chok");
+			itemName = "Chok";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'o' && code[1] == 'p' && code[2] == 'm')  // exploding potion
 		{
-			itemName = BH::menu->GetStringOrDefault("short.expl", "Expl");
+			itemName = "Expl";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'g' && code[1] == 'p' && code[2] == 'l')  // strangling gas potion
 		{
-			itemName = BH::menu->GetStringOrDefault("short.stra", "Stra");
+			itemName = "Stra";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'o' && code[1] == 'p' && code[2] == 'l')  // fulminating potion
 		{
-			itemName = BH::menu->GetStringOrDefault("short.fulm", "Fulm");
+			itemName = "Fulm";
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'h' && code[1] == 'p')  // healing potions
 		{
 			if (code[2] == '1')
 			{
-				itemName = string("ÿc1**ÿc0") + BH::menu->GetStringOrDefault("short.min_h", "Min heal");
+				itemName = "ÿc1**ÿc0Min Heal";
 				displayItemLevel = false;
 			}
 			else if (code[2] == '2')
 			{
-				itemName = string("ÿc1**ÿc0") + BH::menu->GetStringOrDefault("short.lt_h", "Lt heal");
+				itemName = "ÿc1**ÿc0Lt Heal";
 				displayItemLevel = false;
 			}
 			else if (code[2] == '3')
 			{
-				itemName = string("ÿc1**ÿc0") + BH::menu->GetStringOrDefault("short.h", "Heal");
+				itemName = "ÿc1**ÿc0Heal";
 				displayItemLevel = false;
 			}
 			else if (code[2] == '4')
 			{
-				itemName = string("ÿc1**ÿc0") + BH::menu->GetStringOrDefault("short.gt_h", "Gt heal");
+				itemName = "ÿc1**ÿc0Gt Heal";
 				displayItemLevel = false;
 			}
 			else if (code[2] == '5')
 			{
-				itemName = string("ÿc1**ÿc0") + BH::menu->GetStringOrDefault("short.sup_h", "Sup heal");
+				itemName = "ÿc1**ÿc0Sup Heal";
 				displayItemLevel = false;
 			}
 		}
@@ -1085,27 +1080,27 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 		{
 			if (code[2] == '1')
 			{
-				itemName = string("ÿc3**ÿc0") + BH::menu->GetStringOrDefault("short.min_m", "Min mana");
+				itemName = "ÿc3**ÿc0Min Mana";
 				displayItemLevel = false;
 			}
 			else if (code[2] == '2')
 			{
-				itemName = string("ÿc3**ÿc0") + BH::menu->GetStringOrDefault("short.lt_m", "Lt mana");
+				itemName = "ÿc3**ÿc0Lt Mana";
 				displayItemLevel = false;
 			}
 			else if (code[2] == '3')
 			{
-				itemName = string("ÿc3**ÿc0") + BH::menu->GetStringOrDefault("short.m", "Mana");
+				itemName = "ÿc3**ÿc0Mana";
 				displayItemLevel = false;
 			}
 			else if (code[2] == '4')
 			{
-				itemName = string("ÿc3**ÿc0") + BH::menu->GetStringOrDefault("short.gt_m", "Gt mana");
+				itemName = "ÿc3**ÿc0Gt Mana";
 				displayItemLevel = false;
 			}
 			else if (code[2] == '5')
 			{
-				itemName = string("ÿc3**ÿc0") + BH::menu->GetStringOrDefault("short.sup_m", "Sup mana");
+				itemName = "ÿc3**ÿc0Sup Mana";
 				displayItemLevel = false;
 			}
 		}
@@ -1113,12 +1108,12 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 		{
 			if (code[2] == 's')
 			{
-				itemName = string("ÿc;**ÿc0") + BH::menu->GetStringOrDefault("short.r", "Rejuv");
+				itemName = "ÿc;**ÿc0Rejuv";
 				displayItemLevel = false;
 			}
 			else if (code[2] == 'l')
 			{
-				itemName = string("ÿc;**ÿc0") + BH::menu->GetStringOrDefault("short.full_r", "Full");
+				itemName = "ÿc;**ÿc0Full";
 				displayItemLevel = false;
 			}
 		}
@@ -1145,19 +1140,19 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 		/*Essences*/
 		if (code[0] == 't' && code[1] == 'e' && code[2] == 's')
 		{
-			itemName = itemName + " " + BH::menu->GetStringOrDefault("color.and", "(Andariel/Duriel)");
+			itemName = itemName + " (Andariel/Duriel)";
 		}
 		if (code[0] == 'c' && code[1] == 'e' && code[2] == 'h')
 		{
-			itemName = itemName + " " + BH::menu->GetStringOrDefault("color.meph", "(Mephtisto)");
+			itemName = itemName + " (Mephtisto)";
 		}
 		if (code[0] == 'b' && code[1] == 'e' && code[2] == 't')
 		{
-			itemName = itemName + " " + BH::menu->GetStringOrDefault("color.diablo", "(Diablo)");
+			itemName = itemName + " (Diablo)";
 		}
 		if (code[0] == 'f' && code[1] == 'e' && code[2] == 'd')
 		{
-			itemName = itemName + " " + BH::menu->GetStringOrDefault("color.baal", "(Baal)");
+			itemName = itemName + " (Baal)";
 		}
 	}
 
@@ -1180,7 +1175,7 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 
 			if (Toggles["Show Ethereal"].state && item->pItemData->dwFlags & ITEM_ETHEREAL)
 			{
-				itemName = BH::menu->GetStringOrDefault("alt.eth", "Eth") + " " + itemName;
+				itemName = "Eth " + itemName;
 			}
 
 			/*show iLvl unless it is equal to 1*/
@@ -1198,7 +1193,7 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 				itemName += "(" + to_string(sockets) + ")";
 		}
 		if (Toggles["Show Ethereal"].state && item->pItemData->dwFlags & ITEM_ETHEREAL)
-			itemName += "(" + BH::menu->GetStringOrDefault("alt.eth", "Eth") + ")";
+			itemName += "(Eth)";
 
 		if (displayItemLevel)
 			itemName += "(L" + to_string(item->pItemData->dwItemLevel) + ")";
@@ -1326,7 +1321,7 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 			int aLen = wcslen(wTxt);
 			swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,
 				L"%s%s\n",
-				(chars_written > 0) ? wDesc : AnsiToUnicode(("\255c1" + BH::menu->GetStringOrDefault("item.desc", "Item Description is too long.")).c_str()),
+				(chars_written > 0) ? wDesc : L"\255c1Item Description is too long.",
 				GetColorCode(TextColor::White).c_str()
 			);
 		}
@@ -1384,10 +1379,9 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 	if (Toggles["Show iLvl"].state)
 	{
 		if (ilvl != alvl && (quality == ITEM_QUALITY_MAGIC || quality == ITEM_QUALITY_RARE || quality == ITEM_QUALITY_CRAFT)) {
-			string res = "%s" + BH::menu->GetStringOrDefault("item.afx", "Affix Level") + ": %d\n";
 			int aLen = wcslen(wTxt);
 			swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,
-				AnsiToUnicode(res.c_str()),
+				L"%sAffix Level: %d\n",
 				GetColorCode(TextColor::White).c_str(),
 				GetAffixLevel((BYTE)pItem->pItemData->dwItemLevel, (BYTE)uInfo.attrs->qualityLevel, uInfo.attrs->magicLevel));
 		}
@@ -1396,10 +1390,9 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 	// Add ilvl
 	if (Toggles["Show iLvl"].state)
 	{
-		string res = "%s" + BH::menu->GetStringOrDefault("item.lvl", "Item Level") + ": %d\n";
 		int aLen = wcslen(wTxt);
 		swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,
-			AnsiToUnicode(res.c_str()),
+			L"%sItem Level: %d\n",
 			GetColorCode(TextColor::White).c_str(),
 			pItem->pItemData->dwItemLevel);
 	}
@@ -1564,7 +1557,7 @@ void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, i
 		if (leftSpace) {
 			swprintf_s(wOut + aLen, leftSpace,
 				L"%s\*%s",
-				GetColorCode(TextColor::Red).c_str(),
+				GetColorCode(TextColor::Purple).c_str(),
 				GetColorCode(TextColor::Blue).c_str());
 		}
 	}
@@ -2202,7 +2195,7 @@ int ItemGetCorruptor(UnitAny* pItem)
 	for (int i = 0; i < pItem->pStats->wSetStatCount; i++) {
 		Stat* pStat = &pItem->pStats->pSetStat[i];
 		if (pStat->wStatIndex == STAT_CORRUPTED) {
-			corruptor = pStat->dwStatValue - 2;
+			corruptor = pStat->dwStatValue;
 			break;
 		}
 	}
@@ -2212,7 +2205,7 @@ int ItemGetCorruptor(UnitAny* pItem)
 
 BOOL StatIsCorrupted(int nStat, int nCorruptor)
 {
-	if (nCorruptor < 0 || nCorruptor >= NUM_CORRUPTIONS)
+	if (nCorruptor < 0 || nCorruptor > NUM_CORRUPTIONS)
 		return false;
 
 	for (int j = 0; j < 6; j++) {

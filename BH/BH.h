@@ -26,7 +26,6 @@ namespace BH {
 	extern ModuleManager* moduleManager;
 	extern Config* config;
 	extern Config* lootFilter;
-	extern Config* menu;
 	extern Drawing::UI* settingsUI;
 	extern Drawing::StatsDisplay* statsDisplay;
 	extern WNDPROC OldWNDPROC;

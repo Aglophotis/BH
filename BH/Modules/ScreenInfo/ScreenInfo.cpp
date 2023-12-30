@@ -15,9 +15,9 @@ map<std::string, Toggle> ScreenInfo::Toggles;
 void ScreenInfo::OnLoad() {
 	LoadConfig();
 
-	bhText = new Texthook(OutOfGame, 795, 6, BH_VERSION);
-	bhText->SetAlignment(Right);
-	bhText->SetColor(Gold);
+	//bhText = new Texthook(OutOfGame, 795, 6, BH_VERSION " (Project Diablo version)");
+	//bhText->SetAlignment(Right);
+	//bhText->SetColor(Gold);
 
 	//d2VersionText = new Texthook(OutOfGame, 795, 18, D2Version::GetHumanReadableVersion());
 	//d2VersionText->SetAlignment(Right);
@@ -25,7 +25,7 @@ void ScreenInfo::OnLoad() {
 	//d2VersionText->SetFont(1);
 
 	if (BH::cGuardLoaded) {
-		Texthook* cGuardText = new Texthook(Perm, 790, 23, "ÿc4cGuard Loaded");
+		Texthook* cGuardText = new Texthook(Perm, 790, 23, "ï¿½c4cGuard Loaded");
 		cGuardText->SetAlignment(Right);
 	}
 	gameTimer = GetTickCount();
@@ -256,7 +256,24 @@ void ScreenInfo::OnAutomapDraw() {
 	GameStructInfo* pInfo = (*p_D2CLIENT_GameInfo);
 	BnetData* pData = (*p_D2LAUNCH_BnData);
 	UnitAny* pUnit = D2CLIENT_GetPlayerUnit();
-	char* szDiff[3] = { "Normal", "Nightmare", "Hell" };
+
+	//char* szDiff[3] = { "Normal", "Nightmare", "Hell" };
+
+	const uint32_t STRING = 0;
+	const uint32_t PATCHSTRING = 10000;
+	const uint32_t EXPANSIONSTRING = 20000;
+	wchar_t* wcDiff[3] = {
+		D2LANG_GetLocaleText(PATCHSTRING + 18),
+		D2LANG_GetLocaleText(PATCHSTRING + 17), 
+		D2LANG_GetLocaleText(PATCHSTRING + 16) 
+	};
+
+	char* szDiff[3] = { 
+		UnicodeToAnsi(wcDiff[0]), 
+		UnicodeToAnsi(wcDiff[1]), 
+		UnicodeToAnsi(wcDiff[2]) 
+	};
+
 	if (!pInfo || !pData || !pUnit)
 		return;
 	int y = 6 + (BH::cGuardLoaded ? 16 : 0);
@@ -298,28 +315,28 @@ void ScreenInfo::OnAutomapDraw() {
 		areaLevel = levelTxt->wMonLvl[D2CLIENT_GetDifficulty()];
 	}
 
-	if (pUnit->pPlayerData && pUnit->pPlayerData->nCorruptZone != 0)
-	{
-		//std::set<int> sCorruptZoneIds = ValidCorruptZones.at(pUnit->pPlayerData->nCorruptZone);
-		//if (sCorruptZoneIds.find(levelId) != sCorruptZoneIds.end())
-		//{
-		//	areaLevel = 85;
-		//	szAreaLevel = to_string(areaLevel);
-		//	szLevel = "ÿc;" + szLevel + " (" + to_string(szAreaLevel) + ")";
-		//}
-		//else
-		//{
-		//	
-		//}
-		if (areaLevel > 0) {
-			szAreaLevel = to_string(areaLevel);
-			szLevel = szLevel + " (" + to_string(szAreaLevel) + ")";
-		}
-	}
-	else if (areaLevel > 0) {
-		szAreaLevel = to_string(areaLevel);
-		szLevel = szLevel + " (" + to_string(szAreaLevel) + ")";
-	}
+	//if (pUnit->pPlayerData && pUnit->pPlayerData->nCorruptZone != 0)
+	//{
+	//	//std::set<int> sCorruptZoneIds = ValidCorruptZones.at(pUnit->pPlayerData->nCorruptZone);
+	//	//if (sCorruptZoneIds.find(levelId) != sCorruptZoneIds.end())
+	//	//{
+	//	//	areaLevel = 85;
+	//	//	szAreaLevel = to_string(areaLevel);
+	//	//	szLevel = "ï¿½c;" + szLevel + " (" + to_string(szAreaLevel) + ")";
+	//	//}
+	//	//else
+	//	//{
+	//	//	
+	//	//}
+	//	if (areaLevel > 0) {
+	//		szAreaLevel = to_string(areaLevel);
+	//		szLevel = szLevel + " (" + to_string(szAreaLevel) + ")";
+	//	}
+	//}
+	//else if (areaLevel > 0) {
+	//	szAreaLevel = to_string(areaLevel);
+	//	szLevel = szLevel + " (" + to_string(szAreaLevel) + ")";
+	//}
 
 	AutomapReplace automap[] = {
 		{"GAMENAME", pData->szGameName},

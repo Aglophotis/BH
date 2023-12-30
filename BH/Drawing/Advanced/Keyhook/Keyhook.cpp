@@ -1,7 +1,6 @@
 #include "Keyhook.h"
 #include "../../../D2Ptrs.h"
 #include "../../../Common.h"
-#include "../../../BH.h"
 
 using namespace std;
 using namespace Drawing;
@@ -52,7 +51,7 @@ void Keyhook::OnDraw() {
 			prefix = name + "\255c4 ";
 	}
 
-	string text = prefix + BH::menu->GetStringOrDefault(keyCode.tag, keyCode.literalName);;
+	string text = prefix + keyCode.literalName;
 	if (timeout) {
 		unsigned int time = (unsigned int)(3 - floor((double)(GetTickCount() - timeout) / 1000));
 		if (time <= 0)
@@ -88,7 +87,7 @@ unsigned int Keyhook::GetXSize() {
 	string prefix = "";
 	if (name.length() > 0)
 		prefix = name + ":ÿc4 ";
-	string text = prefix + BH::menu->GetStringOrDefault(keyCode.tag, keyCode.literalName);
+	string text = prefix + keyCode.literalName;
 	DWORD width, fileNo;
 	wchar_t* wString = AnsiToUnicode(text.c_str());
 	DWORD oldFont = D2WIN_SetTextSize(0);
