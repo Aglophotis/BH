@@ -15,9 +15,9 @@ map<std::string, Toggle> ScreenInfo::Toggles;
 void ScreenInfo::OnLoad() {
 	LoadConfig();
 
-	bhText = new Texthook(OutOfGame, 795, 6, BH_VERSION);
-	bhText->SetAlignment(Right);
-	bhText->SetColor(Gold);
+	// bhText = new Texthook(OutOfGame, 795, 6, BH_VERSION);
+	// bhText->SetAlignment(Right);
+	// bhText->SetColor(Gold);
 
 	//d2VersionText = new Texthook(OutOfGame, 795, 18, D2Version::GetHumanReadableVersion());
 	//d2VersionText->SetAlignment(Right);
