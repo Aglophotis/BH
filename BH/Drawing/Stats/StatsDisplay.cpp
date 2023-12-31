@@ -439,7 +439,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Tan,
-			"ÿc4Magic Resist: ÿc8%dÿc0",
+			string("ÿc4") + BH::menu->GetStringOrDefault("stat.res_magic", "Magic Resist") + string("ÿc4: ÿc8%dÿc0"),
 			magReductionPct);
 		y += 8;
 
@@ -498,7 +498,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Tan,
-			string("ÿc4") + BH::menu->GetStringOrDefault("stat.mgc_reduce", "Magic Reduction") + string(": ÿc8%dÿc0"),
+			string("ÿc4") + BH::menu->GetStringOrDefault("stat.magic_reduce", "Magic Reduction") + string(": ÿc8%dÿc0"),
 			magReduction);
 
 		Texthook::Draw(column1,
