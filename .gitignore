@@ -39,3 +39,4 @@ Release/*
 /BH.VC.db
 /.vs
 out/
+BH/Constants_-.h

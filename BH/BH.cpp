@@ -72,26 +72,26 @@ bool BH::Startup(HINSTANCE instance, VOID* reserved) {
 void BH::Initialize()
 {
 	moduleManager = new ModuleManager();
-	config = new Config("ProjectDiablo.cfg");
+	config = new Config("D2MYTH.cfg");
 
 	if (!config->Parse()) {
-		config->SetConfigName("ProjectDiablo_Default.cfg");
+		config->SetConfigName("D2MYTH_Default.cfg");
 		if (!config->Parse()) {
 			string msg = "Could not find ProjectDiablo config.\nAttempted to load " +
-				path + "ProjectDiablo.cfg (failed).\nAttempted to load " +
-				path + "ProjectDiablo_Default.cfg (failed).\n\nDefaults loaded.";
-			MessageBox(NULL, msg.c_str(), "Failed to load ProjectDiablo config", MB_OK);
+				path + "D2MYTH.cfg (failed).\nAttempted to load " +
+				path + "D2MYTH_Default.cfg (failed).\n\nDefaults loaded.";
+			MessageBox(NULL, msg.c_str(), "Failed to load D2MYTH config", MB_OK);
 		}
 	}
 
-	lootFilter = new Config("loot." + GetLangCode() +".filter");
+	lootFilter = new Config("loot." + GetLangCode() + ".filter");
 	if (!lootFilter->Parse()) {
 		lootFilter->SetConfigName("loot.filter");
 		if (!lootFilter->Parse()) {
 			string msg = "Could not find default loot filter.\nAttempted to load " +
 				path + "loot.LANG_CODE.filter (failed).\nAttempted to load " +
 				path + "loot.filter (failed).\n\nDefaults loaded.";
-			MessageBox(NULL, msg.c_str(), "Failed to load ProjectDiablo lootFilter", MB_OK);
+			MessageBox(NULL, msg.c_str(), "Failed to load D2MYTH lootFilter", MB_OK);
 		}
 	}
 
@@ -123,7 +123,7 @@ void BH::Initialize()
 	new Item();
 	new Party();
 	new ItemMover();
-	new StashExport();
+	// new StashExport();
 	new MapNotify();
 	new ChatColor();
 

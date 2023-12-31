@@ -433,15 +433,25 @@ void StatsDisplay::OnDraw()
 			(100 - penalty - pLengthReduce)
 		);
 
+		int magReductionPct = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAGICDMGREDUCTIONPCT, 0));
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
 			6,
-			Gold,
-			BH::menu->GetStringOrDefault("stat.res_curse", "Curse Resist") + string(":ÿc8 %d /ÿc0 50 ÿc4") + BH::menu->GetStringOrDefault("stat.res_length", "Length") + string(":ÿc0 %d%%"),
-			static_cast<int>(min(D2COMMON_GetUnitStat(unit, STAT_CURSE_EFFECTIVENESS, 0), 50)),
-			static_cast<int>(max(100 - D2COMMON_GetUnitStat(unit, STAT_CURSERESISTANCE, 0), 25)));
+			Tan,
+			"ÿc4Magic Resist: ÿc8%dÿc0",
+			magReductionPct);
 		y += 8;
+
+		// Texthook::Draw(column1,
+		// 	(y += 16),
+		// 	None,
+		// 	6,
+		// 	Gold,
+		// 	BH::menu->GetStringOrDefault("stat.res_curse", "Curse Resist") + string(":ÿc8 %d /ÿc0 50 ÿc4") + BH::menu->GetStringOrDefault("stat.res_length", "Length") + string(":ÿc0 %d%%"),
+		// 	static_cast<int>(min(D2COMMON_GetUnitStat(unit, STAT_CURSE_EFFECTIVENESS, 0), 50)),
+		// 	static_cast<int>(max(100 - D2COMMON_GetUnitStat(unit, STAT_CURSERESISTANCE, 0), 25)));
+		// y += 8;
 
 		int fAbsorb = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FIREABSORB, 0));
 		int fAbsorbPct = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FIREABSORBPERCENT, 0));
@@ -450,7 +460,7 @@ void StatsDisplay::OnDraw()
 		int lAbsorb = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_LIGHTNINGABSORB, 0));
 		int lAbsorbPct = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_LIGHTNINGABSORBPERCENT, 0));
 		int mAbsorb = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAGICABSORB, 0));
-		int mAbsorbPct = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAGICABSORBPERCENT, 0));
+		// int mAbsorbPct = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAGICABSORBPERCENT, 0));
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
@@ -467,13 +477,11 @@ void StatsDisplay::OnDraw()
 			lAbsorbPct,
 			'%',
 			mAbsorb,
-			mAbsorbPct,
+			// mAbsorbPct,
 			'%');
 
 		int dmgReduction = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_DMGREDUCTION, 0));
 		int dmgReductionPct = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_DMGREDUCTIONPCT, 0));
-		int magReduction = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAGICDMGREDUCTION, 0));
-		int magReductionPct = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAGICDMGREDUCTIONPCT, 0));
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
@@ -482,10 +490,17 @@ void StatsDisplay::OnDraw()
 			string("ÿc4") + BH::menu->GetStringOrDefault("stat.dmg_reduce", "Damage Reduction") + string(": ÿc7%dÿc0/ÿc7%d%c ÿc8%dÿc0/ÿc8%d%c"),
 			dmgReduction,
 			dmgReductionPct,
-			'%',
-			magReduction,
-			magReductionPct,
 			'%');
+
+		int magReduction = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAGICDMGREDUCTION, 0));
+		Texthook::Draw(column1,
+			(y += 16),
+			None,
+			6,
+			Tan,
+			string("ÿc4") + BH::menu->GetStringOrDefault("stat.mgc_reduce", "Magic Reduction") + string(": ÿc8%dÿc0"),
+			magReduction);
+
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
@@ -500,13 +515,13 @@ void StatsDisplay::OnDraw()
 		int cMastery = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_COLDMASTERY, 0));
 		int lMastery = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_LIGHTNINGMASTERY, 0));
 		int pMastery = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_POISONMASTERY, 0));
-		int mMastery = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PASSIVEMAGICDMGMASTERY, 0));
+		// int mMastery = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PASSIVEMAGICDMGMASTERY, 0));
 
 		int fPierce = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PSENEMYFIRERESREDUC, 0));
 		int cPierce = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PSENEMYCOLDRESREDUC, 0));
 		int lPierce = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PSENEMYLIGHTNRESREDUC, 0));
 		int pPierce = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PSENEMYPSNRESREDUC, 0));
-		int mPierce = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PASSIVEMAGICRESREDUC, 0));
+		// int mPierce = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PASSIVEMAGICRESREDUC, 0));
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
@@ -516,8 +531,8 @@ void StatsDisplay::OnDraw()
 			fMastery,
 			cMastery,
 			lMastery,
-			pMastery,
-			mMastery);
+			pMastery);
+			// mMastery);
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
@@ -527,8 +542,8 @@ void StatsDisplay::OnDraw()
 			fPierce,
 			cPierce,
 			lPierce,
-			pPierce,
-			mPierce);
+			pPierce);
+			// mPierce);
 		int  classNum = pData->nCharClass;
 		auto classArMod = CharList[classNum]->toHitFactor - 35;
 		int  dexAR = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_DEXTERITY, 0)) * 5 + classArMod;
@@ -1213,7 +1228,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 				return;
 			}
 
-			D2COMMON_10350_ConvertMode(pUnit, &nAnimType, &nUnitID, &nMode, (char*)"StatsDisplay.cpp", 1009);
+			D2COMMON_10350_ConvertMode(pUnit, &nAnimType, &nUnitID, &nMode, __FILE__, __LINE__);
 			if (nMode != -1) {
 				pAnimData = D2COMMON_GetAnimDataRecord(pUnit, nUnitID, nMode, nAnimType, pUnit->pInventory);
 			}

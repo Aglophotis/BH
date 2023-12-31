@@ -625,13 +625,13 @@ void Item::DrawSettings() {
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Show Rune Numbers"].toggle, "");
 	y += 15;
 
-	//Checkhook* alt = new Checkhook(settingsTab, x, y, &Toggles["Alt Item Style"].state, BH::menu->GetStringOrDefault("menu.item.alt_style", "Alt Style"));
-	//new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Alt Item Style"].toggle, "");
-	//y += 15;
+	Checkhook* alt = new Checkhook(settingsTab, x, y, &Toggles["Alt Item Style"].state, BH::menu->GetStringOrDefault("menu.item.alt_style", "Alt Style"));
+	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Alt Item Style"].toggle, "");
+	y += 15;
 
-	//Checkhook* color = new Checkhook(settingsTab, x, y, &Toggles["Color Mod"].state, BH::menu->GetStringOrDefault("menu.item.color", "Color Mod"));
-	//new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Color Mod"].toggle, "");
-	//y += 15;
+	Checkhook* color = new Checkhook(settingsTab, x, y, &Toggles["Color Mod"].state, BH::menu->GetStringOrDefault("menu.item.color", "Color Mod"));
+	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Color Mod"].toggle, "");
+	y += 15;
 
 	Checkhook* shorten = new Checkhook(settingsTab, x, y, &Toggles["Shorten Item Names"].state, BH::menu->GetStringOrDefault("menu.item.short", "Shorten Names"));
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &Toggles["Shorten Item Names"].toggle, "");
@@ -1564,7 +1564,7 @@ void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, i
 		if (leftSpace) {
 			swprintf_s(wOut + aLen, leftSpace,
 				L"%s\*%s",
-				GetColorCode(TextColor::Red).c_str(),
+				GetColorCode(TextColor::Purple).c_str(),
 				GetColorCode(TextColor::Blue).c_str());
 		}
 	}
@@ -2202,7 +2202,7 @@ int ItemGetCorruptor(UnitAny* pItem)
 	for (int i = 0; i < pItem->pStats->wSetStatCount; i++) {
 		Stat* pStat = &pItem->pStats->pSetStat[i];
 		if (pStat->wStatIndex == STAT_CORRUPTED) {
-			corruptor = pStat->dwStatValue - 2;
+			corruptor = pStat->dwStatValue;
 			break;
 		}
 	}
@@ -2212,7 +2212,7 @@ int ItemGetCorruptor(UnitAny* pItem)
 
 BOOL StatIsCorrupted(int nStat, int nCorruptor)
 {
-	if (nCorruptor < 0 || nCorruptor >= NUM_CORRUPTIONS)
+	if (nCorruptor < 0 || nCorruptor > NUM_CORRUPTIONS)
 		return false;
 
 	for (int j = 0; j < 6; j++) {
