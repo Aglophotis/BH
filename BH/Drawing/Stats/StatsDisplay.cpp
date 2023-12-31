@@ -487,7 +487,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Tan,
-			string("ÿc4") + BH::menu->GetStringOrDefault("stat.dmg_reduce", "Damage Reduction") + string(": ÿc7%dÿc0/ÿc7%d%c ÿc8%dÿc0/ÿc8%d%c"),
+			string("ÿc4") + BH::menu->GetStringOrDefault("stat.dmg_reduce", "Damage Reduction") + string(": ÿc7%dÿc0/ÿc7%d%c"),
 			dmgReduction,
 			dmgReductionPct,
 			'%');
