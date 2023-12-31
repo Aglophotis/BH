@@ -79,7 +79,7 @@ void GameSettings::LoadGeneralTab() {
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &GameSettings::Toggles["Screenshake"].toggle, "");
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &GameSettings::Toggles["Quick Cast"].state, "Quick Cast");
+	new Drawing::Checkhook(generalTab, x, y, &GameSettings::Toggles["Quick Cast"].state, BH::menu->GetStringOrDefault("menu.gen.q_cast", "Quick Cast"));
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &GameSettings::Toggles["Quick Cast"].toggle, "");
 
 	//y += 15;

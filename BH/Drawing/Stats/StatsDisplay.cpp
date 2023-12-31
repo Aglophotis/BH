@@ -762,9 +762,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			BH::menu->GetStringOrDefault("stat.wounds", "Open Wounds") + string(": ÿc0%d%%/+%d"),
-			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_OPENWOUNDS, 0)),
-			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_DEEP_WOUNDS, 0)));
+			BH::menu->GetStringOrDefault("stat.wounds", "Open Wounds") + string(": ÿc0%d%%"),
+			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_OPENWOUNDS, 0)));
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
