@@ -51,11 +51,6 @@ void GameSettings::LoadGeneralTab() {
 	new Drawing::Texthook(generalTab, x, (y), BH::menu->GetStringOrDefault("menu.gen.general", "General"));
 
 	y += 15;
-	colored_text = new Drawing::Texthook(generalTab, x, (y), BH::menu->GetStringOrDefault("menu.gen.gear", "Show Player's Gear"));
-	colored_text->SetColor(Gold);
-	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &showPlayer, "");
-
-	y += 15;
 	colored_text = new Drawing::Texthook(generalTab, x, (y), BH::menu->GetStringOrDefault("menu.gen.resync", "Resync"));
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &resyncKey, "");
@@ -71,42 +66,12 @@ void GameSettings::LoadGeneralTab() {
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &reloadConfig, "");
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &ScreenInfo::Toggles["Experience Meter"].state, BH::menu->GetStringOrDefault("menu.gen.exp", "Experience Meter"));
-	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &ScreenInfo::Toggles["Experience Meter"].toggle, "");
-
-	y += 15;
 	new Drawing::Checkhook(generalTab, x, y, &GameSettings::Toggles["Screenshake"].state, BH::menu->GetStringOrDefault("menu.gen.shake", "Enable Screenshake"));
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &GameSettings::Toggles["Screenshake"].toggle, "");
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &GameSettings::Toggles["DPS"].state, BH::menu->GetStringOrDefault("menu.gen.dps", "Enable DPS Counter"));
-	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &GameSettings::Toggles["DPS"].toggle, "");
-
-	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &GameSettings::Toggles["Belt Status"].state, BH::menu->GetStringOrDefault("menu.gen.belt", "Enable Belt Status"));
-	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &GameSettings::Toggles["Belt Status"].toggle, "");
-
-
-	// Quick Cast
-	y += 20;
-	new Drawing::Texthook(generalTab, x, (y), BH::menu->GetStringOrDefault("menu.gen.qcast", "Quick Cast"));
-
-	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &GameSettings::Toggles["Quick Cast"].state, BH::menu->GetStringOrDefault("menu.gen.qcast", "Quick Cast"));
-	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &GameSettings::Toggles["Quick Cast"].toggle, "");
-
-	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &GameSettings::Toggles["Skill Bar"].state, BH::menu->GetStringOrDefault("menu.gen.skill", "Skill Bar"));
-	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &GameSettings::Toggles["Skill Bar"].toggle, "");
-
-	y += 15;
-	new Drawing::Checkhook(generalTab, x + x_tab, y, &GameSettings::Toggles["Skill Bar Disable"].state, BH::menu->GetStringOrDefault("menu.gen.skill_dis", "Only enable with Quick Cast"));
-	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &GameSettings::Toggles["Skill Bar Disable"].toggle, "");
-
-	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &GameSettings::Toggles["Buff Timers"].state, BH::menu->GetStringOrDefault("menu.gen.buff", "Always show Buff Timers"));
-	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &GameSettings::Toggles["Buff Timers"].toggle, "");
-
+	new Drawing::Checkhook(generalTab, x, y, &ScreenInfo::Toggles["Experience Meter"].state, BH::menu->GetStringOrDefault("menu.gen.exp", "Experience Meter"));
+	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &ScreenInfo::Toggles["Experience Meter"].toggle, "");
 }
 
 void GameSettings::LoadInteractionTab() {
@@ -154,33 +119,33 @@ void GameSettings::LoadInteractionTab() {
 		BH::menu->GetStringOrDefault("menu.inter.move_to_cube", "Move to closed cube"));
 	colored_text->SetColor(Gold);
 
-	y += 15;
-	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		BH::menu->GetStringOrDefault("menu.inter.stack_key", "Ctrl+Shift+Left Click"));
-	colored_text->SetColor(Gold);
-	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		BH::menu->GetStringOrDefault("menu.inter.stack", "Toggle stacked/unstacked"));
-	colored_text->SetColor(Gold);
+	//y += 15;
+	//colored_text = new Drawing::Texthook(tab, x + indent, y,
+	//	BH::menu->GetStringOrDefault("menu.inter.stack_key", "Ctrl+Shift+Left Click"));
+	//colored_text->SetColor(Gold);
+	//colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
+	//	BH::menu->GetStringOrDefault("menu.inter.stack", "Toggle stacked/unstacked"));
+	//colored_text->SetColor(Gold);
 
-	y += 20;
-	colored_text = new Drawing::Texthook(tab, x, y,
-		BH::menu->GetStringOrDefault("menu.inter.hold", "Holding an item"));
+	//y += 20;
+	//colored_text = new Drawing::Texthook(tab, x, y,
+	//	BH::menu->GetStringOrDefault("menu.inter.hold", "Holding an item"));
 
-	y += 15;
-	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		BH::menu->GetStringOrDefault("menu.inter.place_one_stacked_key", "Ctrl+Left Click"));
-	colored_text->SetColor(Gold);
-	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		BH::menu->GetStringOrDefault("menu.inter.place_one_stacked", "Place 1 stacked item"));
-	colored_text->SetColor(Gold);
+	//y += 15;
+	//colored_text = new Drawing::Texthook(tab, x + indent, y,
+	//	BH::menu->GetStringOrDefault("menu.inter.place_one_stacked_key", "Ctrl+Left Click"));
+	//colored_text->SetColor(Gold);
+	//colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
+	//	BH::menu->GetStringOrDefault("menu.inter.place_one_stacked", "Place 1 stacked item"));
+	//colored_text->SetColor(Gold);
 
-	y += 15;
-	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		BH::menu->GetStringOrDefault("menu.inter.place_one_unstacked_key", "Ctrl+Shift+Left Click"));
-	colored_text->SetColor(Gold);
-	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		BH::menu->GetStringOrDefault("menu.inter.place_one_unstacked", "Place 1 unstacked item"));
-	colored_text->SetColor(Gold);
+	//y += 15;
+	//colored_text = new Drawing::Texthook(tab, x + indent, y,
+	//	BH::menu->GetStringOrDefault("menu.inter.place_one_unstacked_key", "Ctrl+Shift+Left Click"));
+	//colored_text->SetColor(Gold);
+	//colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
+	//	BH::menu->GetStringOrDefault("menu.inter.place_one_unstacked", "Place 1 unstacked item"));
+	//colored_text->SetColor(Gold);
 
 	y += 20;
 	colored_text = new Drawing::Texthook(tab, x, y,
