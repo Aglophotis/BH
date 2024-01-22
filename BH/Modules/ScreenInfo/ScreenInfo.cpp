@@ -25,7 +25,7 @@ void ScreenInfo::OnLoad() {
 	//d2VersionText->SetFont(1);
 
 	if (BH::cGuardLoaded) {
-		Texthook* cGuardText = new Texthook(Perm, 790, 23, "ÿc4cGuard Loaded");
+		Texthook* cGuardText = new Texthook(Perm, 790, 23, "ï¿½c4cGuard Loaded");
 		cGuardText->SetAlignment(Right);
 	}
 	gameTimer = GetTickCount();
@@ -305,7 +305,7 @@ void ScreenInfo::OnAutomapDraw() {
 		//{
 		//	areaLevel = 85;
 		//	szAreaLevel = to_string(areaLevel);
-		//	szLevel = "ÿc;" + szLevel + " (" + to_string(szAreaLevel) + ")";
+		//	szLevel = "ï¿½c;" + szLevel + " (" + to_string(szAreaLevel) + ")";
 		//}
 		//else
 		//{
@@ -325,7 +325,8 @@ void ScreenInfo::OnAutomapDraw() {
 		{"GAMENAME", pData->szGameName},
 		{"GAMEPASS", pData->szGamePass},
 		{"GAMEIP", pData->szGameIP},
-		{"GAMEDIFF", szDiff[D2CLIENT_GetDifficulty()]},
+		// {"GAMEDIFF", szDiff[D2CLIENT_GetDifficulty()]},
+		{"GAMEDIFF", ""},
 		{"ACCOUNTNAME", pData->szAccountName},
 		{"CHARNAME", pUnit->pPlayerData->szName},
 		{"LEVEL", szLevel},

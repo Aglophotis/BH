@@ -30,7 +30,8 @@ int CELL_SIZE = 29;
 DWORD idBookId;
 DWORD unidItemId;
 
-void ItemMover::Init() {
+void ItemMover::
+Init() {
 	InventoryLayout classicStashLayout = {};
 	InventoryLayout lodStashLayout = {};
 	InventoryLayout inventoryLayout = {};
@@ -180,7 +181,7 @@ bool ItemMover::LoadInventory(UnitAny* unit, int xpac, int source, int sourceX, 
 	if (ctrlState && shiftState && ((stashUI && cubeAnywhere) || (invUI && cubeInInventory)) && source != STORAGE_CUBE) {
 		destination = STORAGE_CUBE;
 	}
-	else if (ctrlState) {
+	else if (shiftState) {
 		destination = STORAGE_NULL;  // i.e. the ground
 	}
 	else if (source == STORAGE_STASH || source == STORAGE_CUBE) {
@@ -343,6 +344,11 @@ void ItemMover::PickUpItem() {
 	D2NET_SendPacket(5, 1, PacketData);
 }
 
+void ItemMover::Horadric() {
+	BYTE PacketData[5] = { 0x04,0,0,0,0 };
+	D2NET_SendPacket(5, 1, PacketData);
+}
+
 void ItemMover::PutItemInContainer() {
 	BYTE PacketData[17] = { 0x18,0,0,0,0 };
 	*reinterpret_cast<int*>(PacketData + 1) = ActivePacket.itemId;
@@ -362,6 +368,53 @@ void ItemMover::OnLeftClick(bool up, int x, int y, bool* block) {
 	BnetData* pData = (*p_D2LAUNCH_BnData);
 	UnitAny* unit = D2CLIENT_GetPlayerUnit();
 	bool shiftState = ((GetKeyState(VK_LSHIFT) & 0x80) || (GetKeyState(VK_RSHIFT) & 0x80));
+	bool ctrlState = ((GetKeyState(VK_LCONTROL) & 0x80) || (GetKeyState(VK_RCONTROL) & 0x80));
+
+	if (!up && pData && unit && ctrlState && !shiftState && D2CLIENT_GetCursorItem() <= 0 && !(!D2CLIENT_GetUIState(UI_INVENTORY) && !D2CLIENT_GetUIState(UI_STASH) && !D2CLIENT_GetUIState(UI_CUBE) && !D2CLIENT_GetUIState(UI_NPCSHOP)))
+	{
+		Init();
+
+		int xpac = pData->nCharFlags & PLAYER_TYPE_EXPANSION;
+
+		int inventoryRight = INVENTORY_LEFT + (CELL_SIZE * INVENTORY_WIDTH);
+		int inventoryBottom = INVENTORY_TOP + (CELL_SIZE * INVENTORY_HEIGHT);
+		int stashRight = STASH_LEFT + (CELL_SIZE * STASH_WIDTH);
+		int stashTop = xpac ? LOD_STASH_TOP : CLASSIC_STASH_TOP;
+		int stashHeight = xpac ? LOD_STASH_HEIGHT : CLASSIC_STASH_HEIGHT;
+		int stashBottom = stashTop + (CELL_SIZE * stashHeight);
+		int cubeRight = CUBE_LEFT + (CELL_SIZE * CUBE_WIDTH);
+		int cubeBottom = CUBE_TOP + (CELL_SIZE * CUBE_HEIGHT);
+
+		int source, sourceX, sourceY;
+		int invUI = D2CLIENT_GetUIState(UI_INVENTORY);
+		int stashUI = D2CLIENT_GetUIState(UI_STASH);
+		int cubeUI = D2CLIENT_GetUIState(UI_CUBE);
+		if ((invUI || stashUI || cubeUI) && x >= INVENTORY_LEFT && x <= inventoryRight && y >= INVENTORY_TOP && y <= inventoryBottom) {
+			source = STORAGE_INVENTORY;
+			sourceX = (x - INVENTORY_LEFT) / CELL_SIZE;
+			sourceY = (y - INVENTORY_TOP) / CELL_SIZE;
+		}
+		else if (stashUI && x >= STASH_LEFT && x <= stashRight && y >= stashTop && y <= stashBottom) {
+			source = STORAGE_STASH;
+			sourceX = (x - STASH_LEFT) / CELL_SIZE;
+			sourceY = (y - stashTop) / CELL_SIZE;
+		}
+		else if (cubeUI && x >= CUBE_LEFT && x <= cubeRight && y >= CUBE_TOP && y <= cubeBottom) {
+			source = STORAGE_CUBE;
+			sourceX = (x - CUBE_LEFT) / CELL_SIZE;
+			sourceY = (y - CUBE_TOP) / CELL_SIZE;
+		}
+		else {
+			return;
+		}
+
+		bool moveItem = LoadInventory(unit, xpac, source, sourceX, sourceY, shiftState, ctrlState, stashUI, invUI);
+		if (moveItem) {
+			PickUpItem();
+		}
+		*block = true;
+		return;
+	}
 
 	if (up || !pData || !unit || !shiftState || D2CLIENT_GetCursorItem() > 0 || (!D2CLIENT_GetUIState(UI_INVENTORY) && !D2CLIENT_GetUIState(UI_STASH) && !D2CLIENT_GetUIState(UI_CUBE) && !D2CLIENT_GetUIState(UI_NPCSHOP))) {
 		return;
@@ -435,7 +488,7 @@ void ItemMover::OnRightClick(bool up, int x, int y, bool* block) {
 	UnitAny* unit = D2CLIENT_GetPlayerUnit();
 	bool shiftState = ((GetKeyState(VK_LSHIFT) & 0x80) || (GetKeyState(VK_RSHIFT) & 0x80));
 	bool ctrlState = ((GetKeyState(VK_LCONTROL) & 0x80) || (GetKeyState(VK_RCONTROL) & 0x80));
-	if (up || !pData || !unit || !(shiftState || ctrlState)) {
+	if (up || !pData || !unit || !((shiftState && ctrlState) || shiftState)) {
 		return;
 	}
 
@@ -625,6 +678,7 @@ void ItemMover::OnGamePacketRecv(BYTE* packet, bool* block) {
 				}
 				else if (ActivePacket.destination == STORAGE_NULL) {
 					PutItemOnGround();
+					// Horadric();
 				}
 				else {
 					PutItemInContainer();

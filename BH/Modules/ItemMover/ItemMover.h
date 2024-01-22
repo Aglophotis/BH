@@ -80,6 +80,7 @@ public:
 	bool FindDestination(UnitAny* unit, UnitAny* pItem, int xpac, int destination, unsigned int itemId, BYTE xSize, BYTE ySize);
 	void StackItem();
 	void PickUpItem();
+	void Horadric();
 	void PutItemInContainer();
 	void PutItemOnGround();
 
