@@ -74,8 +74,10 @@ std::map<WORD, WORD> parentMap2;
 std::vector<StatProperties*> AllStatList;
 std::vector<CharStats*> CharList;
 std::map<std::string, ItemAttributes*> ItemAttributeMap;
+SelectedItem* selItem = new SelectedItem();
 
 map<std::string, Toggle> Item::Toggles;
+unsigned int Item::pingLevelSetting = 0;
 unsigned int Item::filterLevelSetting;
 unsigned int Item::prevFilterLevelSetting;
 UnitAny* Item::viewingUnit;
@@ -718,14 +720,14 @@ void Item::ChangeFilterLevels(int newLevel) {
 
 	prevFilterLevelSetting = filterLevelSetting;
 	filterLevelSetting = newLevel;
-	
+
 	if (filterLevelSetting == 0)
-		PrintText(TextColor::Gold, 
+		PrintText(TextColor::Gold,
 			&(BH::menu->GetStringOrDefault("menu.item.filter_lvl", "Filter Level:") +
 			string("ÿc5") +
 			BH::menu->GetStringOrDefault("menu.item.filter_lvl_0", "0 - Show All Items"))[0]);
 	else
-		PrintText(TextColor::Gold, 
+		PrintText(TextColor::Gold,
 			&(BH::menu->GetStringOrDefault("menu.item.filter_lvl", "Filter Level:") + string("ÿc0%s"))[0],
 			ItemFilterNames[filterLevelSetting].c_str());
 
@@ -782,9 +784,17 @@ void Item::OnLoop() {
 }
 
 void Item::OnKey(bool up, BYTE key, LPARAM lParam, bool* block) {
+	if (key == VK_OEM_6 && up)
+	{
+		selItem->incPage();
+	}
+	if (key == VK_OEM_4 && up)
+	{
+		selItem->decPage();
+	}
 	if (key == filterLevelIncKey) {
 		*block = true;
-		if (!up && D2CLIENT_GetPlayerUnit() && filterLevelSetting < ItemFilterNames.size() - 1) 
+		if (!up && D2CLIENT_GetPlayerUnit() && filterLevelSetting < ItemFilterNames.size() - 1)
 			ChangeFilterLevels(filterLevelSetting + 1);
 		return;
 	}
@@ -1286,7 +1296,14 @@ static DWORD previousFlags;
 
 void __stdcall Item::OnProperties(wchar_t* wTxt)
 {
+	wstring result = L"";
 	UnitAny* pItem = *p_D2CLIENT_SelectedInvItem;
+	if (selItem->assign(pItem))
+	{
+		result.append(wTxt);
+	}
+	result.append(selItem->getResultDesc());
+
 	UnitItemInfo uInfo;
 	if (!pItem || pItem->dwType != UNIT_ITEM || CreateUnitItemInfo(&uInfo, pItem)) {
 		return; // unknown item code
@@ -1321,7 +1338,7 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 		if (desc != "") {
 			static wchar_t wDesc[MAX_ITEM_TEXT_SIZE];
 			auto chars_written = MultiByteToWideChar(CODE_PAGE, MB_PRECOMPOSED, desc.c_str(), -1, wDesc, MAX_ITEM_TEXT_SIZE);
-		
+
 			FixColor(wDesc);
 			int aLen = wcslen(wTxt);
 			swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,
@@ -1403,6 +1420,8 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 			GetColorCode(TextColor::White).c_str(),
 			pItem->pItemData->dwItemLevel);
 	}
+
+	wcscpy_s(wTxt, 1024, result.data());
 }
 
 BOOL __stdcall Item::OnDamagePropertyBuild(UnitAny* pItem, DamageStats* pDmgStats, int nStat, wchar_t* wOut) {
@@ -1487,7 +1506,15 @@ BOOL __stdcall Item::OnDamagePropertyBuild(UnitAny* pItem, DamageStats* pDmgStat
 			szProp = D2LANG_GetLocaleText(D2STR_STRMODPOISONDAMAGERANGE);
 			swprintf_s(newDesc, 128, szProp, stat_min, stat_max, pDmgStats->nPsnLen / 25);
 		}
-		wcscat_s(wOut, 1024, newDesc);
+		if (newDesc[wcslen(newDesc) - 1] == L'\n')
+			newDesc[wcslen(newDesc) - 1] = L'\0';
+		if (newDesc[wcslen(newDesc) - 1] == L'\n')
+			newDesc[wcslen(newDesc) - 1] = L'\0';
+
+		if (!selItem->addProperty(newDesc, nStat))
+		{
+			wcscat_s(wOut, 1024, newDesc);
+		}
 		return TRUE;
 	}
 	else if (nStat == STAT_SECONDARYMAXIMUMDAMAGE) {
@@ -1538,16 +1565,21 @@ BOOL __stdcall Item::OnDamagePropertyBuild(UnitAny* pItem, DamageStats* pDmgStat
 	if (newDesc[wcslen(newDesc) - 1] == L'\n')
 		newDesc[wcslen(newDesc) - 1] = L'\0';
 
+	if (!selItem->isMultipageableQuality(pItem->pItemData->dwQuality, pItem->pItemData->dwFlags))
+	{
+		wcscat_s(wOut, 1024, newDesc);
+		wcscat_s(wOut, 1024, L"\n");
+	}
+
 	OnPropertyBuild(newDesc, nStat, pItem, 0);
 	// Beside this add-on the function is almost 1:1 copy of Blizzard's one -->
-	wcscat_s(wOut, 1024, newDesc);
-	wcscat_s(wOut, 1024, L"\n");
 
 	return TRUE;
 }
 
 void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, int nStatParam) {
 	if (!(Toggles["Always Show Item Stat Ranges"].state || GetKeyState(VK_CONTROL) & 0x8000) || pItem == nullptr || pItem->dwType != UNIT_ITEM) {
+		selItem->addProperty(wOut, nStat);
 		return;
 	}
 
@@ -2026,6 +2058,8 @@ void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, i
 	} break;
 
 	}
+
+	selItem->addProperty(wOut, nStat);
 }
 
 /*

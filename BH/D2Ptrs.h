@@ -115,7 +115,7 @@ FUNCPTR(D2CLIENT, ItemPacketBuildAction3_OldGround, void __stdcall, (px9c* pPack
 FUNCPTR(D2CLIENT, SetSelectedUnit_I, void __fastcall, (UnitAny* pUnit), 0x51860, 0x17060)
 FUNCPTR(D2CLIENT, GetItemName, BOOL __stdcall, (UnitAny* pItem, wchar_t* wBuffer, DWORD dwSize), 0x914F0, 0x958C0)
 // FUNCPTR(D2CLIENT, GetItemNameString, void __stdcall, (UnitAny *pItem, wchar_t *wItemName, int nLen), 0x914F0)
-FUNCPTR(D2CLIENT, LoadItemDesc, BOOL __stdcall, (UnitAny* pPlayer, int type), 0x97820) // 1.13d
+FUNCPTR(D2CLIENT, LoadItemDesc, BOOL __stdcall, (UnitAny* pPlayer, int type), 0x93450, 0x97820) // 1.13d
 
 FUNCPTR(D2CLIENT, GetMonsterOwner, DWORD __fastcall, (DWORD nMonsterId), 0x216A0, 0x8E3D0)
 FUNCPTR(D2CLIENT, GetUnitHPPercent, DWORD __fastcall, (DWORD dwUnitId), 0x21580, 0x8E2B0)
@@ -325,6 +325,8 @@ ASMPTR(D2CLIENT, ItemPacketBuildAction0_NewGround, 0x84BB0);
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 FUNCPTR(D2COMMON, InitLevel, void __stdcall, (Level* pLevel), 0x2E360, 0x6DDF0)
+FUNCPTR(D2COMMON, SetLevel, void __stdcall, (UnitAny* unit, int lvl), -10377, -10377)
+FUNCPTR(D2COMMON, AddSockets, void __stdcall, (UnitAny* unit, int sockets), -10992, -10992)
 FUNCPTR(D2COMMON, UnloadAct, unsigned __stdcall, (Act* pAct), -10868, -10228)
 FUNCPTR(D2COMMON, GetObjectTxt, ObjectTxt* __stdcall, (DWORD objno), 0x3E980, 0x1ADC0)
 FUNCPTR(D2COMMON, LoadAct, Act* __stdcall, (DWORD ActNumber, DWORD MapId, DWORD Unk, DWORD Unk_2, DWORD Unk_3, DWORD Unk_4, DWORD TownLevelId, DWORD Func_1, DWORD Func_2), 0x3CB30, 0x24810)
@@ -337,6 +339,8 @@ FUNCPTR(D2COMMON, GetLayer, AutomapLayer2* __fastcall, (DWORD dwLevelNo), -10749
 FUNCPTR(D2COMMON, GetLevel, Level* __fastcall, (ActMisc* pMisc, DWORD dwLevelNo), -10207, -10287)
 
 FUNCPTR(D2COMMON, GetStatList, StatList* __stdcall, (UnitAny* pUnit, DWORD dwUnk, DWORD dwMaxEntries), -10930, -10449)
+FUNCPTR(D2COMMON, GetMagicPrefix, WORD __stdcall, (UnitAny* pUnit, int nPos), -10257, -10257)
+FUNCPTR(D2COMMON, SetMagicPrefix, void __stdcall, (UnitAny* pUnit, WORD preffix, int nPos), -10312, -10312)
 FUNCPTR(D2COMMON, CopyStatList, DWORD __stdcall, (StatList* pStatList, Stat* pStatArray, DWORD dwMaxEntries), -10658, -10195)
 FUNCPTR(D2COMMON, GetBaseStatSigned, int __stdcall, (UnitAny* pUnit, int nStat, int nLayer), -10587, -10216)
 FUNCPTR(D2COMMON, GetUnitStat, DWORD __stdcall, (UnitAny* pUnit, DWORD dwStat, DWORD dwStat2), -10973, -10550)

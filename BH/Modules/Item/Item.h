@@ -51,6 +51,8 @@
 #include "../../D2Structs.h"
 #include <set>
 
+#include "SelectedItem.h"
+
 struct UnitAny;
 struct UnitItemInfo;
 
@@ -64,6 +66,7 @@ private:
 	unsigned int filterLevelIncKey;
 	unsigned int filterLevelDecKey;
 	unsigned int filterLevelPrevKey;
+	static unsigned int pingLevelSetting;
 public:
 	static UnitAny* viewingUnit;
 	vector<string> ItemFilterNames;
@@ -101,6 +104,7 @@ public:
 	static UnitAny* GetViewUnitAndDrawBox();
 
 	static unsigned int GetFilterLevel() { return filterLevelSetting; }
+	static unsigned int GetPingLevel() { return pingLevelSetting; }
 };
 
 void ItemName_Interception();
@@ -175,3 +179,4 @@ extern unsigned int AUTOMOD_OFFSET;
 extern std::vector<StatProperties*> AllStatList;
 extern std::vector<CharStats*> CharList;
 extern std::map<std::string, ItemAttributes*> ItemAttributeMap;
+extern SelectedItem* selItem;
