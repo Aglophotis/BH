@@ -1301,8 +1301,11 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 	if (selItem->assign(pItem))
 	{
 		result.append(wTxt);
+	} else
+	{
+		selItem->parseD2Desc(wTxt);
+		result.append(selItem->getResultDesc());
 	}
-	result.append(selItem->getResultDesc());
 
 	UnitItemInfo uInfo;
 	if (!pItem || pItem->dwType != UNIT_ITEM || CreateUnitItemInfo(&uInfo, pItem)) {
@@ -1421,7 +1424,10 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 			pItem->pItemData->dwItemLevel);
 	}
 
-	wcscpy_s(wTxt, 1024, result.data());
+	if (!selItem->properties.empty())
+	{
+		wcscpy_s(wTxt, 1024, result.data());
+	}
 }
 
 BOOL __stdcall Item::OnDamagePropertyBuild(UnitAny* pItem, DamageStats* pDmgStats, int nStat, wchar_t* wOut) {
