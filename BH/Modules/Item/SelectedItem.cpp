@@ -9,9 +9,11 @@
 #include "../../Constants.h"
 #include "../../D2Ptrs.h"
 
-std::map<int, std::wstring> properties;
+std::vector<std::wstring> properties;
 UnitAny* uqPtr;
 unsigned int page;
+bool inited = false;
+bool notIgnore = true;
 
 std::vector<std::wstring> split (const std::wstring &s, wchar_t delim) {
     std::vector<std::wstring> result;
@@ -50,13 +52,22 @@ bool SelectedItem::addProperty(wchar_t* source, int nStat)
     UnitAny* pItem = *p_D2CLIENT_SelectedInvItem;
 
     assign(pItem);
+    if (inited)
+    {
+        if (notIgnore)
+        {
+            source[1] = L'\0';
+        }
 
-    if (isMultipageableQuality(pItem->pItemData->dwQuality, pItem->pItemData->dwFlags))
+        return false;
+    }
+
+    if (notIgnore)
     {
         const auto property = copyProperty(source);
         if (!property.empty())
         {
-            properties[nStat] = property;
+            properties.push_back(property);
         }
         source[1] = L'\0';
 
@@ -71,6 +82,8 @@ void SelectedItem::clear()
     properties.clear();
     uqPtr = nullptr;
     page = 0;
+    notIgnore = false;
+    inited = false;
 }
 
 bool SelectedItem::assign(UnitAny* pItem)
@@ -80,6 +93,8 @@ bool SelectedItem::assign(UnitAny* pItem)
         properties.clear();
         uqPtr = pItem;
         page = 0;
+        notIgnore = isMultipageableQuality(pItem->pItemData->dwQuality, pItem->pItemData->dwFlags);
+        inited = false;
 
         return true;
     }
@@ -107,12 +122,11 @@ void SelectedItem::decPage()
 
 void SelectedItem::parseD2Desc(const wchar_t* wTxt)
 {
-    if (uqPtr != nullptr && (uqPtr->pItemData->dwQuality != ITEM_QUALITY_NORMAL || uqPtr->pItemData->dwFlags != 10485776))
+    if (notIgnore && !inited)
     {
-        int i = -1;
         for (const auto& basic_string : split(wTxt, '\n'))
         {
-            properties[--i] = basic_string;
+            properties.push_back(basic_string);
         }
     }
 }
@@ -120,20 +134,30 @@ void SelectedItem::parseD2Desc(const wchar_t* wTxt)
 std::wstring SelectedItem::getResultDesc() const
 {
     std::wstring result;
-    if (uqPtr->pItemData->dwQuality != ITEM_QUALITY_NORMAL || uqPtr->pItemData->dwFlags != 10485776)
+    if (notIgnore)
     {
         short buffer = 15;
-        int i = 0;
 
-        for (const auto& property : properties)
+        for (unsigned i = page * buffer; i < (page * buffer) + buffer && i < properties.size(); i++)
         {
-            if (i >= page * buffer && i < (page * buffer) + buffer)
-            {
-                result.append(property.second).append(L"\n");
-            }
-            ++i;
+            result.append(properties[i]).append(L"\n");
         }
     }
 
     return result;
+}
+
+bool SelectedItem::isIgnore()
+{
+    return !notIgnore;
+}
+
+bool SelectedItem::isInitialized()
+{
+    return inited;
+}
+
+void SelectedItem::initialize()
+{
+    inited = true;
 }

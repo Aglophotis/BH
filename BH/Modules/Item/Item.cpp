@@ -1298,14 +1298,15 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 {
 	wstring result = L"";
 	UnitAny* pItem = *p_D2CLIENT_SelectedInvItem;
-	if (selItem->assign(pItem))
+
+	if (!selItem->assign(pItem) && !selItem->isIgnore() && selItem->isInitialized())
 	{
-		result.append(wTxt);
-	} else
-	{
-		selItem->parseD2Desc(wTxt);
 		result.append(selItem->getResultDesc());
+		wcscpy_s(wTxt, 1024, result.data());
+
+		return;
 	}
+	selItem->parseD2Desc(wTxt);
 
 	UnitItemInfo uInfo;
 	if (!pItem || pItem->dwType != UNIT_ITEM || CreateUnitItemInfo(&uInfo, pItem)) {
@@ -1341,8 +1342,10 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 		if (desc != "") {
 			static wchar_t wDesc[MAX_ITEM_TEXT_SIZE];
 			auto chars_written = MultiByteToWideChar(CODE_PAGE, MB_PRECOMPOSED, desc.c_str(), -1, wDesc, MAX_ITEM_TEXT_SIZE);
-
 			FixColor(wDesc);
+
+			selItem->parseD2Desc(wDesc);
+
 			int aLen = wcslen(wTxt);
 			swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,
 				L"%s%s\n",
@@ -1406,10 +1409,14 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 		if (ilvl != alvl && (quality == ITEM_QUALITY_MAGIC || quality == ITEM_QUALITY_RARE || quality == ITEM_QUALITY_CRAFT)) {
 			string res = "%s" + BH::menu->GetStringOrDefault("item.afx", "Affix Level") + ": %d\n";
 			int aLen = wcslen(wTxt);
+			BYTE affixLvl = GetAffixLevel((BYTE)pItem->pItemData->dwItemLevel, (BYTE)uInfo.attrs->qualityLevel, uInfo.attrs->magicLevel);
+			string propertyRes = BH::menu->GetStringOrDefault("item.afx", "Affix Level") + ": " + std::to_string(affixLvl);
+
+			selItem->addProperty(&(wstring(propertyRes.begin(), propertyRes.end())[0]), -1);
 			swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,
 				AnsiToUnicode(res.c_str()),
 				GetColorCode(TextColor::White).c_str(),
-				GetAffixLevel((BYTE)pItem->pItemData->dwItemLevel, (BYTE)uInfo.attrs->qualityLevel, uInfo.attrs->magicLevel));
+				affixLvl);
 		}
 	}
 
@@ -1418,14 +1425,20 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 	{
 		string res = "%s" + BH::menu->GetStringOrDefault("item.lvl", "Item Level") + ": %d\n";
 		int aLen = wcslen(wTxt);
+		DWORD itemLvl = pItem->pItemData->dwItemLevel;
+		string propertyRes = BH::menu->GetStringOrDefault("item.lvl", "Item Level") + ": " + std::to_string(itemLvl);
+		selItem->addProperty(&(wstring(propertyRes.begin(), propertyRes.end())[0]), -1);
+
 		swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,
 			AnsiToUnicode(res.c_str()),
 			GetColorCode(TextColor::White).c_str(),
-			pItem->pItemData->dwItemLevel);
+			itemLvl);
 	}
 
-	if (!selItem->properties.empty())
+	selItem->initialize();
+	if (!selItem->isIgnore())
 	{
+		result.append(selItem->getResultDesc());
 		wcscpy_s(wTxt, 1024, result.data());
 	}
 }
@@ -1571,7 +1584,7 @@ BOOL __stdcall Item::OnDamagePropertyBuild(UnitAny* pItem, DamageStats* pDmgStat
 	if (newDesc[wcslen(newDesc) - 1] == L'\n')
 		newDesc[wcslen(newDesc) - 1] = L'\0';
 
-	if (!selItem->isMultipageableQuality(pItem->pItemData->dwQuality, pItem->pItemData->dwFlags))
+	if (selItem->isIgnore())
 	{
 		wcscat_s(wOut, 1024, newDesc);
 		wcscat_s(wOut, 1024, L"\n");

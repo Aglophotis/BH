@@ -7,12 +7,13 @@
 #define SELECTEDITEM_H
 #include <map>
 #include <string>
+#include <vector>
 
 #include "../../D2Structs.h"
 
 class SelectedItem {
 public:
-    std::map<int, std::wstring> properties;
+    std::vector<std::wstring> properties;
     UnitAny* uqPtr;
     unsigned int page;
     static std::wstring copyProperty(wchar_t* source);
@@ -25,6 +26,9 @@ public:
     void decPage();
     void parseD2Desc(const wchar_t* wTxt);
     std::wstring getResultDesc() const;
+    bool isIgnore();
+    bool isInitialized();
+    void initialize();
 };
 
 
