@@ -64,6 +64,8 @@ private:
 	static unsigned int filterLevelSetting;
 	static unsigned int prevFilterLevelSetting;
 	unsigned int filterLevelIncKey;
+	unsigned int itemDescNextPage;
+	unsigned int itemDescPrevPage;
 	unsigned int filterLevelDecKey;
 	unsigned int filterLevelPrevKey;
 	static unsigned int pingLevelSetting;

@@ -583,7 +583,8 @@ void Item::LoadConfig() {
 	ItemDisplay::UninitializeItemRules();
 
 	BH::config->ReadKey("Increase Filter Level", "None", filterLevelIncKey);
-	BH::config->ReadKey("Decrease Filter Level", "None", filterLevelDecKey);
+	BH::config->ReadKey("Item Properties Next Page", "None", itemDescNextPage);
+	BH::config->ReadKey("Item Properties Prev Page", "None", itemDescPrevPage);
 	BH::config->ReadKey("Restore Prev Filter Level", "None", filterLevelPrevKey);
 	BH::config->ReadInt("Filter Level", filterLevelSetting, 1);
 	BH::config->ReadInt("Previous Filter Level", prevFilterLevelSetting, 0);
@@ -666,6 +667,16 @@ void Item::DrawSettings() {
 	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.filter_inc", "Increase Filter Level"));
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &filterLevelIncKey, "");
+	y += 15;
+
+	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.next_page", "Item Properties Next Page"));
+	colored_text->SetColor(Gold);
+	new Drawing::Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &itemDescNextPage, "");
+	y += 15;
+
+	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.prev_page", "Item Properties Prev Page"));
+	colored_text->SetColor(Gold);
+	new Drawing::Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &itemDescPrevPage, "");
 	y += 15;
 
 	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::menu->GetStringOrDefault("menu.item.filter_dec", "Decrease Filter Level"));
@@ -784,11 +795,11 @@ void Item::OnLoop() {
 }
 
 void Item::OnKey(bool up, BYTE key, LPARAM lParam, bool* block) {
-	if (key == VK_OEM_6 && up)
+	if (key == itemDescNextPage && up)
 	{
 		selItem->incPage();
 	}
-	if (key == VK_OEM_4 && up)
+	if (key == itemDescPrevPage && up)
 	{
 		selItem->decPage();
 	}

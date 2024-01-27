@@ -10,10 +10,18 @@
 #include "../../D2Ptrs.h"
 
 std::vector<std::wstring> properties;
+std::vector<unsigned> pages = {0};
+
 UnitAny* uqPtr;
 unsigned int page;
+unsigned int maxPage = 0;
+short maxLines = 20;
+unsigned int maxLength = 1023;
 bool inited = false;
 bool notIgnore = true;
+
+short currentLine = 0;
+unsigned int currentLength = 0;
 
 std::vector<std::wstring> split (const std::wstring &s, wchar_t delim) {
     std::vector<std::wstring> result;
@@ -67,6 +75,17 @@ bool SelectedItem::addProperty(wchar_t* source, int nStat)
         const auto property = copyProperty(source);
         if (!property.empty())
         {
+            ++currentLine;
+            currentLength += property.length();
+
+            if (currentLength > maxLength || currentLine >= maxLines + 1)
+            {
+                ++maxPage;
+                pages.push_back(properties.size());
+                currentLength = property.length();
+                currentLine = 0;
+            }
+
             properties.push_back(property);
         }
         source[1] = L'\0';
@@ -80,8 +99,13 @@ bool SelectedItem::addProperty(wchar_t* source, int nStat)
 void SelectedItem::clear()
 {
     properties.clear();
+    pages.clear();
+    pages.push_back(0);
     uqPtr = nullptr;
     page = 0;
+    maxPage = 0;
+    currentLine = 0;
+    currentLength = 0;
     notIgnore = false;
     inited = false;
 }
@@ -90,11 +114,9 @@ bool SelectedItem::assign(UnitAny* pItem)
 {
     if (uqPtr != pItem)
     {
-        properties.clear();
+        clear();
         uqPtr = pItem;
-        page = 0;
         notIgnore = isMultipageableQuality(pItem->pItemData->dwQuality, pItem->pItemData->dwFlags);
-        inited = false;
 
         return true;
     }
@@ -109,7 +131,10 @@ unsigned int SelectedItem::getPage() const
 
 void SelectedItem::incPage()
 {
-    ++page;
+    if (page < maxPage)
+    {
+        ++page;
+    }
 }
 
 void SelectedItem::decPage()
@@ -136,11 +161,13 @@ std::wstring SelectedItem::getResultDesc() const
     std::wstring result;
     if (notIgnore)
     {
-        short buffer = 15;
-
-        for (unsigned i = page * buffer; i < (page * buffer) + buffer && i < properties.size(); i++)
+        if (page < maxPage)
         {
-            result.append(properties[i]).append(L"\n");
+            result.append(L"...\n");
+        }
+        for (unsigned i = pages[page + 1]; i > pages[page]; i--)
+        {
+            result.append(properties[i - 1]).append(L"\n");
         }
     }
 
@@ -159,5 +186,9 @@ bool SelectedItem::isInitialized()
 
 void SelectedItem::initialize()
 {
-    inited = true;
+    if (!inited)
+    {
+        inited = true;
+        pages.push_back(properties.size());
+    }
 }
