@@ -2,7 +2,6 @@ project(BH)
 
 set(SOURCE_FILES "AsyncDrawBuffer.cpp"
                  "BH.cpp"
-                 "BitReader.cpp"
                  "Common.cpp"
                  "Config.cpp"
                  "D2Handlers.cpp"
@@ -12,11 +11,8 @@ set(SOURCE_FILES "AsyncDrawBuffer.cpp"
                  "D2Version.cpp"
                  "DllMain.cpp"
                  "JSONObject.cpp"
-                 "MPQInit.cpp"
-                 "MPQReader.cpp"
                  "Mustache.cpp"
                  "Patch.cpp"
-                 "TableReader.cpp"
                  "Task.cpp")
 
 set(MODULE_SOURCES "Modules/Module.cpp"

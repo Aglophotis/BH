@@ -124,6 +124,16 @@ int StringToNumber(std::string str) {
 	return ret;
 }
 
+void FixColor(wchar_t* word) {
+	for (DWORD i = 0; i < wcslen(word); i++)
+	{
+		if ((word[i] == L'?') && word[i + 1] == L'c')
+		{
+			word[i] = L'ÿ';
+		};
+	}
+}
+
 // This function prints at most 151 characters (152 including null)
 // TODO: Fix this so this limitation
 void PrintText(DWORD Color, char* szText, ...) {
@@ -134,6 +144,8 @@ void PrintText(DWORD Color, char* szText, ...) {
 	va_end(Args);
 	wchar_t Buffer[0x130];
 	MultiByteToWideChar(CODE_PAGE, 1, szBuffer, 152, Buffer, 304);
+
+	FixColor(Buffer);
 	D2CLIENT_PrintGameString(Buffer, Color);
 }
 
