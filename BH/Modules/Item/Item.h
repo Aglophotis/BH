@@ -123,6 +123,10 @@ void __stdcall GetItemFromPacket_OldGround(px9c* packet);
 int ItemGetCorruptor(UnitAny* pItem);
 BOOL StatIsCorrupted(int nStat, int nCorruptor);
 
+wstring copyProperty(wchar_t* source);
+
+void addProperty(wchar_t* source, int nStat, UnitAny* pItem);
+
 // reset all rule lookup caches
 void ResetCaches();
 
@@ -152,6 +156,11 @@ struct ItemAttributes {
 	unsigned int miscFlags;
 	BYTE qualityLevel;
 	BYTE magicLevel;
+};
+
+struct SelectedItem {
+	std::map<int, std::wstring> properties;
+	UnitAny* uqPtr;
 };
 
 // Properties from ItemStatCost.txt

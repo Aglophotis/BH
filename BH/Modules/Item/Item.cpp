@@ -70,6 +70,7 @@ std::map<WORD, BYTE> throwableMap;
 std::map<WORD, BYTE> bodyLocMap;
 std::map<WORD, WORD> parentMap1;
 std::map<WORD, WORD> parentMap2;
+SelectedItem selItem;
 
 std::vector<StatProperties*> AllStatList;
 std::vector<CharStats*> CharList;
@@ -103,6 +104,29 @@ Patch* newGroundIntercept = new Patch(Call, D2CLIENT, { 0xAE0DA }, (int)D2CLIENT
 Patch* oldGroundIntercept = new Patch(Call, D2CLIENT, { 0xAE108 }, (int)GetItemFromPacket_OldGround, 5);
 
 using namespace Drawing;
+
+wstring copyProperty(wchar_t* source) {
+	wstring w = wstring(source);
+	wchar_t* out = new wchar_t[w.size() + 1];
+	std::copy(w.begin(), w.end(), out);
+	out[w.size()] = L'\0';
+
+
+	return wstring(out);
+}
+
+void addProperty(wchar_t* source, int nStat, UnitAny* pItem) {
+	if (selItem.uqPtr != pItem) {
+		selItem.properties.clear();
+		selItem.uqPtr = pItem;
+	}
+
+	wstring property = copyProperty(source);
+	if (!property.empty()) {
+		selItem.properties[nStat] = property;
+	}
+	source[0] = L'\0';
+}
 
 void Item::OnLoad() {
 	LoadConfig();
@@ -719,14 +743,14 @@ void Item::ChangeFilterLevels(int newLevel) {
 
 	prevFilterLevelSetting = filterLevelSetting;
 	filterLevelSetting = newLevel;
-	
+
 	if (filterLevelSetting == 0)
-		PrintText(TextColor::Gold, 
+		PrintText(TextColor::Gold,
 			&(BH::menu->GetStringOrDefault("menu.item.filter_lvl", "Filter Level:") +
-			string("ÿc5") +
-			BH::menu->GetStringOrDefault("menu.item.filter_lvl_0", "0 - Show All Items"))[0]);
+				string("ÿc5") +
+				BH::menu->GetStringOrDefault("menu.item.filter_lvl_0", "0 - Show All Items"))[0]);
 	else
-		PrintText(TextColor::Gold, 
+		PrintText(TextColor::Gold,
 			&(BH::menu->GetStringOrDefault("menu.item.filter_lvl", "Filter Level:") + string("ÿc0%s"))[0],
 			ItemFilterNames[filterLevelSetting].c_str());
 
@@ -785,7 +809,7 @@ void Item::OnLoop() {
 void Item::OnKey(bool up, BYTE key, LPARAM lParam, bool* block) {
 	if (key == filterLevelIncKey) {
 		*block = true;
-		if (!up && D2CLIENT_GetPlayerUnit() && filterLevelSetting < ItemFilterNames.size() - 1) 
+		if (!up && D2CLIENT_GetPlayerUnit() && filterLevelSetting < ItemFilterNames.size() - 1)
 			ChangeFilterLevels(filterLevelSetting + 1);
 		return;
 	}
@@ -1322,7 +1346,7 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 		if (desc != "") {
 			static wchar_t wDesc[MAX_ITEM_TEXT_SIZE];
 			auto chars_written = MultiByteToWideChar(CODE_PAGE, MB_PRECOMPOSED, desc.c_str(), -1, wDesc, MAX_ITEM_TEXT_SIZE);
-		
+
 			FixColor(wDesc);
 			int aLen = wcslen(wTxt);
 			swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,
@@ -1488,7 +1512,13 @@ BOOL __stdcall Item::OnDamagePropertyBuild(UnitAny* pItem, DamageStats* pDmgStat
 			szProp = D2LANG_GetLocaleText(D2STR_STRMODPOISONDAMAGERANGE);
 			swprintf_s(newDesc, 128, szProp, stat_min, stat_max, pDmgStats->nPsnLen / 25);
 		}
-		wcscat_s(wOut, 1024, newDesc);
+		if (newDesc[wcslen(newDesc) - 1] == L'\n')
+			newDesc[wcslen(newDesc) - 1] = L'\0';
+		if (newDesc[wcslen(newDesc) - 1] == L'\n')
+			newDesc[wcslen(newDesc) - 1] = L'\0';
+
+		//wcscat_s(wOut, 1024, newDesc);
+		addProperty(newDesc, nStat, pItem);
 		return TRUE;
 	}
 	else if (nStat == STAT_SECONDARYMAXIMUMDAMAGE) {
@@ -1541,14 +1571,16 @@ BOOL __stdcall Item::OnDamagePropertyBuild(UnitAny* pItem, DamageStats* pDmgStat
 
 	OnPropertyBuild(newDesc, nStat, pItem, 0);
 	// Beside this add-on the function is almost 1:1 copy of Blizzard's one -->
-	wcscat_s(wOut, 1024, newDesc);
-	wcscat_s(wOut, 1024, L"\n");
+	//wcscat_s(wOut, 1024, newDesc);
+	//wcscat_s(wOut, 1024, L"\n");
+	//addProperty(newDesc, nStat, pItem);
 
 	return TRUE;
 }
 
 void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, int nStatParam) {
 	if (!(Toggles["Always Show Item Stat Ranges"].state || GetKeyState(VK_CONTROL) & 0x8000) || pItem == nullptr || pItem->dwType != UNIT_ITEM) {
+		addProperty(wOut, nStat, pItem);
 		return;
 	}
 
@@ -2027,6 +2059,8 @@ void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, i
 	} break;
 
 	}
+
+	addProperty(wOut, nStat, pItem);
 }
 
 /*
