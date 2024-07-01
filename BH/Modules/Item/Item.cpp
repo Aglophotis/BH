@@ -934,6 +934,9 @@ void __fastcall Item::ItemNamePatch(wchar_t* name, UnitAny* pItem, int nameSize)
 	// The game adds the item color code _after_ this ItemNamePatch intercept, so we need to
 	// reduce the total allowed size to account for this
 	MultiByteToWideChar(CODE_PAGE, MB_PRECOMPOSED, itemName.c_str(), -1, name, nameSize - 4);
+
+	FixColor(name);
+
 	delete[] szName;
 }
 
@@ -1890,6 +1893,8 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 			{
 				static wchar_t wDesc[MAX_ITEM_TEXT_SIZE];
 				auto chars_written = MultiByteToWideChar(CODE_PAGE, MB_PRECOMPOSED, desc.c_str(), -1, wDesc, MAX_ITEM_TEXT_SIZE);
+
+				FixColor(wDesc);
 
 				int aLen = wcslen(wTxt);
 				swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,

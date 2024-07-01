@@ -149,6 +149,8 @@ void Print(char* format, ...)
 
 	wchar_t* wstr = new wchar_t[len];
 	MultiByteToWideChar(CODE_PAGE, 0, str, -1, wstr, len);
+	FixColor(wstr);
+
 	if (IsGameReady())
 		D2CLIENT_PrintGameString(wstr, 0);
 	delete[] wstr;
@@ -167,6 +169,7 @@ void PartyPrint(char* format, ...)
 
 	wchar_t* wstr = new wchar_t[len];
 	MultiByteToWideChar(CODE_PAGE, 0, str, -1, wstr, len);
+	FixColor(wstr);
 	if (IsGameReady())
 		D2CLIENT_PrintPartyString(wstr, 0);
 	delete[] wstr;

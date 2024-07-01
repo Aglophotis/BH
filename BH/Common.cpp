@@ -83,9 +83,9 @@ wchar_t* AnsiToUnicode(const char* str)
 char* UnicodeToAnsi(const wchar_t* str)
 {
 	char* buf = NULL;
-	int len = WideCharToMultiByte(CODE_PAGE, 0, str, -1, buf, 0, "?", NULL);
+	int len = WideCharToMultiByte(CODE_PAGE, 0, str, -1, buf, 0, NULL, NULL);
 	buf = new char[len];
-	WideCharToMultiByte(CODE_PAGE, 0, str, -1, buf, len, "?", NULL);
+	WideCharToMultiByte(CODE_PAGE, 0, str, -1, buf, len, NULL, NULL);
 	return buf;
 }
 

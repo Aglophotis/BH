@@ -71,6 +71,8 @@ bool IsTrue(const char* str);
 bool StringToBool(std::string str);
 int StringToNumber(std::string str);
 
+void FixColor(wchar_t* word);
+
 std::string Trim(std::string source);
 
 void PrintText(DWORD Color, char* szText, ...);
