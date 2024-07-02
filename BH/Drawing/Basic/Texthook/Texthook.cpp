@@ -215,6 +215,8 @@ bool Texthook::Draw(unsigned int x, unsigned int y, int align, unsigned int font
 	//Convert multi-byte to wide character
 	wchar_t* wString = AnsiToUnicode(buffer);
 
+	FixColor(wString);
+
 	unsigned int properX = x;
 	if (align == Center)
 		x = x - (GetTextSize(buffer, font).x / 2);
