@@ -8,6 +8,7 @@
 #include "D2Handlers.h"
 #include "Modules.h"
 #include "Task.h"
+#include "Modules/FixChat/FixChat.h"
 
 string BH::path;
 HINSTANCE BH::instance;
@@ -107,6 +108,7 @@ void BH::Initialize()
 	new StashExport();
 	new MapNotify();
 	new ChatColor();
+	new FixChat();
 
 	moduleManager->LoadModules();
 

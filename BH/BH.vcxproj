@@ -185,6 +185,7 @@
     <ClCompile Include="Modules\Gamefilter\ParsedFilterString.cpp" />
     <ClCompile Include="Modules\GameSettings\GameSettings.cpp" />
     <ClCompile Include="Modules\Item\Item.cpp" />
+    <ClCompile Include="Modules\FixChat\FixChat.cpp" />
     <ClCompile Include="Modules\Item\ItemDisplay.cpp" />
     <ClCompile Include="Modules\ItemMover\ItemMover.cpp" />
     <ClCompile Include="Modules\MapNotify\MapNotify.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="Modules\Gamefilter\ParsedFilterString.h" />
     <ClInclude Include="Modules\GameSettings\GameSettings.h" />
     <ClInclude Include="Modules\Item\Item.h" />
+    <ClInclude Include="Modules\FixChat\FixChat.h" />
     <ClInclude Include="Modules\Item\ItemDisplay.h" />
     <ClInclude Include="Modules\ItemMover\ItemMover.h" />
     <ClInclude Include="Modules\MapNotify\MapNotify.h" />

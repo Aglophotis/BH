@@ -24,6 +24,7 @@ set(MODULE_SOURCES "Modules/Module.cpp"
                    "Modules/Item/ItemDisplay.cpp"
                    "Modules/ItemMover/ItemMover.cpp"
                    "Modules/Party/Party.cpp"
+                   "Modules/FixChat/FixChat.cpp"
                    "Modules/ScreenInfo/ScreenInfo.cpp"
                    "Modules/StashExport/StashExport.cpp")
 
