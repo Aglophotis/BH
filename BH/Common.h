@@ -67,6 +67,8 @@ template< class type> std::string to_string(const type& value)
 	std::stringstream ss; ss << value; return ss.str();
 }
 
+std::wstring Trim(std::wstring source);
+
 bool IsTrue(const char* str);
 bool StringToBool(std::string str);
 int StringToNumber(std::string str);

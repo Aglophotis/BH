@@ -523,7 +523,8 @@ bool Config::Parse() {
 		return false;
 
 	//Open the configuration file
-	fstream file(BH::path + configName);
+	wfstream file(BH::path + configName);
+	file.imbue(std::locale("en_US.UTF-8"));
 	if (!file.is_open())
 		return false;
 
@@ -532,15 +533,15 @@ bool Config::Parse() {
 	orderedKeyVals.clear();
 
 	//Begin to loop the configuration file one line at a time.
-	std::string line;
+	std::wstring line;
 	int lineNo = 0;
 	while (std::getline(file, line)) {
 		lineNo++;
 		std::string comment;
 		//Remove any comments from the config
-		if (line.find("//") != string::npos) {
-			comment = line.substr(line.find("//"));
-			line = line.erase(line.find("//"));
+		if (line.find(L"//") != string::npos) {
+			//comment = line.substr(line.find(L"//"));
+			line = line.erase(line.find(L"//"));
 		}
 
 		//Insure we have something in the line now.
@@ -549,12 +550,14 @@ bool Config::Parse() {
 
 		//Grab the Key and Value
 
+
 		ConfigEntry entry;
 		entry.line = lineNo;
-		entry.key = Trim(line.substr(0, line.find_first_of(":")));
-		entry.value = Trim(line.substr(line.find_first_of(":") + 1));
+		entry.key = UnicodeToAnsi(Trim(line.substr(0, line.find_first_of(L":"))).c_str());
+		auto wcharValue = Trim(line.substr(line.find_first_of(L":") + 1)).c_str();
+		entry.value = UnicodeToAnsi(wcharValue);
 
-		entry.comment = line.substr(line.find_first_of(":") + 1, line.find(entry.value) - line.find_first_of(":") - 1);
+		entry.comment = UnicodeToAnsi(line.substr(line.find_first_of(L":") + 1, line.find(wcharValue) - line.find_first_of(L":") - 1).c_str());
 		entry.pointer = NULL;
 
 		//Store them!

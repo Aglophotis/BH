@@ -105,6 +105,15 @@ std::string Trim(std::string source) {
 	return source;
 }
 
+
+std::wstring Trim(std::wstring source) {
+	source = source.erase(0, source.find_first_not_of(L" "));
+	source = source.erase(source.find_last_not_of(L" ") + 1);
+	source = source.erase(0, source.find_first_not_of(L"\t"));
+	source = source.erase(source.find_last_not_of(L"\t") + 1);
+	return source;
+}
+
 bool IsTrue(const char* str) {
 	return (_stricmp(str, "1") == 0 || _stricmp(str, "y") == 0 || _stricmp(str, "yes") == 0 || _stricmp(str, "true") == 0);
 }
