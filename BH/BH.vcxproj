@@ -160,6 +160,7 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="D2Handlers.cpp" />
     <ClCompile Include="D2Helpers.cpp" />
+    <ClCompile Include="BHTranslation.cpp" />
     <ClCompile Include="D2Intercepts.cpp" />
     <ClCompile Include="D2Stubs.cpp" />
     <ClCompile Include="D2Version.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="CommonStructs.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="BHTranslation.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="D2DataTables.h" />
     <ClInclude Include="D2Handlers.h" />

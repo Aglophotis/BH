@@ -22,7 +22,7 @@ void GameSettings::LoadConfig() {
 void GameSettings::LoadGeneralTab() {
 	Drawing::Texthook* colored_text;
 
-	Drawing::UITab* generalTab = new Drawing::UITab("General", BH::settingsUI);
+	Drawing::UITab* generalTab = new Drawing::UITab(BH::translation->menu.general.title.defValue, BH::settingsUI);
 
 	unsigned int x_tab = 15;
 	unsigned int x = 8;

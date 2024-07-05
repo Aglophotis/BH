@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include <thread>
 #include <chrono>
+
+#include "BHTranslation.h"
 #include "Modules/ModuleManager.h"
 #include "Config.h"
 #include "Drawing.h"
@@ -31,6 +33,7 @@ namespace BH {
 	extern bool cGuardLoaded;
 	extern bool initialized;
 	extern Patch* oogDraw;
+	extern BHTranslation* translation;
 
 	extern bool Startup(HINSTANCE instance, VOID* reserved);
 	extern "C" __declspec(dllexport) void Initialize();

@@ -3,11 +3,14 @@
 #include <Shlwapi.h>
 #include <psapi.h>
 #include <io.h>
+
+#include "BHTranslation.h"
 #include "D2Ptrs.h"
 #include "D2Intercepts.h"
 #include "D2Handlers.h"
 #include "Modules.h"
 #include "Task.h"
+#include "BHTranslation.h"
 #include "Modules/FixChat/FixChat.h"
 
 string BH::path;
@@ -20,6 +23,7 @@ bool BH::initialized;
 bool BH::cGuardLoaded;
 WNDPROC BH::OldWNDPROC;
 BHApp App;
+BHTranslation* BH::translation;
 
 Patch* patches[] = {
 	new Patch(Call, D2CLIENT, { 0x44230, 0x45280 }, (int)GameLoop_Interception, 7),
@@ -70,6 +74,7 @@ void BH::Initialize()
 	moduleManager = new ModuleManager();
 	App.config = new Config(App.jsonFile);
 	App.config->LoadConfig();
+	translation = new BHTranslation();
 
 	lootFilter = new Config("loot.filter");
 	if (!lootFilter->Parse()) {
