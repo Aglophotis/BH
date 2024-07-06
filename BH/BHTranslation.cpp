@@ -1,11 +1,13 @@
 #include "BHTranslation.h"
+#include <nlohmann/json.hpp>
+#include <fstream>
 
 BHMenu menu;
 
 using json = nlohmann::ordered_json;
 
 
-std::string GetString(json config, json::json_pointer sectionKey, std::string key, SettingsString def) {
+std::string GetString(json config, json::json_pointer sectionKey, std::string key, ConfigString def) {
     std::string val = def.defValue;
     if (config.contains(sectionKey) && config[sectionKey].contains(key)) {
         try {
@@ -18,7 +20,7 @@ std::string GetString(json config, json::json_pointer sectionKey, std::string ke
     return val;
 }
 
-void SetString(json config, json::json_pointer sectionKey, std::string key, SettingsString *def) {
+void SetString(json config, json::json_pointer sectionKey, std::string key, ConfigString *def) {
     std::string val = def->defValue;
     if (config.contains(sectionKey) && config[sectionKey].contains(key)) {
         try {
@@ -80,13 +82,50 @@ BHTranslation::BHTranslation() {
         SetString(config, "/interaction"_json_pointer, "stackUnstack", &menu.interaction.stackUnstack);
         SetString(config, "/interaction"_json_pointer, "stackUnstackHotkey", &menu.interaction.stackUnstackHotkey);
 
-        SetString(config, "/interaction"_json_pointer, "title", &menu.aura.title);
-        SetString(config, "/interaction"_json_pointer, "dclone", &menu.aura.dclone);
-        SetString(config, "/interaction"_json_pointer, "developer", &menu.aura.developer);
-        SetString(config, "/interaction"_json_pointer, "developerTitle", &menu.aura.developerTitle);
-        SetString(config, "/interaction"_json_pointer, "lvl99", &menu.aura.lvl99);
-        SetString(config, "/interaction"_json_pointer, "lvl99", &menu.aura.pvp);
-        SetString(config, "/interaction"_json_pointer, "lvl99", &menu.aura.rathma);
+        SetString(config, "/aura"_json_pointer, "title", &menu.aura.title);
+        SetString(config, "/aura"_json_pointer, "dclone", &menu.aura.dclone);
+        SetString(config, "/aura"_json_pointer, "developer", &menu.aura.developer);
+        SetString(config, "/aura"_json_pointer, "developerTitle", &menu.aura.developerTitle);
+        SetString(config, "/aura"_json_pointer, "lvl99", &menu.aura.lvl99);
+        SetString(config, "/aura"_json_pointer, "lvl99", &menu.aura.pvp);
+        SetString(config, "/aura"_json_pointer, "lvl99", &menu.aura.rathma);
+
+        SetString(config, "/item"_json_pointer, "altStyle", &menu.item.altStyle);
+        SetString(config, "/item"_json_pointer, "colorMod", &menu.item.colorMod);
+        SetString(config, "/item"_json_pointer, "style", &menu.item.style);
+        SetString(config, "/item"_json_pointer, "tab", &menu.item.tab);
+        SetString(config, "/item"_json_pointer, "title", &menu.item.title);
+        SetString(config, "/item"_json_pointer, "shortenNames", &menu.item.shortenNames);
+        SetString(config, "/item"_json_pointer, "showEthereal", &menu.item.showEthereal);
+        SetString(config, "/item"_json_pointer, "showItemLvl", &menu.item.showItemLvl);
+        SetString(config, "/item"_json_pointer, "showItems", &menu.item.showItems);
+        SetString(config, "/item"_json_pointer, "showItemStatRanges", &menu.item.showItemStatRanges);
+        SetString(config, "/item"_json_pointer, "showRuneNumbers", &menu.item.showRuneNumbers);
+        SetString(config, "/item"_json_pointer, "showSockets", &menu.item.showSockets);
+
+        SetString(config, "/lootFilter"_json_pointer, "allItems", &menu.lootFilter.allItems);
+        SetString(config, "/lootFilter"_json_pointer, "closeNotifications", &menu.lootFilter.closeNotifications);
+        SetString(config, "/lootFilter"_json_pointer, "decFilterLvl", &menu.lootFilter.decFilterLvl);
+        SetString(config, "/lootFilter"_json_pointer, "detailedNotifications", &menu.lootFilter.detailedNotifications);
+        SetString(config, "/lootFilter"_json_pointer, "dropNotifications", &menu.lootFilter.dropNotifications);
+        SetString(config, "/lootFilter"_json_pointer, "enable", &menu.lootFilter.enable);
+        SetString(config, "/lootFilter"_json_pointer, "filterLvl", &menu.lootFilter.filterLvl);
+        SetString(config, "/lootFilter"_json_pointer, "incFilterLvl", &menu.lootFilter.incFilterLvl);
+        SetString(config, "/lootFilter"_json_pointer, "normal", &menu.lootFilter.normal);
+        SetString(config, "/lootFilter"_json_pointer, "restoreFilterLvl", &menu.lootFilter.restoreFilterLvl);
+        SetString(config, "/lootFilter"_json_pointer, "title", &menu.lootFilter.title);
+        SetString(config, "/lootFilter"_json_pointer, "verboseNotifications", &menu.lootFilter.verboseNotifications);
+
+        SetString(config, "/chat"_json_pointer, "changeFilterText", &menu.chat.changeFilterText);
+        SetString(config, "/chat"_json_pointer, "changeFilterToAllItemsText", &menu.chat.changeFilterToAllItemsText);
+        SetString(config, "/chat"_json_pointer, "closeNotification", &menu.chat.closeNotification);
+        SetString(config, "/chat"_json_pointer, "dropNotificationDrop", &menu.chat.dropNotificationDrop);
+        SetString(config, "/chat"_json_pointer, "dropNotificationDropped", &menu.chat.dropNotificationDropped);
+
+        SetString(config, "/property"_json_pointer, "affixLvl", &menu.property.affixLvl);
+        SetString(config, "/property"_json_pointer, "itemLvl", &menu.property.itemLvl);
+        SetString(config, "/property"_json_pointer, "to", &menu.property.to);
+        SetString(config, "/property"_json_pointer, "tooLongDescription", &menu.property.tooLongDescription);
     }
     ifile.close();
 }

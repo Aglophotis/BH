@@ -631,100 +631,100 @@ void Item::LoadConfig() {
 
 void Item::DrawSettings() {
 	Drawing::Texthook* colored_text;
-	settingsTab = new UITab("Item", BH::settingsUI);
+	settingsTab = new UITab(BH::translation->menu.item.tab.value, BH::settingsUI);
 	unsigned int x = 8;
 	unsigned int y = 7;
 
 	// Settings
-	new Drawing::Texthook(settingsTab, x, (y), "Settings");
+	new Drawing::Texthook(settingsTab, x, (y), BH::translation->menu.item.title.value);
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &App.game.alwaysShowItems.toggle.isEnabled, "Always Show Items");
+	new Checkhook(settingsTab, x, y, &App.game.alwaysShowItems.toggle.isEnabled, BH::translation->menu.item.showItems.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.game.alwaysShowItems.toggle.hotkey, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &App.lootfilter.alwaysShowStatRanges.toggle.isEnabled, "Always Show Item Stat Ranges");
+	new Checkhook(settingsTab, x, y, &App.lootfilter.alwaysShowStatRanges.toggle.isEnabled, BH::translation->menu.item.showItemStatRanges.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.lootfilter.alwaysShowStatRanges.toggle.hotkey, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &App.lootfilter.showIlvl.toggle.isEnabled, "Show Item Level");
+	new Checkhook(settingsTab, x, y, &App.lootfilter.showIlvl.toggle.isEnabled, BH::translation->menu.item.showItemLvl.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.lootfilter.showIlvl.toggle.hotkey, "");
 	y += 20;
 
 	// Display Style
-	new Drawing::Texthook(settingsTab, x, (y), "Display Style (only without loot filter)");
+	new Drawing::Texthook(settingsTab, x, (y), BH::translation->menu.item.style.value);
 	y += 15;
 
-	Checkhook* etheral = new Checkhook(settingsTab, x, y, &App.legacy.showEthereal.toggle.isEnabled, "Show Ethereal");
+	Checkhook* etheral = new Checkhook(settingsTab, x, y, &App.legacy.showEthereal.toggle.isEnabled, BH::translation->menu.item.showEthereal.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.legacy.showEthereal.toggle.hotkey, "");
 	y += 15;
 
-	Checkhook* sockets = new Checkhook(settingsTab, x, y, &App.legacy.showSockets.toggle.isEnabled, "Show Sockets");
+	Checkhook* sockets = new Checkhook(settingsTab, x, y, &App.legacy.showSockets.toggle.isEnabled, BH::translation->menu.item.showSockets.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.legacy.showSockets.toggle.hotkey, "");
 	y += 15;
 
-	Checkhook* runes = new Checkhook(settingsTab, x, y, &App.legacy.showRuneNumbers.toggle.isEnabled, "Show Rune Numbers");
+	Checkhook* runes = new Checkhook(settingsTab, x, y, &App.legacy.showRuneNumbers.toggle.isEnabled, BH::translation->menu.item.showRuneNumbers.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.legacy.showRuneNumbers.toggle.hotkey, "");
 	y += 15;
 
-	Checkhook* alt = new Checkhook(settingsTab, x, y, &App.legacy.altItemStyle.toggle.isEnabled, "Alt Style");
+	Checkhook* alt = new Checkhook(settingsTab, x, y, &App.legacy.altItemStyle.toggle.isEnabled, BH::translation->menu.item.altStyle.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.legacy.altItemStyle.toggle.hotkey, "");
 	y += 15;
 
-	Checkhook* color = new Checkhook(settingsTab, x, y, &App.legacy.colorMod.toggle.isEnabled, "Color Mod");
+	Checkhook* color = new Checkhook(settingsTab, x, y, &App.legacy.colorMod.toggle.isEnabled, BH::translation->menu.item.colorMod.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.legacy.colorMod.toggle.hotkey, "");
 	y += 15;
 
-	Checkhook* shorten = new Checkhook(settingsTab, x, y, &App.legacy.shortenItemNames.toggle.isEnabled, "Shorten Names");
+	Checkhook* shorten = new Checkhook(settingsTab, x, y, &App.legacy.shortenItemNames.toggle.isEnabled, BH::translation->menu.item.shortenNames.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.legacy.shortenItemNames.toggle.hotkey, "");
 	y += 20;
 
 	// Loot Filter
-	new Drawing::Texthook(settingsTab, x, (y), "Loot Filter");
+	new Drawing::Texthook(settingsTab, x, (y), BH::translation->menu.lootFilter.title.value);
 
 	y += 15;
-	new Checkhook(settingsTab, x, y, &App.lootfilter.advancedItemDisplay.toggle.isEnabled, "Enable Loot Filter");
+	new Checkhook(settingsTab, x, y, &App.lootfilter.advancedItemDisplay.toggle.isEnabled, BH::translation->menu.lootFilter.enable.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.lootfilter.advancedItemDisplay.toggle.hotkey, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &App.legacy.dropNotifications.toggle.isEnabled, "Drop Notifications");
+	new Checkhook(settingsTab, x, y, &App.legacy.dropNotifications.toggle.isEnabled, BH::translation->menu.lootFilter.dropNotifications.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.legacy.dropNotifications.toggle.hotkey, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &App.legacy.closeNotifications.toggle.isEnabled, "Close Notifications");
+	new Checkhook(settingsTab, x, y, &App.legacy.closeNotifications.toggle.isEnabled, BH::translation->menu.lootFilter.closeNotifications.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.legacy.closeNotifications.toggle.hotkey, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &App.lootfilter.detailedNotifications.toggle.isEnabled, "Detailed Notifications");
+	new Checkhook(settingsTab, x, y, &App.lootfilter.detailedNotifications.toggle.isEnabled, BH::translation->menu.lootFilter.detailedNotifications.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.lootfilter.detailedNotifications.toggle.hotkey, "");
 	y += 15;
 
-	new Checkhook(settingsTab, x, y, &App.legacy.verboseNotifications.toggle.isEnabled, "Verbose Notifications");
+	new Checkhook(settingsTab, x, y, &App.legacy.verboseNotifications.toggle.isEnabled, BH::translation->menu.lootFilter.verboseNotifications.value);
 	new Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.legacy.verboseNotifications.toggle.hotkey, "");
 	y += 15;
 
-	colored_text = new Drawing::Texthook(settingsTab, x, (y), "Increase Filter Level");
+	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::translation->menu.lootFilter.incFilterLvl.value);
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.lootfilter.filterLevelIncrease.hotkey, "");
 	y += 15;
 
-	colored_text = new Drawing::Texthook(settingsTab, x, (y), "Decrease Filter Level");
+	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::translation->menu.lootFilter.decFilterLvl.value);
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.lootfilter.filterLevelDecrease.hotkey, "");
 	y += 15;
 
-	colored_text = new Drawing::Texthook(settingsTab, x, (y), "Restore Previous Filter Level");
+	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::translation->menu.lootFilter.restoreFilterLvl.value);
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.lootfilter.filterLevelPrevious.hotkey, "");
 	y += 15;
 
-	colored_text = new Texthook(settingsTab, x, y + 2, "Filter Level:");
+	colored_text = new Texthook(settingsTab, x, y + 2, BH::translation->menu.lootFilter.filterLvl.value);
 	colored_text->SetColor(Gold);
 	// Just a default as this is called first time around, not used
 	if (ItemFilterNames.size() == 0) {
 		ItemFilterNames.clear();
-		ItemFilterNames.push_back(string("0 - Show All Items"));
-		ItemFilterNames.push_back("1 - Normal");
+		ItemFilterNames.push_back(string(BH::translation->menu.lootFilter.allItems.value));
+		ItemFilterNames.push_back(BH::translation->menu.lootFilter.normal.value);
 	}
 
 	new Combohook(settingsTab, 120, y, 200, &App.lootfilter.filterLevel.uValue, ItemFilterNames);
@@ -736,7 +736,7 @@ void Item::ReplaceItemFilters(vector<string> itemFilterNames) {
 		Hook* h = *it;
 		Combohook* dropDown = dynamic_cast<Combohook*> (h);
 		if (dropDown != NULL) {
-			if (dropDown->GetOptions()[0] == "0 - Show All Items") {
+			if (dropDown->GetOptions()[0] == BH::translation->menu.lootFilter.allItems.value) {
 				dropDown->ClearOptions();
 
 				for each (string option in ItemFilterNames)
@@ -762,9 +762,9 @@ void Item::ChangeFilterLevels(int newLevel) {
 	App.lootfilter.filterLevel.uValue = newLevel;
 
 	if (App.lootfilter.filterLevel.uValue == 0)
-		PrintText(TextColor::Gold, "Filter level: ÿc50 - Show All Items");
+		PrintText(TextColor::Gold, BH::translation->menu.chat.changeFilterToAllItemsText.charValue());
 	else
-		PrintText(TextColor::Gold, "Filter level: ÿc0%s", ItemFilterNames[App.lootfilter.filterLevel.uValue].c_str());
+		PrintText(TextColor::Gold, "%s%s", BH::translation->menu.chat.changeFilterText.value, ItemFilterNames[App.lootfilter.filterLevel.uValue].c_str());
 
 	ResetCaches();
 	App.config->SaveConfig();
@@ -1012,18 +1012,19 @@ void Item::ProcessItemPacketFilterRules(UnitItemInfo* uInfo, px9c* pPacket)
 				pPacket->nAction == ITEM_ACTION_NEW_GROUND &&
 				color != DEAD_COLOR
 				) {
-				PrintText(color, "%s%s Dropped",
+				PrintText(color, "%s%s %s",
 					uInfo->attrs->name.c_str(),
-					App.legacy.verboseNotifications.toggle.isEnabled ? " \377c5drop" : ""
+					App.legacy.verboseNotifications.toggle.isEnabled ? BH::translation->menu.chat.dropNotificationDrop.value.c_str() : "",
+					BH::translation->menu.chat.dropNotificationDropped.value.c_str()
 				);
 			}
 			if (App.legacy.closeNotifications.toggle.isEnabled &&
 				pPacket->nAction == ITEM_ACTION_OLD_GROUND &&
 				color != DEAD_COLOR
 				) {
-				PrintText(color, "%s%s",
+				PrintText(color, "%s %s",
 					uInfo->attrs->name.c_str(),
-					App.legacy.verboseNotifications.toggle.isEnabled ? " \377c5close" : ""
+					App.legacy.verboseNotifications.toggle.isEnabled ? BH::translation->menu.chat.closeNotification.value.c_str() : ""
 				);
 			}
 		}
@@ -1367,8 +1368,8 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 	wchar_t alvlString[24];
 	wchar_t ilvlString[24];
 	// TODO: move these into patchstring
-	swprintf_s(alvlString, 24, L"%sAffix Level: %d\n", GetColorCode(TextColor::White).c_str(), alvl);
-	swprintf_s(ilvlString, 24, L"%sItem Level: %d\n", GetColorCode(TextColor::White).c_str(), pItem->pItemData->dwItemLevel);
+	swprintf_s(alvlString, 24, L"%s%s: %d\n", GetColorCode(TextColor::White).c_str(), BH::translation->menu.property.affixLvl.wStringValue().c_str(), alvl);
+	swprintf_s(ilvlString, 24, L"%s%s: %d\n", GetColorCode(TextColor::White).c_str(), BH::translation->menu.property.itemLvl.wStringValue().c_str(), pItem->pItemData->dwItemLevel);
 	int alvlLen = wcslen(alvlString);
 	int ilvlLen = wcslen(ilvlString);
 
@@ -1899,7 +1900,7 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 				int aLen = wcslen(wTxt);
 				swprintf_s(wTxt + aLen, ITEM_TEXT_SIZE_LIMIT - aLen,
 					L"%s%s\n",
-					(chars_written > 0) ? wDesc : L"\377c1Item Description is too long.",
+					(chars_written > 0) ? wDesc : BH::translation->menu.property.tooLongDescription.wStringValue().c_str(),
 					GetColorCode(TextColor::White).c_str()
 				);
 			}
@@ -2215,10 +2216,11 @@ void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, i
 							if (statMin < statMax && maxStatMin < maxStatMax)
 							{
 								swprintf_s(wOut + aLen, leftSpace,
-									L" %s[%d - %d to %d - %d]%s",
+									L" %s[%d - %d %s %d - %d]%s",
 									GetColorCode(TextColor::DarkGreen).c_str(),
 									statMin,
 									statMax,
+									BH::translation->menu.property.to.wStringValue().c_str(),
 									maxStatMin,
 									maxStatMax,
 									GetColorCode(statColor).c_str());
@@ -2226,9 +2228,10 @@ void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, i
 							else if (maxStatMin < maxStatMax)
 							{
 								swprintf_s(wOut + aLen, leftSpace,
-									L" %s[%d to %d - %d]%s",
+									L" %s[%d %s %d - %d]%s",
 									GetColorCode(TextColor::DarkGreen).c_str(),
 									statMin,
+									BH::translation->menu.property.to.wStringValue().c_str(),
 									maxStatMin,
 									maxStatMax,
 									GetColorCode(statColor).c_str());
@@ -2303,10 +2306,11 @@ void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, i
 								if (statMin < statMax && maxStatMin < maxStatMax)
 								{
 									swprintf_s(wOut + aLen, leftSpace,
-										L" %s[%d - %d to %d - %d]%s",
+										L" %s[%d - %d %s %d - %d]%s",
 										GetColorCode(TextColor::DarkGreen).c_str(),
 										statMin,
 										statMax,
+										BH::translation->menu.property.to.wStringValue().c_str(),
 										maxStatMin,
 										maxStatMax,
 										GetColorCode(statColor).c_str());
@@ -2314,9 +2318,10 @@ void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, i
 								else if (maxStatMin < maxStatMax)
 								{
 									swprintf_s(wOut + aLen, leftSpace,
-										L" %s[%d to %d - %d]%s",
+										L" %s[%d %s %d - %d]%s",
 										GetColorCode(TextColor::DarkGreen).c_str(),
 										statMin,
+										BH::translation->menu.property.to.wStringValue().c_str(),
 										maxStatMin,
 										maxStatMax,
 										GetColorCode(statColor).c_str());
@@ -2559,10 +2564,11 @@ void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, i
 							if (min < max && maxStatMin < maxStatMax)
 							{
 								swprintf_s(wOut + aLen, leftSpace,
-									L" %s[%d - %d to %d - %d]%s",
+									L" %s[%d - %d %s %d - %d]%s",
 									GetColorCode(TextColor::DarkGreen).c_str(),
 									min,
 									max,
+									BH::translation->menu.property.to.wStringValue().c_str(),
 									maxStatMin,
 									maxStatMax,
 									GetColorCode(statColor).c_str());
@@ -2570,9 +2576,10 @@ void __stdcall Item::OnPropertyBuild(wchar_t* wOut, int nStat, UnitAny* pItem, i
 							else if (maxStatMin < maxStatMax)
 							{
 								swprintf_s(wOut + aLen, leftSpace,
-									L" %s[%d to %d - %d]%s",
+									L" %s[%d %s %d - %d]%s",
 									GetColorCode(TextColor::DarkGreen).c_str(),
 									min,
+									BH::translation->menu.property.to.wStringValue().c_str(),
 									maxStatMin,
 									maxStatMax,
 									GetColorCode(statColor).c_str());
