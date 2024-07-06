@@ -592,7 +592,7 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Run/Walk:ÿc0 %d",
+			"Run/Walk:ÿc0 %d",
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FASTERRUNWALK, 0))
 		);
 		Texthook::Draw(column1,
@@ -644,7 +644,7 @@ void StatsDisplay::OnDraw()
 				None,
 				6,
 				Gold,
-				"Breakpoints (ÿc0%sÿc4):",
+				 "Breakpoints (ÿc0%sÿc4):",
 				szSkillText);
 		}
 

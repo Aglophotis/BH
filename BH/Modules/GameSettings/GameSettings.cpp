@@ -22,125 +22,123 @@ void GameSettings::LoadConfig() {
 void GameSettings::LoadGeneralTab() {
 	Drawing::Texthook* colored_text;
 
-	Drawing::UITab* generalTab = new Drawing::UITab(BH::translation->menu.general.title.defValue, BH::settingsUI);
+	Drawing::UITab* generalTab = new Drawing::UITab(BH::translation->menu.general.tab.value, BH::settingsUI);
 
 	unsigned int x_tab = 15;
 	unsigned int x = 8;
 	unsigned int y = 7;
 
 	// General
-	new Drawing::Texthook(generalTab, x, (y), "General");
+	new Drawing::Texthook(generalTab, x, (y), BH::translation->menu.general.title.value);
 
 	y += 15;
-	colored_text = new Drawing::Texthook(generalTab, x, (y), "Show Player's Gear");
+	colored_text = new Drawing::Texthook(generalTab, x, (y), BH::translation->menu.general.playerGear.value);
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.showPlayersGear.hotkey, "");
 
 	y += 15;
-	colored_text = new Drawing::Texthook(generalTab, x, (y), "Resync");
+	colored_text = new Drawing::Texthook(generalTab, x, (y), BH::translation->menu.general.resync.value);
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.resyncHotkey.hotkey, "");
 
 	y += 15;
-	colored_text = new Drawing::Texthook(generalTab, x, (y), "Advanced Stat Display");
+	colored_text = new Drawing::Texthook(generalTab, x, (y), BH::translation->menu.general.advanceStat.value);
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.characterStats.hotkey, "");
 
 	y += 15;
-	colored_text = new Drawing::Texthook(generalTab, x, (y), "Reload Config");
+	colored_text = new Drawing::Texthook(generalTab, x, (y), BH::translation->menu.general.reloadConfig.value);
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.general.reloadConfig.hotkey, "");
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &App.game.experienceMeter.toggle.isEnabled, "Experience Meter");
+	new Drawing::Checkhook(generalTab, x, y, &App.game.experienceMeter.toggle.isEnabled, BH::translation->menu.general.expMeter.value);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.experienceMeter.toggle.hotkey, "");
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &App.game.screenshake.toggle.isEnabled, "Enable Screenshake");
+	new Drawing::Checkhook(generalTab, x, y, &App.game.screenshake.toggle.isEnabled, BH::translation->menu.general.screenshake.value);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.screenshake.toggle.hotkey, "");
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &App.game.dpsCounter.toggle.isEnabled, "Enable DPS Counter");
+	new Drawing::Checkhook(generalTab, x, y, &App.game.dpsCounter.toggle.isEnabled, BH::translation->menu.general.dpsMeter.value);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.dpsCounter.toggle.hotkey, "");
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &App.game.beltStatus.toggle.isEnabled, "Enable Belt Status");
+	new Drawing::Checkhook(generalTab, x, y, &App.game.beltStatus.toggle.isEnabled, BH::translation->menu.general.beltStatus.value);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.beltStatus.toggle.hotkey, "");
 
 
 	// Quick Cast
 	y += 20;
-	new Drawing::Texthook(generalTab, x, (y), "Quick Cast");
+	new Drawing::Texthook(generalTab, x, (y), BH::translation->menu.quickCast.title.value);
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &App.game.quickCast.toggle.isEnabled, "Quick Cast");
+	new Drawing::Checkhook(generalTab, x, y, &App.game.quickCast.toggle.isEnabled, BH::translation->menu.quickCast.quickCast.value);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.quickCast.toggle.hotkey, "");
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &App.game.skillBar.toggle.isEnabled, "Skill Bar");
+	new Drawing::Checkhook(generalTab, x, y, &App.game.skillBar.toggle.isEnabled, BH::translation->menu.quickCast.skillBar.value);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.skillBar.toggle.hotkey, "");
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x + x_tab, y, &App.game.skillBarDisable.toggle.isEnabled, "Only enable with Quick Cast");
+	new Drawing::Checkhook(generalTab, x + x_tab, y, &App.game.skillBarDisable.toggle.isEnabled, BH::translation->menu.quickCast.onlyEnable.value);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.skillBarDisable.toggle.hotkey, "");
 
 	y += 15;
-	new Drawing::Checkhook(generalTab, x, y, &App.game.buffTimers.toggle.isEnabled, "Always show Buff Timers");
+	new Drawing::Checkhook(generalTab, x, y, &App.game.buffTimers.toggle.isEnabled, BH::translation->menu.quickCast.buffTimers.value);
 	new Drawing::Keyhook(generalTab, GameSettings::KeyHookOffset, y + 2, &App.game.buffTimers.toggle.hotkey, "");
 
 }
 
 void GameSettings::LoadInteractionTab() {
 	Drawing::Texthook* colored_text;
-	Drawing::UITab* tab = new Drawing::UITab("Interaction", BH::settingsUI);
+	Drawing::UITab* tab = new Drawing::UITab(BH::translation->menu.interaction.tab.value, BH::settingsUI);
 
 	unsigned int x = 8;
 	unsigned int y = 7;
-	int offset = 150;
+	int offset = 160;
 	int indent = 5;
 
 	// QoL
-	colored_text = new Drawing::Texthook(tab, x, y,
-		"Hovering an item");
-
+	colored_text = new Drawing::Texthook(tab, x, y, BH::translation->menu.interaction.hoveringItem.value);
 	y += 15;
 	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		"Shift+Left Click");
+BH::translation->menu.interaction.identifyByTome.value);
 	colored_text->SetColor(Gold);
 	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		"ID with an ID tome");
-	colored_text->SetColor(Gold);
-
-	y += 15;
-	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		"Shift+Right Click");
-	colored_text->SetColor(Gold);
-	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		"Move between inventories");
+BH::translation->menu.interaction.identifyByTomeHotkey.value);
 	colored_text->SetColor(Gold);
 
 	y += 15;
 	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		"Ctrl+Right Click");
+BH::translation->menu.interaction.moveBetweenInventories.value);
 	colored_text->SetColor(Gold);
 	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		"Move to ground");
+BH::translation->menu.interaction.moveBetweenInventoriesHotkey.value);
 	colored_text->SetColor(Gold);
 
 	y += 15;
 	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		"Ctrl+Shift+Right Click");
+BH::translation->menu.interaction.dropItemHotkey.value);
 	colored_text->SetColor(Gold);
 	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		"Move to closed cube");
+BH::translation->menu.interaction.dropItem.value);
 	colored_text->SetColor(Gold);
 
 	y += 15;
 	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		"Ctrl+Shift+Left Click");
+BH::translation->menu.interaction.moveToCubeHotkey.value);
 	colored_text->SetColor(Gold);
 	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		"Toggle stacked/unstacked");
+BH::translation->menu.interaction.moveToCube.value);
+	colored_text->SetColor(Gold);
+
+	y += 15;
+	colored_text = new Drawing::Texthook(tab, x + indent, y,
+BH::translation->menu.interaction.stackUnstackHotkey.value);
+	colored_text->SetColor(Gold);
+	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
+BH::translation->menu.interaction.stackUnstack.value);
 	colored_text->SetColor(Gold);
 
 	y += 20;
@@ -149,56 +147,56 @@ void GameSettings::LoadInteractionTab() {
 
 	y += 15;
 	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		"Ctrl+Left Click");
+BH::translation->menu.interaction.placeOneStackedItemHotkey.value);
 	colored_text->SetColor(Gold);
 	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		"Place 1 stacked item");
+BH::translation->menu.interaction.placeOneStackedItem.value);
 	colored_text->SetColor(Gold);
 
 	y += 15;
 	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		"Ctrl+Shift+Left Click");
+BH::translation->menu.interaction.placeOneUnstackedItemHotkey.value);
 	colored_text->SetColor(Gold);
 	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		"Place 1 unstacked item");
+BH::translation->menu.interaction.placeOneUnstackedItem.value);
 	colored_text->SetColor(Gold);
 
 	y += 20;
 	colored_text = new Drawing::Texthook(tab, x, y,
-		"Changing filter levels");
+BH::translation->menu.interaction.changeFilterLvl.value);
 
 	y += 15;
 	colored_text = new Drawing::Texthook(tab, x + indent, y,
-		"Ctrl+Numpad [0 - 9]");
+BH::translation->menu.interaction.setFilterLvlHotkey.value);
 	colored_text->SetColor(Gold);
 	colored_text = new Drawing::Texthook(tab, x + indent + offset, y,
-		"Set filter level");
+BH::translation->menu.interaction.setFilterLvl.value);
 	colored_text->SetColor(Gold);
 
 	// Auras
 	y += 20;
-	new Drawing::Texthook(tab, x, (y), "Auras (only for top 3 players)");
+	new Drawing::Texthook(tab, x, (y), BH::translation->menu.aura.title.value);
 
 	y += 15;
-	new Drawing::Checkhook(tab, x, y, &App.general.maxLevelAura.toggle.isEnabled, "Show 99 Aura");
+	new Drawing::Checkhook(tab, x, y, &App.general.maxLevelAura.toggle.isEnabled, BH::translation->menu.aura.lvl99.value);
 	new Drawing::Keyhook(tab, GameSettings::KeyHookOffset, y + 2, &App.general.maxLevelAura.toggle.hotkey, "");
 
 	y += 15;
-	new Drawing::Checkhook(tab, x, y, &App.general.dcloneAura.toggle.isEnabled, "Show Dclone Aura");
+	new Drawing::Checkhook(tab, x, y, &App.general.dcloneAura.toggle.isEnabled, BH::translation->menu.aura.dclone.value);
 	new Drawing::Keyhook(tab, GameSettings::KeyHookOffset, y + 2, &App.general.dcloneAura.toggle.hotkey, "");
 
 	y += 15;
-	new Drawing::Checkhook(tab, x, y, &App.general.rathmaAura.toggle.isEnabled, "Show Rathma Aura");
+	new Drawing::Checkhook(tab, x, y, &App.general.rathmaAura.toggle.isEnabled, BH::translation->menu.aura.rathma.value);
 	new Drawing::Keyhook(tab, GameSettings::KeyHookOffset, y + 2, &App.general.rathmaAura.toggle.hotkey, "");
 
 	y += 15;
-	new Drawing::Checkhook(tab, x, y, &App.general.pvpAura.toggle.isEnabled, "Show PVP Aura");
+	new Drawing::Checkhook(tab, x, y, &App.general.pvpAura.toggle.isEnabled, BH::translation->menu.aura.pvp.value);
 	new Drawing::Keyhook(tab, GameSettings::KeyHookOffset, y + 2, &App.general.pvpAura.toggle.hotkey, "");
 
 	y += 20;
-	new Drawing::Texthook(tab, x, (y), "Developer Only");
+	new Drawing::Texthook(tab, x, (y), BH::translation->menu.aura.developerTitle.value);
 	y += 15;
-	new Drawing::Checkhook(tab, x, y, &App.general.devAura.toggle.isEnabled, "Show Developer Aura");
+	new Drawing::Checkhook(tab, x, y, &App.general.devAura.toggle.isEnabled, BH::translation->menu.aura.developer.value);
 	new Drawing::Keyhook(tab, GameSettings::KeyHookOffset, y + 2, &App.general.devAura.toggle.hotkey, "");
 }
 
