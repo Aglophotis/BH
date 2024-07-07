@@ -181,6 +181,20 @@ BHTranslation::BHTranslation() {
         SetString(config, "/stats"_json_pointer, "thornDamage", &menu.stats.thornDamage);
         SetString(config, "/stats"_json_pointer, "total", &menu.stats.total);
         SetString(config, "/stats"_json_pointer, "twoHanded", &menu.stats.twoHanded);
+        SetString(config, "/stats"_json_pointer, "crushingBlow", &menu.stats.crushingBlow);
+        SetString(config, "/stats"_json_pointer, "openWounds", &menu.stats.openWounds);
+        SetString(config, "/stats"_json_pointer, "deadlyStrike", &menu.stats.deadlyStrike);
+        SetString(config, "/stats"_json_pointer, "criticalStrike", &menu.stats.criticalStrike);
+        SetString(config, "/stats"_json_pointer, "lifeLeech", &menu.stats.lifeLeech);
+        SetString(config, "/stats"_json_pointer, "manaLeech", &menu.stats.manaLeech);
+        SetString(config, "/stats"_json_pointer, "projectilePierce", &menu.stats.projectilePierce);
+        SetString(config, "/stats"_json_pointer, "hpMpPerKill", &menu.stats.hpMpPerKill);
+        SetString(config, "/stats"_json_pointer, "addedDamage", &menu.stats.addedDamage);
+        SetString(config, "/stats"_json_pointer, "over", &menu.stats.over);
+        SetString(config, "/stats"_json_pointer, "magicFind", &menu.stats.magicFind);
+        SetString(config, "/stats"_json_pointer, "goldFind", &menu.stats.goldFind);
+        SetString(config, "/stats"_json_pointer, "stashGold", &menu.stats.stashGold);
+        SetString(config, "/stats"_json_pointer, "iasFramesNotAvailable", &menu.stats.iasFramesNotAvailable);
     }
     ifile.close();
 }

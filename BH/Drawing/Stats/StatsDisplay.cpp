@@ -742,7 +742,7 @@ void StatsDisplay::OnDraw()
 			bp_string);
 
 
-		char ias_bp_string[255] = "IAS (Frames):ÿc0 ";
+		char* ias_bp_string = BH::translation->menu.stats.iasFrames.charValue();
 		y += 16;
 		GetIASBreakpointString(unit, ias_bp_string, column1, &y);
 
@@ -753,14 +753,16 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Crushing Blow:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.crushingBlow.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_CRUSHINGBLOW, 0)));
 		Texthook::Draw(column2,
 			y,
 			None,
 			6,
 			Gold,
-			L"Open Wounds: ÿc0%d%%/+%d",
+			"%s: ÿc0%d%%/+%d",
+			BH::translation->menu.stats.openWounds.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_OPENWOUNDS, 0)),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_DEEP_WOUNDS, 0)));
 		Texthook::Draw(column1,
@@ -768,35 +770,40 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Deadly Strike:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.deadlyStrike.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_DEADLYSTRIKE, 0)));
 		Texthook::Draw(column2,
 			y,
 			None,
 			6,
 			Gold,
-			L"Critical Strike: ÿc0%d",
+			"%s: ÿc0%d",
+			BH::translation->menu.stats.criticalStrike.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_CRITICALSTRIKE, 0)));
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
 			6,
 			Gold,
-			L"Life Leech:ÿc1 %d",
+			"%s:ÿc1 %d",
+			BH::translation->menu.stats.lifeLeech.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_LIFELEECH, 0)));
 		Texthook::Draw(column2,
 			y,
 			None,
 			6,
 			Gold,
-			L"Mana Leech:ÿc3 %d",
+			"%s:ÿc3 %d",
+			BH::translation->menu.stats.manaLeech.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MANALEECH, 0)));
 		Texthook::Draw(column1,
 			(y += 16),
 			None,
 			6,
 			Gold,
-			L"Projectile Pierce:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.projectilePierce.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PIERCINGATTACK, 0)) +
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_PIERCE, 0)));
 		Texthook::Draw(column2,
@@ -804,7 +811,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"HP/MP per Kill:ÿc1 %d ÿc0/ÿc3 %d",
+			"%s:ÿc1 %d ÿc0/ÿc3 %d",
+			BH::translation->menu.stats.projectilePierce.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_LIFEAFTEREACHKILL, 0)),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MANAAFTEREACHKILL, 0)));
 
@@ -843,7 +851,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Added Damage:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.addedDamage.value.c_str(),
 			addedPhys);
 		Texthook::Draw(column2,
 			y,
@@ -882,9 +891,10 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Green,
-			"%d-%d over %.1fs",
+			"%d-%d %s %.1fs",
 			static_cast<int>(minPoison / 256.0 * poisonLength),
 			static_cast<int>(maxPoison / 256.0 * poisonLength),
+			BH::translation->menu.stats.over.value.c_str(),
 			poisonLength / 25.0);
 
 		Texthook::Draw(column1,
@@ -892,7 +902,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Magic Find:ÿc3 %d",
+			"%s:ÿc3 %d",
+			BH::translation->menu.stats.magicFind.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAGICFIND, 0))
 		);
 		Texthook::Draw(column2,
@@ -900,7 +911,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Gold Find:ÿc9 %d",
+			"%s:ÿc9 %d",
+			BH::translation->menu.stats.goldFind.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_GOLDFIND, 0)));
 
 		if (!isMerc)
@@ -910,7 +922,8 @@ void StatsDisplay::OnDraw()
 				None,
 				6,
 				Gold,
-				L"Stash Gold:ÿc9 %d",
+				"%s:ÿc9 %d",
+				BH::translation->menu.stats.stashGold.value.c_str(),
 				static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_GOLDBANK, 0)));
 		}
 
@@ -1137,7 +1150,8 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 				None,
 				6,
 				Gold,
-				"IAS (Frames):ÿc8 0 (%d)",
+				"%s:ÿc8 0 (%d)",
+				BH::translation->menu.stats.iasFrames.value.c_str(),
 				WWNextHitDelay);
 			return;
 		}
@@ -1163,7 +1177,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 					None,
 					6,
 					Gold,
-					"IAS (Frames): N/A");
+					BH::translation->menu.stats.iasFramesNotAvailable.charValue());
 				return;
 			}
 
@@ -1177,7 +1191,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 					None,
 					6,
 					Gold,
-					"IAS (Frames): N/A");
+					BH::translation->menu.stats.iasFramesNotAvailable.charValue());
 				return;
 			}
 			if (pSeqInfo->pSeqData->bMode == PLAYER_MODE_CAST)
@@ -1187,7 +1201,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 					None,
 					6,
 					Gold,
-					"IAS (Frames): N/A");
+					BH::translation->menu.stats.iasFramesNotAvailable.charValue());
 				return;
 			}
 
@@ -1218,7 +1232,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 					None,
 					6,
 					Gold,
-					"IAS (Frames): N/A");
+					BH::translation->menu.stats.iasFramesNotAvailable.charValue());
 				return;
 			}
 
@@ -1231,7 +1245,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 					None,
 					6,
 					Gold,
-					"IAS (Frames): N/A");
+					BH::translation->menu.stats.iasFramesNotAvailable.charValue());
 				return;
 			}
 			// Hide Werewolf & Werebear until we have their frames worked out
@@ -1242,7 +1256,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 					None,
 					6,
 					Gold,
-					"IAS (Frames): N/A (Work in Progress)");
+					BH::translation->menu.stats.iasFramesNotAvailable.charValue());
 				return;
 			}
 
@@ -1540,7 +1554,7 @@ void StatsDisplay::GetIASBreakpointString(UnitAny* pUnit,
 			None,
 			6,
 			Gold,
-			"IAS (Frames): N/A");
+			BH::translation->menu.stats.iasFramesNotAvailable.charValue());
 	}
 }
 

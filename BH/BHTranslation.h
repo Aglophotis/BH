@@ -183,6 +183,21 @@ struct BHMenu {
         ConfigString fcr {"", "FCR"};
         ConfigString fhr {"", "FHR"};
         ConfigString iasFrames {"", "IAS (Frames)"};
+
+        ConfigString crushingBlow {"", "Crushing Blow"};
+        ConfigString openWounds {"", "Open Wounds"};
+        ConfigString deadlyStrike {"", "Deadly Strike"};
+        ConfigString criticalStrike {"", "Critical Strike"};
+        ConfigString lifeLeech {"", "Life Leech"};
+        ConfigString manaLeech {"", "Mana Leech"};
+        ConfigString projectilePierce {"", "Projectile Pierce"};
+        ConfigString hpMpPerKill {"", "HP/MP per Kill"};
+        ConfigString addedDamage {"", "Added Damage"};
+        ConfigString over {"", "over"};
+        ConfigString magicFind {"", "Magic Find"};
+        ConfigString goldFind {"", "Gold Find"};
+        ConfigString stashGold {"", "Stash Gold"};
+        ConfigString iasFramesNotAvailable {"", "IAS (Frames): N/A"};
     } stats;
 };
 
