@@ -2,6 +2,8 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 
+#include "Common.h"
+
 BHMenu menu;
 
 using json = nlohmann::ordered_json;
@@ -36,9 +38,11 @@ void SetString(json config, json::json_pointer sectionKey, std::string key, Conf
 
 
 BHTranslation::BHTranslation() {
-    std::ifstream ifile(menu.filename);
+    std::string filename = GetLangCode() + "." + menu.filename;
+
+    std::ifstream ifile(filename);
     if (ifile) {
-        json config = json::parse(std::ifstream{menu.filename});
+        json config = json::parse(std::ifstream{filename});
 
         SetString(config, "/general"_json_pointer, "title", &menu.general.title);
         SetString(config, "/general"_json_pointer, "tab", &menu.general.tab);

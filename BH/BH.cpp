@@ -75,13 +75,14 @@ void BH::Initialize()
 	App.config = new Config(App.jsonFile);
 	App.config->LoadConfig();
 	translation = new BHTranslation();
+	std::string filename = GetLangCode() + ".filter";
 
-	lootFilter = new Config("loot.filter");
+	lootFilter = new Config(filename);
 	if (!lootFilter->Parse()) {
 		lootFilter->SetConfigName("default.filter");
 		if (!lootFilter->Parse()) {
 			string msg = "Could not find default loot filter.\nAttempted to load " +
-				path + "loot.filter (failed).\nAttempted to load " +
+				path + filename + " (failed).\nAttempted to load " +
 				path + "default.filter (failed).\n\nDefaults loaded.";
 			MessageBox(NULL, msg.c_str(), "Failed to load ProjectDiablo lootFilter", MB_OK);
 		}
