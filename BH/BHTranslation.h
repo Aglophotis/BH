@@ -156,6 +156,40 @@ struct BHMenu {
     } color;
 
     struct {
+        ConfigString teleport = { "ÿc2**ÿc0TP"};
+        ConfigString identify = { "ÿc2**ÿc0ID"};
+        ConfigString stamina = { "Stam"};
+        ConfigString antidote = { "Anti"};
+        ConfigString thawing = { "Thaw"};
+        ConfigString rancid = { "Ranc"};
+        ConfigString oil = { "Oil"};
+        ConfigString choking = { "Chok"};
+        ConfigString exploding = { "Expl"};
+        ConfigString strangling = { "Stra"};
+        ConfigString fulminating = { "Fulm"};
+
+        ConfigString minHeal = { "ÿc1**ÿc0Min Heal"};
+        ConfigString ltHeal = { "ÿc1**ÿc0Lt Heal"};
+        ConfigString heal = { "ÿc1**ÿc0Heal"};
+        ConfigString gtHeal = { "ÿc1**ÿc0Gt Heal"};
+        ConfigString supHeal = { "ÿc1**ÿc0Sup Heal"};
+        ConfigString minMana = { "ÿc3**ÿc0Min Mana"};
+        ConfigString ltMana = { "ÿc3**ÿc0Lt Mana"};
+        ConfigString mana = { "ÿc3**ÿc0Mana"};
+        ConfigString gtMana = { "ÿc3**ÿc0Gt Mana"};
+        ConfigString supMana = { "ÿc3**ÿc0Sup Mana"};
+        ConfigString rejuvenation = { "ÿc;**ÿc0Rejuv"};
+        ConfigString fullRejuvenation = { "ÿc;**ÿc0Full"};
+
+        ConfigString andarielDuriel = { "(Andariel/Duriel)"};
+        ConfigString mephisto = { "(Mephtisto)"};
+        ConfigString diablo = { "(Diablo)"};
+        ConfigString baal = { "(Baal)"};
+        ConfigString ethereal = { "Eth"};
+        ConfigString lvl = { "L"};
+    } altStyle;
+
+    struct {
         ConfigString name { "Name"};
         ConfigString merc { "ÿc;Mercenary"};
         ConfigString lvl { "Level"};

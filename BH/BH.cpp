@@ -75,7 +75,7 @@ void BH::Initialize()
 	App.config = new Config(App.jsonFile);
 	App.config->LoadConfig();
 	translation = new BHTranslation();
-	std::string filename = GetLangCode() + ".filter";
+	std::string filename = GetLangCode() + ".loot.filter";
 
 	lootFilter = new Config(filename);
 	if (!lootFilter->Parse()) {

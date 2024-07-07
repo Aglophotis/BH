@@ -199,6 +199,35 @@ BHTranslation::BHTranslation() {
         SetString(config, "/stats"_json_pointer, "goldFind", &menu.stats.goldFind);
         SetString(config, "/stats"_json_pointer, "stashGold", &menu.stats.stashGold);
         SetString(config, "/stats"_json_pointer, "iasFramesNotAvailable", &menu.stats.iasFramesNotAvailable);
+
+        SetString(config, "/altStyle"_json_pointer, "identify", &menu.altStyle.identify);
+        SetString(config, "/altStyle"_json_pointer, "teleport", &menu.altStyle.teleport);
+        SetString(config, "/altStyle"_json_pointer, "andarielDuriel", &menu.altStyle.andarielDuriel);
+        SetString(config, "/altStyle"_json_pointer, "antidote", &menu.altStyle.antidote);
+        SetString(config, "/altStyle"_json_pointer, "baal", &menu.altStyle.baal);
+        SetString(config, "/altStyle"_json_pointer, "choking", &menu.altStyle.choking);
+        SetString(config, "/altStyle"_json_pointer, "diablo", &menu.altStyle.diablo);
+        SetString(config, "/altStyle"_json_pointer, "ethereal", &menu.altStyle.ethereal);
+        SetString(config, "/altStyle"_json_pointer, "exploding", &menu.altStyle.exploding);
+        SetString(config, "/altStyle"_json_pointer, "fullRejuvenation", &menu.altStyle.fullRejuvenation);
+        SetString(config, "/altStyle"_json_pointer, "fulminating", &menu.altStyle.fulminating);
+        SetString(config, "/altStyle"_json_pointer, "gtHeal", &menu.altStyle.gtHeal);
+        SetString(config, "/altStyle"_json_pointer, "gtMana", &menu.altStyle.gtMana);
+        SetString(config, "/altStyle"_json_pointer, "heal", &menu.altStyle.heal);
+        SetString(config, "/altStyle"_json_pointer, "ltHeal", &menu.altStyle.ltHeal);
+        SetString(config, "/altStyle"_json_pointer, "ltMana", &menu.altStyle.ltMana);
+        SetString(config, "/altStyle"_json_pointer, "lvl", &menu.altStyle.lvl);
+        SetString(config, "/altStyle"_json_pointer, "mana", &menu.altStyle.mana);
+        SetString(config, "/altStyle"_json_pointer, "mephisto", &menu.altStyle.mephisto);
+        SetString(config, "/altStyle"_json_pointer, "minHeal", &menu.altStyle.minHeal);
+        SetString(config, "/altStyle"_json_pointer, "oil", &menu.altStyle.oil);
+        SetString(config, "/altStyle"_json_pointer, "rancid", &menu.altStyle.rancid);
+        SetString(config, "/altStyle"_json_pointer, "rejuvenation", &menu.altStyle.rejuvenation);
+        SetString(config, "/altStyle"_json_pointer, "stamina", &menu.altStyle.stamina);
+        SetString(config, "/altStyle"_json_pointer, "strangling", &menu.altStyle.strangling);
+        SetString(config, "/altStyle"_json_pointer, "supHeal", &menu.altStyle.supHeal);
+        SetString(config, "/altStyle"_json_pointer, "supMana", &menu.altStyle.supMana);
+        SetString(config, "/altStyle"_json_pointer, "thawing", &menu.altStyle.thawing);
     }
     ifile.close();
 }

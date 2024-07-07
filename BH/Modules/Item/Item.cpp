@@ -1049,84 +1049,84 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 		// We will also strip ilvls from these items
 		if (code[0] == 't' && code[1] == 's' && code[2] == 'c')  // town portal scroll
 		{
-			itemName = "ÿc2**ÿc0TP";
+			itemName = BH::translation->menu.altStyle.teleport.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'i' && code[1] == 's' && code[2] == 'c')  // identify scroll
 		{
-			itemName = "ÿc2**ÿc0ID";
+			itemName = BH::translation->menu.altStyle.identify.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'v' && code[1] == 'p' && code[2] == 's')  // stamina potion
 		{
-			itemName = "Stam";
+			itemName = BH::translation->menu.altStyle.stamina.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'y' && code[1] == 'p' && code[2] == 's')  // antidote potion
 		{
-			itemName = "Anti";
+			itemName = BH::translation->menu.altStyle.antidote.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'w' && code[1] == 'm' && code[2] == 's')  // thawing potion
 		{
-			itemName = "Thaw";
+			itemName = BH::translation->menu.altStyle.thawing.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'g' && code[1] == 'p' && code[2] == 's')  // rancid gas potion
 		{
-			itemName = "Ranc";
+			itemName = BH::translation->menu.altStyle.rancid.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'o' && code[1] == 'p' && code[2] == 's')  // oil potion
 		{
-			itemName = "Oil";
+			itemName = BH::translation->menu.altStyle.oil.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'g' && code[1] == 'p' && code[2] == 'm')  // choking gas potion
 		{
-			itemName = "Chok";
+			itemName = BH::translation->menu.altStyle.choking.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'o' && code[1] == 'p' && code[2] == 'm')  // exploding potion
 		{
-			itemName = "Expl";
+			itemName = BH::translation->menu.altStyle.exploding.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'g' && code[1] == 'p' && code[2] == 'l')  // strangling gas potion
 		{
-			itemName = "Stra";
+			itemName = BH::translation->menu.altStyle.strangling.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'o' && code[1] == 'p' && code[2] == 'l')  // fulminating potion
 		{
-			itemName = "Fulm";
+			itemName = BH::translation->menu.altStyle.fulminating.value;
 			displayItemLevel = false;
 		}
 		else if (code[0] == 'h' && code[1] == 'p')  // healing potions
 		{
 			if (code[2] == '1')
 			{
-				itemName = "ÿc1**ÿc0Min Heal";
+				itemName = BH::translation->menu.altStyle.minHeal.value;
 				displayItemLevel = false;
 			}
 			else if (code[2] == '2')
 			{
-				itemName = "ÿc1**ÿc0Lt Heal";
+				itemName = BH::translation->menu.altStyle.ltHeal.value;
 				displayItemLevel = false;
 			}
 			else if (code[2] == '3')
 			{
-				itemName = "ÿc1**ÿc0Heal";
+				itemName = BH::translation->menu.altStyle.heal.value;
 				displayItemLevel = false;
 			}
 			else if (code[2] == '4')
 			{
-				itemName = "ÿc1**ÿc0Gt Heal";
+				itemName = BH::translation->menu.altStyle.gtHeal.value;
 				displayItemLevel = false;
 			}
 			else if (code[2] == '5')
 			{
-				itemName = "ÿc1**ÿc0Sup Heal";
+				itemName = BH::translation->menu.altStyle.supHeal.value;
 				displayItemLevel = false;
 			}
 		}
@@ -1134,27 +1134,27 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 		{
 			if (code[2] == '1')
 			{
-				itemName = "ÿc3**ÿc0Min Mana";
+				itemName = BH::translation->menu.altStyle.minMana.value;
 				displayItemLevel = false;
 			}
 			else if (code[2] == '2')
 			{
-				itemName = "ÿc3**ÿc0Lt Mana";
+				itemName = BH::translation->menu.altStyle.ltMana.value;
 				displayItemLevel = false;
 			}
 			else if (code[2] == '3')
 			{
-				itemName = "ÿc3**ÿc0Mana";
+				itemName = BH::translation->menu.altStyle.mana.value;
 				displayItemLevel = false;
 			}
 			else if (code[2] == '4')
 			{
-				itemName = "ÿc3**ÿc0Gt Mana";
+				itemName = BH::translation->menu.altStyle.gtMana.value;
 				displayItemLevel = false;
 			}
 			else if (code[2] == '5')
 			{
-				itemName = "ÿc3**ÿc0Sup Mana";
+				itemName = BH::translation->menu.altStyle.supMana.value;
 				displayItemLevel = false;
 			}
 		}
@@ -1162,12 +1162,12 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 		{
 			if (code[2] == 's')
 			{
-				itemName = "ÿc;**ÿc0Rejuv";
+				itemName = BH::translation->menu.altStyle.rejuvenation.value;
 				displayItemLevel = false;
 			}
 			else if (code[2] == 'l')
 			{
-				itemName = "ÿc;**ÿc0Full";
+				itemName = BH::translation->menu.altStyle.fullRejuvenation.value;
 				displayItemLevel = false;
 			}
 		}
@@ -1194,19 +1194,19 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 		/*Essences*/
 		if (code[0] == 't' && code[1] == 'e' && code[2] == 's')
 		{
-			itemName = itemName + " (Andariel/Duriel)";
+			itemName = itemName + " " + BH::translation->menu.altStyle.andarielDuriel.value;
 		}
 		if (code[0] == 'c' && code[1] == 'e' && code[2] == 'h')
 		{
-			itemName = itemName + " (Mephtisto)";
+			itemName = itemName + " " + BH::translation->menu.altStyle.mephisto.value;
 		}
 		if (code[0] == 'b' && code[1] == 'e' && code[2] == 't')
 		{
-			itemName = itemName + " (Diablo)";
+			itemName = itemName + " " + BH::translation->menu.altStyle.diablo.value;
 		}
 		if (code[0] == 'f' && code[1] == 'e' && code[2] == 'd')
 		{
-			itemName = itemName + " (Baal)";
+			itemName = itemName + " " + BH::translation->menu.altStyle.baal.value;
 		}
 	}
 
@@ -1229,13 +1229,13 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 
 			if (App.legacy.showEthereal.toggle.isEnabled && item->pItemData->dwFlags & ITEM_ETHEREAL)
 			{
-				itemName = "Eth " + itemName;
+				itemName = BH::translation->menu.altStyle.ethereal.value + " " + itemName;
 			}
 
 			/*show iLvl unless it is equal to 1*/
 			if (displayItemLevel && item->pItemData->dwItemLevel != 1)
 			{
-				itemName += " L" + to_string(item->pItemData->dwItemLevel);
+				itemName += " " + BH::translation->menu.altStyle.lvl.value + to_string(item->pItemData->dwItemLevel);
 			}
 		}
 	}
@@ -1247,10 +1247,10 @@ void Item::OrigGetItemName(UnitAny* item, string& itemName, char* code)
 				itemName += "(" + to_string(sockets) + ")";
 		}
 		if (App.legacy.showEthereal.toggle.isEnabled && item->pItemData->dwFlags & ITEM_ETHEREAL)
-			itemName += "(Eth)";
+			itemName += "(" + BH::translation->menu.altStyle.ethereal.value +")";
 
 		if (displayItemLevel)
-			itemName += "(L" + to_string(item->pItemData->dwItemLevel) + ")";
+			itemName += "(" + BH::translation->menu.altStyle.lvl.value + to_string(item->pItemData->dwItemLevel) + ")";
 
 		if (App.legacy.showRuneNumbers.toggle.isEnabled && D2COMMON_GetItemText(item->dwTxtFileNo)->nType == 74)
 			itemName = "[" + to_string(item->dwTxtFileNo - 609) + "]" + itemName;
