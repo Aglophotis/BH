@@ -20,19 +20,19 @@ void StashExport::OnLoad() {
 	LoadConfig();
 
 	Drawing::Texthook* colored_text;
-	settingsTab = new UITab("StashExport", BH::settingsUI);
+	settingsTab = new UITab(BH::translation->menu.stash.tab.value, BH::settingsUI);
 
 	unsigned int x = 8;
 	unsigned int y = 7;
 
-	colored_text = new Drawing::Texthook(settingsTab, x, y, "Stash");
+	colored_text = new Drawing::Texthook(settingsTab, x, y, BH::translation->menu.stash.title.value);
 
 	y += 15;
-	colored_text = new Drawing::Texthook(settingsTab, x, (y), "Export Gear");
+	colored_text = new Drawing::Texthook(settingsTab, x, (y), BH::translation->menu.stash.gear.value);
 	colored_text->SetColor(Gold);
 	new Drawing::Keyhook(settingsTab, GameSettings::KeyHookOffset, y + 2, &App.stash.exportGear.hotkey, "");
-	new Checkhook(settingsTab, x, (y += 15), &App.stash.includeEquipment.toggle.isEnabled, "Include Equipment");
-	new Checkhook(settingsTab, x, (y += 15), &App.stash.exportOnMenu.toggle.isEnabled, "Export On Menu");
+	new Checkhook(settingsTab, x, (y += 15), &App.stash.includeEquipment.toggle.isEnabled, BH::translation->menu.stash.includeEquipment.value);
+	new Checkhook(settingsTab, x, (y += 15), &App.stash.exportOnMenu.toggle.isEnabled, BH::translation->menu.stash.exportOnMenu.value);
 
 	// the MustacheTemplates will not be reloaded
 	options.clear();
@@ -62,7 +62,7 @@ void StashExport::OnLoad() {
 	}
 
 	y += 20;
-	colored_text = new Drawing::Texthook(settingsTab, x, y, "Export Type");
+	colored_text = new Drawing::Texthook(settingsTab, x, y, BH::translation->menu.stash.exportType.value);
 	new Combohook(settingsTab, x, (y += 15), 150, &exportType, options);
 }
 

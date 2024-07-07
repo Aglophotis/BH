@@ -158,8 +158,8 @@ bool BH::Shutdown() {
 bool BH::ReloadConfig() {
 	if (initialized) {
 		if (D2CLIENT_GetPlayerUnit()) {
-			PrintText(0, "Reloading config: %s", App.config->GetConfigName().c_str());
-			PrintText(0, "Reloading filter: %s", lootFilter->GetConfigName().c_str());
+			PrintText(0, "%s: %s", BH::translation->menu.chat.reloadConfig.value.c_str(), App.config->GetConfigName().c_str());
+			PrintText(0, "%s: %s", BH::translation->menu.chat.reloadFilter.value.c_str(), lootFilter->GetConfigName().c_str());
 		}
 		App.config->LoadConfig();
 		lootFilter->Parse();

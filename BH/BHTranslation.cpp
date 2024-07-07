@@ -121,11 +121,24 @@ BHTranslation::BHTranslation() {
         SetString(config, "/chat"_json_pointer, "closeNotification", &menu.chat.closeNotification);
         SetString(config, "/chat"_json_pointer, "dropNotificationDrop", &menu.chat.dropNotificationDrop);
         SetString(config, "/chat"_json_pointer, "dropNotificationDropped", &menu.chat.dropNotificationDropped);
+        SetString(config, "/chat"_json_pointer, "reloadConfig", &menu.chat.reloadConfig);
+        SetString(config, "/chat"_json_pointer, "reloadFilter", &menu.chat.reloadFilter);
 
         SetString(config, "/property"_json_pointer, "affixLvl", &menu.property.affixLvl);
         SetString(config, "/property"_json_pointer, "itemLvl", &menu.property.itemLvl);
         SetString(config, "/property"_json_pointer, "to", &menu.property.to);
         SetString(config, "/property"_json_pointer, "tooLongDescription", &menu.property.tooLongDescription);
+
+        SetString(config, "/party"_json_pointer, "autoloot", &menu.party.autoloot);
+        SetString(config, "/party"_json_pointer, "autoparty", &menu.party.autoparty);
+
+        SetString(config, "/stash"_json_pointer, "exportOnMenu", &menu.stash.exportOnMenu);
+        SetString(config, "/stash"_json_pointer, "exportType", &menu.stash.exportType);
+        SetString(config, "/stash"_json_pointer, "gear", &menu.stash.gear);
+        SetString(config, "/stash"_json_pointer, "includeEquipment", &menu.stash.includeEquipment);
+        SetString(config, "/stash"_json_pointer, "tab", &menu.stash.tab);
+        SetString(config, "/stash"_json_pointer, "title", &menu.stash.title);
+        SetString(config, "/stash"_json_pointer, "title", &menu.stash.title);
     }
     ifile.close();
 }

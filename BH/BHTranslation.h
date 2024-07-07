@@ -107,6 +107,8 @@ struct BHMenu {
         ConfigString dropNotificationDropped = {"", "Dropped"};
         ConfigString dropNotificationDrop = {"", " ÿc5drop"};
         ConfigString closeNotification = {"", "ÿc5close"};
+        ConfigString reloadConfig = {"", "Reloading config"};
+        ConfigString reloadFilter = {"", "Reloading filter"};
     } chat;
 
     struct {
@@ -115,6 +117,20 @@ struct BHMenu {
         ConfigString to = {"", "to"};
         ConfigString tooLongDescription = {"", "ÿc1Item Description is too long."};
     } property;
+
+    struct {
+        ConfigString autoparty = {"", "Autoparty Enabled"};
+        ConfigString autoloot = {"", "Autoloot Enabled"};
+    } party;
+
+    struct {
+        ConfigString tab = {"", "StashExport"};
+        ConfigString title = {"", "Stash"};
+        ConfigString gear = {"", "Export Gear"};
+        ConfigString includeEquipment = {"", "Include Equipment"};
+        ConfigString exportOnMenu = {"", "Export On Menu"};
+        ConfigString exportType = {"", "Export Type"};
+    } stash;
 };
 
 

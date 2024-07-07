@@ -12,9 +12,9 @@ Drawing::Hook* LootHook;
 void Party::OnLoad() {
 	c = 0;
 
-	PartyHook = new Drawing::Checkhook(Drawing::InGame, 100, 100, &App.party.autoParty.toggle.isEnabled, "Autoparty Enabled");
+	PartyHook = new Drawing::Checkhook(Drawing::InGame, 100, 100, &App.party.autoParty.toggle.isEnabled, BH::translation->menu.party.autoparty.value);
 	PartyHook->SetActive(0);
-	LootHook = new Drawing::Checkhook(Drawing::InGame, 240, 100, &App.party.autoCorpseLoot.toggle.isEnabled, "Autoloot Enabled");
+	LootHook = new Drawing::Checkhook(Drawing::InGame, 240, 100, &App.party.autoCorpseLoot.toggle.isEnabled, BH::translation->menu.party.autoloot.value);
 	LootHook->SetActive(0);
 }
 
