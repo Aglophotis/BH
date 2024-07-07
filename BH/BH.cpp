@@ -99,7 +99,7 @@ void BH::Initialize()
 		SetWindowLong(D2GFX_GetHwnd(), GWL_WNDPROC, (LONG)GameWindowEvent);
 		});
 
-	settingsUI = new Drawing::UI(SETTINGS_TEXT, App.bhui.sizeX.value, App.bhui.sizeY.value);
+	settingsUI = new Drawing::UI(BH::translation->menu.settings.tab.value, App.bhui.sizeX.value, App.bhui.sizeY.value);
 
 	Task::InitializeThreadPool(2);
 

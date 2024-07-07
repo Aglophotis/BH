@@ -138,7 +138,49 @@ BHTranslation::BHTranslation() {
         SetString(config, "/stash"_json_pointer, "includeEquipment", &menu.stash.includeEquipment);
         SetString(config, "/stash"_json_pointer, "tab", &menu.stash.tab);
         SetString(config, "/stash"_json_pointer, "title", &menu.stash.title);
-        SetString(config, "/stash"_json_pointer, "title", &menu.stash.title);
+
+        SetString(config, "/settings"_json_pointer, "tab", &menu.settings.tab);
+        SetString(config, "/settings"_json_pointer, "closeSettings", &menu.settings.closeSettings);
+        SetString(config, "/settings"_json_pointer, "moveSettings", &menu.settings.moveSettings);
+
+        SetString(config, "/color"_json_pointer, "choose", &menu.color.choose);
+        SetString(config, "/color"_json_pointer, "close", &menu.color.close);
+        SetString(config, "/color"_json_pointer, "select", &menu.color.select);
+
+        SetString(config, "/stats"_json_pointer, "additionalXp", &menu.stats.additionalXp);
+        SetString(config, "/stats"_json_pointer, "lvl", &menu.stats.lvl);
+        SetString(config, "/stats"_json_pointer, "merc", &menu.stats.merc);
+        SetString(config, "/stats"_json_pointer, "name", &menu.stats.name);
+        SetString(config, "/stats"_json_pointer, "xp", &menu.stats.xp);
+        SetString(config, "/stats"_json_pointer, "absorp", &menu.stats.absorp);
+        SetString(config, "/stats"_json_pointer, "attackRate", &menu.stats.attackRate);
+        SetString(config, "/stats"_json_pointer, "baseAR", &menu.stats.baseAR);
+        SetString(config, "/stats"_json_pointer, "baseDamage", &menu.stats.baseDamage);
+        SetString(config, "/stats"_json_pointer, "baseDef", &menu.stats.baseDef);
+        SetString(config, "/stats"_json_pointer, "blockRate", &menu.stats.blockRate);
+        SetString(config, "/stats"_json_pointer, "breakpoints", &menu.stats.breakpoints);
+        SetString(config, "/stats"_json_pointer, "castRate", &menu.stats.castRate);
+        SetString(config, "/stats"_json_pointer, "coldResist", &menu.stats.coldResist);
+        SetString(config, "/stats"_json_pointer, "curseResist", &menu.stats.curseResist);
+        SetString(config, "/stats"_json_pointer, "damageReduction", &menu.stats.damageReduction);
+        SetString(config, "/stats"_json_pointer, "dex", &menu.stats.dex);
+        SetString(config, "/stats"_json_pointer, "elementalMastery", &menu.stats.elementalMastery);
+        SetString(config, "/stats"_json_pointer, "elementalPierce", &menu.stats.elementalPierce);
+        SetString(config, "/stats"_json_pointer, "equip", &menu.stats.equip);
+        SetString(config, "/stats"_json_pointer, "fcr", &menu.stats.fcr);
+        SetString(config, "/stats"_json_pointer, "fhr", &menu.stats.fhr);
+        SetString(config, "/stats"_json_pointer, "fireResist", &menu.stats.fireResist);
+        SetString(config, "/stats"_json_pointer, "hitRecovery", &menu.stats.hitRecovery);
+        SetString(config, "/stats"_json_pointer, "ias", &menu.stats.ias);
+        SetString(config, "/stats"_json_pointer, "iasFrames", &menu.stats.iasFrames);
+        SetString(config, "/stats"_json_pointer, "lightningResist", &menu.stats.lightningResist);
+        SetString(config, "/stats"_json_pointer, "oneHanded", &menu.stats.oneHanded);
+        SetString(config, "/stats"_json_pointer, "poisonResist", &menu.stats.poisonResist);
+        SetString(config, "/stats"_json_pointer, "resistLength", &menu.stats.resistLength);
+        SetString(config, "/stats"_json_pointer, "runWalk", &menu.stats.runWalk);
+        SetString(config, "/stats"_json_pointer, "thornDamage", &menu.stats.thornDamage);
+        SetString(config, "/stats"_json_pointer, "total", &menu.stats.total);
+        SetString(config, "/stats"_json_pointer, "twoHanded", &menu.stats.twoHanded);
     }
     ifile.close();
 }

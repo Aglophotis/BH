@@ -349,8 +349,9 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			"Name:ÿc0 %s",
-			isMerc ? "ÿc;Mercenary" : unit->pPlayerData->szName);
+			"%s:ÿc0 %s",
+			BH::translation->menu.stats.name.value.c_str(),
+			isMerc ? BH::translation->menu.stats.merc.value.c_str() : unit->pPlayerData->szName);
 
 		auto player_level = D2COMMON_GetUnitStat(unit, STAT_LEVEL, 0);
 		Texthook::Draw(pRect.right - 5,
@@ -358,7 +359,8 @@ void StatsDisplay::OnDraw()
 			Right,
 			6,
 			Gold,
-			L"Level:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.lvl.value.c_str(),
 			static_cast<int>(player_level));
 
 		auto map_id = **Var_D2CLIENT_MapId();
@@ -375,8 +377,10 @@ void StatsDisplay::OnDraw()
 			Right,
 			6,
 			Gold,
-			L"XP: %.2f%% / Additional XP:ÿc: %d%%",
+			"%s: %.2f%% / %s:ÿc: %d%%",
+			BH::translation->menu.stats.xp.value.c_str(),
 			xp_percentage,
+			BH::translation->menu.stats.additionalXp.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_ADDEXPERIENCE, 0)));
 
 
@@ -397,7 +401,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Red,
-			L"ÿc4Fire Resist:ÿc1 %d ÿc0/ %d",
+			"ÿc4%s:ÿc1 %d ÿc0/ %d",
+			BH::translation->menu.stats.fireResist.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FIRERESIST, 0)) + penalty,
 			fMax);
 		Texthook::Draw(column1,
@@ -405,7 +410,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Blue,
-			L"ÿc4Cold Resist:ÿc3 %d ÿc0/ %d",
+			"ÿc4%s:ÿc3 %d ÿc0/ %d",
+			BH::translation->menu.stats.coldResist.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_COLDRESIST, 0)) + penalty,
 			cMax);
 		Texthook::Draw(column1,
@@ -413,7 +419,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Yellow,
-			L"ÿc4Lightning Resist:ÿc9 %d ÿc0/ %d",
+			"ÿc4%s:ÿc9 %d ÿc0/ %d",
+			BH::translation->menu.stats.lightningResist.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_LIGHTNINGRESIST, 0)) + penalty,
 			lMax);
 		Texthook::Draw(column1,
@@ -421,9 +428,11 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Poison Resist:ÿc2 %d ÿc0/ %d  ÿc4Length:ÿc: %d%%",
+			"%s:ÿc2 %d ÿc0/ %d  ÿc4%s:ÿc: %d%%",
+			BH::translation->menu.stats.poisonResist.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_POISONRESIST, 0)) + penalty,
 			pMax,
+			BH::translation->menu.stats.resistLength.value.c_str(),
 			(100 - penalty - pLengthReduce)
 		);
 		Texthook::Draw(column1,
@@ -431,8 +440,10 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Curse Resist:ÿc8 %d /ÿc0 50 ÿc4Length:ÿc0 %d%%",
+			"%s:ÿc8 %d /ÿc0 50 ÿc4%s:ÿc0 %d%%",
+			BH::translation->menu.stats.curseResist.value.c_str(),
 			static_cast<int>(min(D2COMMON_GetUnitStat(unit, STAT_CURSE_EFFECTIVENESS, 0), 50)),
+			BH::translation->menu.stats.resistLength.value.c_str(),
 			static_cast<int>(max(100 - D2COMMON_GetUnitStat(unit, STAT_CURSERESISTANCE, 0), 25)));
 		y += 8;
 
@@ -449,7 +460,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Red,
-			L"ÿc4Absorption: ÿc1%dÿc0/ÿc1%d%c ÿc3%dÿc0/ÿc3%d%c ÿc9%dÿc0/ÿc9%d%c ÿc8%dÿc0/ÿc8%d%c",
+			"ÿc4%s: ÿc1%dÿc0/ÿc1%d%c ÿc3%dÿc0/ÿc3%d%c ÿc9%dÿc0/ÿc9%d%c ÿc8%dÿc0/ÿc8%d%c",
+			BH::translation->menu.stats.absorp.value.c_str(),
 			fAbsorb,
 			fAbsorbPct,
 			'%',
@@ -472,7 +484,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Tan,
-			L"ÿc4Damage Reduction: ÿc7%dÿc0/ÿc7%d%c ÿc8%dÿc0/ÿc8%d%c",
+			"ÿc4%s: ÿc7%dÿc0/ÿc7%d%c ÿc8%dÿc0/ÿc8%d%c",
+			BH::translation->menu.stats.damageReduction.value.c_str(),
 			dmgReduction,
 			dmgReductionPct,
 			'%',
@@ -484,7 +497,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Attacker Takes Damage:ÿc0 %d ÿc9 %d",
+			"%s:ÿc0 %d ÿc9 %d",
+			BH::translation->menu.stats.thornDamage.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_ATTACKERTAKESDAMAGE, 0)),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_ATTACKERTAKESLTNGDMG, 0)));
 		y += 8;
@@ -505,7 +519,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Elemental Mastery:ÿc1 %d%%ÿc3 %d%%ÿc9 %d%%ÿc2 %d%%ÿc8 %d%%",
+			"%s:ÿc1 %d%%ÿc3 %d%%ÿc9 %d%%ÿc2 %d%%ÿc8 %d%%",
+			BH::translation->menu.stats.elementalMastery.value.c_str(),
 			fMastery,
 			cMastery,
 			lMastery,
@@ -516,7 +531,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Elemental Pierce:ÿc1 %d%%ÿc3 %d%%ÿc9 %d%%ÿc2 %d%%ÿc8 %d%%",
+			"%s:ÿc1 %d%%ÿc3 %d%%ÿc9 %d%%ÿc2 %d%%ÿc8 %d%%",
+			BH::translation->menu.stats.elementalPierce.value.c_str(),
 			fPierce,
 			cPierce,
 			lPierce,
@@ -532,9 +548,13 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Base AR:ÿc5 dex:ÿc0 %dÿc5 equip:ÿc0% dÿc5 total:ÿc0 %d",
+			"%s:ÿc5 %s:ÿc0 %dÿc5 %s:ÿc0 %dÿc5 %s:ÿc0 %d",
+			BH::translation->menu.stats.baseAR.value.c_str(),
+			BH::translation->menu.stats.dex.value.c_str(),
 			dexAR,
+			BH::translation->menu.stats.equip.value.c_str(),
 			gearAR,
+			BH::translation->menu.stats.total.value.c_str(),
 			dexAR + gearAR);
 
 		int gearDef = static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_DEFENSE, 0));
@@ -545,9 +565,13 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Base Def:ÿc5 dex:ÿc0 %dÿc5 equip:ÿc0 %dÿc5 total:ÿc0 %d",
+			"%s:ÿc5 %s:ÿc0 %dÿc5 %s:ÿc0 %dÿc5 %s:ÿc0 %d",
+			BH::translation->menu.stats.baseDef.value.c_str(),
+			BH::translation->menu.stats.dex.value.c_str(),
 			dexDef,
+			BH::translation->menu.stats.equip.value.c_str(),
 			gearDef,
+			BH::translation->menu.stats.total.value.c_str(),
 			dexDef + gearDef);
 
 		Texthook::Draw(column1,
@@ -555,9 +579,12 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Base Damage:ÿc5 1h:ÿc0 %d-%dÿc5 2h:ÿc0 %d-%d",
+			"%s:ÿc5 %s:ÿc0 %d-%dÿc5 %s:ÿc0 %d-%d",
+			BH::translation->menu.stats.baseDamage.value.c_str(),
+			BH::translation->menu.stats.oneHanded.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MINIMUMDAMAGE, 0)),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_MAXIMUMDAMAGE, 0)),
+			BH::translation->menu.stats.twoHanded.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_SECONDARYMINIMUMDAMAGE, 0)),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_SECONDARYMAXIMUMDAMAGE, 0)));
 
@@ -568,7 +595,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Cast Rate:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.castRate.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FASTERCAST, 0))
 		);
 		Texthook::Draw(column2,
@@ -576,7 +604,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Block Rate:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.blockRate.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FASTERBLOCK, 0))
 		);
 		Texthook::Draw(column1,
@@ -584,7 +613,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Hit Recovery:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.hitRecovery.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FASTERHITRECOVERY, 0))
 		);
 		Texthook::Draw(column2,
@@ -592,7 +622,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			"Run/Walk:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.runWalk.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_FASTERRUNWALK, 0))
 		);
 		Texthook::Draw(column1,
@@ -600,14 +631,16 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			L"Attack Rate:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.attackRate.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_ATTACKRATE, 0)));
 		Texthook::Draw(column2,
 			y,
 			None,
 			6,
 			Gold,
-			L"IAS:ÿc0 %d",
+			"%s:ÿc0 %d",
+			BH::translation->menu.stats.ias.value.c_str(),
 			static_cast<int>(D2COMMON_GetUnitStat(unit, STAT_IAS, 0)));
 		y += 8;
 
@@ -626,7 +659,8 @@ void StatsDisplay::OnDraw()
 				None,
 				6,
 				Gold,
-				"Breakpoints (ÿc0%sÿc4):",
+				"%s (ÿc0%sÿc4):",
+				BH::translation->menu.stats.breakpoints.value.c_str(),
 				rightSkillName);
 		}
 		else
@@ -644,7 +678,8 @@ void StatsDisplay::OnDraw()
 				None,
 				6,
 				Gold,
-				 "Breakpoints (ÿc0%sÿc4):",
+				 "%s (ÿc0%sÿc4):",
+				 BH::translation->menu.stats.breakpoints.value.c_str(),
 				szSkillText);
 		}
 
@@ -670,7 +705,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			"FCR:ÿc0 %s",
+			"%s:ÿc0 %s",
+			BH::translation->menu.stats.fcr.value.c_str(),
 			bp_fcr_string);
 
 
@@ -701,7 +737,8 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Gold,
-			"FHR:ÿc0 %s",
+			"%s:ÿc0 %s",
+			BH::translation->menu.stats.fhr.value.c_str(),
 			bp_string);
 
 

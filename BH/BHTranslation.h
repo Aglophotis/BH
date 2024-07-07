@@ -131,6 +131,59 @@ struct BHMenu {
         ConfigString exportOnMenu = {"", "Export On Menu"};
         ConfigString exportType = {"", "Export Type"};
     } stash;
+
+    struct {
+        ConfigString tab = {"", "Settings"};
+        ConfigString openSettings = {"", "CTRL-click to open settings"};
+        ConfigString moveSettings = {"", "Shift-drag to move"};
+        ConfigString closeSettings = {"", "Right Click or ESC to Close"};
+    } settings;
+
+    struct {
+        ConfigString choose = {"", "Choose Color"};
+        ConfigString select = {"", "Left Click - Select"};
+        ConfigString close = {"", "Right Click - Close"};
+    } color;
+
+    struct {
+        ConfigString name {"", "Name"};
+        ConfigString merc {"", "ÿc;Mercenary"};
+        ConfigString lvl {"", "Level"};
+        ConfigString xp {"", "XP"};
+        ConfigString additionalXp {"", "Additional XP"};
+
+        ConfigString fireResist {"", "Fire Resist"};
+        ConfigString lightningResist {"", "Lightning Resist"};
+        ConfigString poisonResist {"", "Poison Resist"};
+        ConfigString coldResist {"", "Cold Resist"};
+        ConfigString curseResist {"", "Curse Resist"};
+        ConfigString resistLength {"", "Length"};
+
+        ConfigString absorp {"", "Absorption"};
+        ConfigString damageReduction {"", "Damage Reduction"};
+        ConfigString thornDamage {"", "Attacker Takes Damage"};
+        ConfigString elementalMastery {"", "Elemental Mastery"};
+        ConfigString elementalPierce {"", "Elemental Pierce"};
+
+        ConfigString baseAR {"", "Base AR"};
+        ConfigString equip {"", "equip"};
+        ConfigString total {"", "total"};
+        ConfigString dex {"", "dex"};
+        ConfigString oneHanded {"", "1h"};
+        ConfigString twoHanded {"", "2h"};
+        ConfigString baseDef {"", "Base Def"};
+        ConfigString baseDamage {"", "Base Damage"};
+        ConfigString castRate {"", "Cast Rate"};
+        ConfigString blockRate {"", "Block Rate"};
+        ConfigString hitRecovery {"", "Hit Recovery"};
+        ConfigString runWalk {"", "Run/Walk"};
+        ConfigString attackRate {"", "Attack Rate"};
+        ConfigString ias {"", "IAS"};
+        ConfigString breakpoints {"", "Breakpoints"};
+        ConfigString fcr {"", "FCR"};
+        ConfigString fhr {"", "FHR"};
+        ConfigString iasFrames {"", "IAS (Frames)"};
+    } stats;
 };
 
 
