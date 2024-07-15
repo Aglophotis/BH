@@ -1365,11 +1365,11 @@ void __stdcall Item::OnProperties(wchar_t* wTxt)
 	int alvl = GetAffixLevel((BYTE)pItem->pItemData->dwItemLevel, (BYTE)uInfo.attrs->qualityLevel, uInfo.attrs->magicLevel);
 	int quality = pItem->pItemData->dwQuality;
 
-	wchar_t alvlString[24];
-	wchar_t ilvlString[24];
+	wchar_t alvlString[64];
+	wchar_t ilvlString[64];
 	// TODO: move these into patchstring
-	swprintf_s(alvlString, 24, L"%s%s: %d\n", GetColorCode(TextColor::White).c_str(), BH::translation->menu.property.affixLvl.wStringValue().c_str(), alvl);
-	swprintf_s(ilvlString, 24, L"%s%s: %d\n", GetColorCode(TextColor::White).c_str(), BH::translation->menu.property.itemLvl.wStringValue().c_str(), pItem->pItemData->dwItemLevel);
+	swprintf_s(alvlString, 64, L"%s%s: %d\n", GetColorCode(TextColor::White).c_str(), BH::translation->menu.property.affixLvl.wStringValue().c_str(), alvl);
+	swprintf_s(ilvlString, 64, L"%s%s: %d\n", GetColorCode(TextColor::White).c_str(), BH::translation->menu.property.itemLvl.wStringValue().c_str(), pItem->pItemData->dwItemLevel);
 	int alvlLen = wcslen(alvlString);
 	int ilvlLen = wcslen(ilvlString);
 

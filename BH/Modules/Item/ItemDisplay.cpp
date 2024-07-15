@@ -35,16 +35,16 @@
 	{"BLUE", "ÿc3"},		\
 	{"GOLD", "ÿc4"},		\
 	{"GRAY", "ÿc5"},		\
-	{"BLACK", *p_D2GFX_RenderMode != 4 ? "ÿc6" : "\xFF" "c\x02"},		\
+	{"BLACK", *p_D2GFX_RenderMode != 4 ? "ÿc6" : "ÿ" "c\x02"},		\
 	{"TAN", "ÿc7"},			\
 	{"ORANGE", "ÿc8"},		\
 	{"YELLOW", "ÿc9"},		\
 	{"PURPLE", "ÿc;"},		\
 	{"DARK_GREEN", "ÿc:"},	\
-	{"CORAL", *p_D2GFX_RenderMode != 4 ? "ÿc1" : "\xFF" "c\x06"},		\
-	{"SAGE", *p_D2GFX_RenderMode != 4 ? "ÿc2" : "\xFF" "c\x07"},		\
-	{"TEAL", *p_D2GFX_RenderMode != 4 ? "ÿc3" : "\xFF" "c\x09"},		\
-	{"LIGHT_GRAY", *p_D2GFX_RenderMode != 4 ? "ÿc5" : "\xFF" "c\x0C"}
+	{"CORAL", *p_D2GFX_RenderMode != 4 ? "ÿc1" : "ÿ" "c\x06"},		\
+	{"SAGE", *p_D2GFX_RenderMode != 4 ? "ÿc2" : "ÿ" "c\x07"},		\
+	{"TEAL", *p_D2GFX_RenderMode != 4 ? "ÿc3" : "ÿ" "c\x09"},		\
+	{"LIGHT_GRAY", *p_D2GFX_RenderMode != 4 ? "ÿc5" : "ÿ" "c\x0C"}
 
 #define MAP_COLOR_WHITE     0x20
 

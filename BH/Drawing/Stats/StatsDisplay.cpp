@@ -742,7 +742,9 @@ void StatsDisplay::OnDraw()
 			bp_string);
 
 
-		char* ias_bp_string = BH::translation->menu.stats.iasFrames.charValue();
+		string temp = BH::translation->menu.stats.iasFrames.value + ":ÿc0 ";
+		char ias_bp_string[255];
+		strcpy(ias_bp_string, temp.c_str());
 		y += 16;
 		GetIASBreakpointString(unit, ias_bp_string, column1, &y);
 
@@ -891,11 +893,12 @@ void StatsDisplay::OnDraw()
 			None,
 			6,
 			Green,
-			"%d-%d %s %.1fs",
+			"%d-%d %s %.1f%s",
 			static_cast<int>(minPoison / 256.0 * poisonLength),
 			static_cast<int>(maxPoison / 256.0 * poisonLength),
 			BH::translation->menu.stats.over.value.c_str(),
-			poisonLength / 25.0);
+			poisonLength / 25.0,
+			BH::translation->menu.stats.second.value.c_str());
 
 		Texthook::Draw(column1,
 			(y += 16),

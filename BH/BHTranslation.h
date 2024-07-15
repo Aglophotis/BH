@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Common.h"
 
 struct ConfigString {
     std::string value;
@@ -20,7 +21,7 @@ struct ConfigString {
     }
 
     std::wstring wStringValue() {
-        return std::wstring(value.begin(), value.end());
+        return AnsiToUnicode(value.c_str());
     }
 };
 
@@ -238,6 +239,7 @@ struct BHMenu {
         ConfigString hpMpPerKill { "HP/MP per Kill"};
         ConfigString addedDamage { "Added Damage"};
         ConfigString over { "over"};
+        ConfigString second { "s"};
         ConfigString magicFind { "Magic Find"};
         ConfigString goldFind { "Gold Find"};
         ConfigString stashGold { "Stash Gold"};

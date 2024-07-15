@@ -195,6 +195,7 @@ BHTranslation::BHTranslation() {
         SetString(config, "/stats"_json_pointer, "hpMpPerKill", &menu.stats.hpMpPerKill);
         SetString(config, "/stats"_json_pointer, "addedDamage", &menu.stats.addedDamage);
         SetString(config, "/stats"_json_pointer, "over", &menu.stats.over);
+        SetString(config, "/stats"_json_pointer, "second", &menu.stats.second);
         SetString(config, "/stats"_json_pointer, "magicFind", &menu.stats.magicFind);
         SetString(config, "/stats"_json_pointer, "goldFind", &menu.stats.goldFind);
         SetString(config, "/stats"_json_pointer, "stashGold", &menu.stats.stashGold);
