@@ -146,6 +146,7 @@ BHTranslation::BHTranslation() {
         SetString(config, "/settings"_json_pointer, "tab", &menu.settings.tab);
         SetString(config, "/settings"_json_pointer, "closeSettings", &menu.settings.closeSettings);
         SetString(config, "/settings"_json_pointer, "moveSettings", &menu.settings.moveSettings);
+        SetString(config, "/settings"_json_pointer, "openSettings", &menu.settings.openSettings);
 
         SetString(config, "/color"_json_pointer, "choose", &menu.color.choose);
         SetString(config, "/color"_json_pointer, "close", &menu.color.close);
