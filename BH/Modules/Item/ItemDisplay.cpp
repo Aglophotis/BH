@@ -1395,7 +1395,7 @@ void TrimItemText(UnitItemInfo* uInfo,
 	if (bLimit)
 	{
 		// Calc the extra size from colors
-		std::regex color_reg(R"(\xC3\xBFc[0-9;:\x01-\x1F])", std::regex_constants::ECMAScript);
+		std::regex color_reg(R"(\?c[0-9;:\x01-\x1F])", std::regex_constants::ECMAScript);
 		auto       color_matches = std::sregex_iterator(name.begin(), name.end(), color_reg);
 		auto       color_end = std::sregex_iterator();
 		auto       match_count = std::distance(color_matches, color_end);
@@ -1712,7 +1712,7 @@ void BuildAction(string* str,
 	}
 	catch (std::exception e)
 	{
-		act->name = "\377c1FILTER REGEX ERROR";
+		//act->name = "\377c1FILTER REGEX ERROR";
 	}
 
 	// new stuff:
