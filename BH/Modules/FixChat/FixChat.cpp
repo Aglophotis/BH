@@ -90,9 +90,9 @@ Patch* replace_output_text113d = new Patch(Call, D2CLIENT, { 0x0, 0x78898 }, (in
 
 
 void FixChat::OnLoad() {
-	replace_input_text->Install();
-	replace_output_text113c->Install();
-	replace_output_text113d->Install();
+	//replace_input_text->Install();
+	//replace_output_text113c->Install();
+	//replace_output_text113d->Install();
 }
 
 void FixChat::OnGameJoin() {
